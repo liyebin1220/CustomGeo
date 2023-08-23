@@ -6,11 +6,9 @@
         #allmap {
             width: 100%;
             height: 100%;
-	    overflow: hidden;
-     		margin:0;
-      		font-family:"微软雅黑";
         }
         </style>
+	<script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"></script>
         <div id='allmap'></div>
     `;
 
