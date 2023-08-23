@@ -1,7 +1,17 @@
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-        <h1>Hello Geo Baidu</h1>
+        <link rel="stylesheet">
+        <style>
+        #allmap {
+            width: 100%;
+            height: 100%;
+	    overflow: hidden;
+     		margin:0;
+      		font-family:"微软雅黑";
+        }
+        </style>
+        <div id='allmap'></div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
