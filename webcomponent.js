@@ -1,7 +1,7 @@
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-        <link rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://api.map.baidu.com/library/Map/1.5/1.5.1/main.css">
         <style>
         #allmap {
             width: 100%;
