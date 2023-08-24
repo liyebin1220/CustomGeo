@@ -9,7 +9,7 @@
         }
         </style>
 	<script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"></script>
-        <div id='allmap'>allmap</div>
+        <div id='allmap'>href added</div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
