@@ -67,7 +67,7 @@
 		script.type = "text/javascript";
 		script.src = scriptSrc;
 		script.onload = function(){
-    			customElements.define("com-sap-sample-geobaidu01", Map);
+    			customElements.define("allmap", Map);
 		};
 		document.head.appendChild(script);
 		
