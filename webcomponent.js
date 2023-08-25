@@ -8,7 +8,7 @@
 				height: 500px;
 			}
 		</style>
-		<div id='allmap'></div>
+		<div id='allmap'>onload</div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
