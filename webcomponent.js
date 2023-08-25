@@ -59,14 +59,14 @@
         */
 
         redraw(){
-		let scriptSrc = "//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
-		var script = document.createElement("script");
-		script.type = "text/javascript";
-		script.src = scriptSrc;
-		script.onload = function(){
-    			customElements.define("allmap", Map);
-		};
-		document.head.appendChild(script);
+		// let scriptSrc = "//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
+		// var script = document.createElement("script");
+		// script.type = "text/javascript";
+		// script.src = scriptSrc;
+		// script.onload = function(){
+  //   			customElements.define("allmap", Map);
+		// };
+		// document.head.appendChild(script);
 		
 		var map = new BMapGL.Map("allmap");    // 创建Map实例
 		map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
