@@ -1,13 +1,7 @@
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-    <link rel="stylesheet" href="https://api.map.baidu.com/res/webgl/10/bmap.css">
-		<style>
-			#allmap {
-				width: 500px;
-				height: 500px;
-			}
-		</style>
+
 		<div id='allmap'>onload</div>
     `;
 
