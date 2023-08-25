@@ -1,7 +1,14 @@
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-    
+    <link rel="stylesheet" href="https://api.map.baidu.com/res/webgl/10/bmap.css">
+		<style>
+			#allmap {
+				width: 500px;
+				height: 500px;
+			}
+		</style>
+		<div id='allmap'></div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
@@ -9,9 +16,12 @@
 
 		constructor() {
 			super(); 
-			this._shadowRoot = this.attachShadow({mode: "open"});
+			//this._shadowRoot = this.attachShadow({mode: "open"});
             		this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
             		this._firstConnection = false;
+			this._props = {};
+			let that = this;
+
 		}
 
         //Fired when the widget is added to the html DOM of the page
@@ -52,6 +62,15 @@
         */
 
         redraw(){
+		let scriptSrc = "//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src = scriptSrc;
+		script.onload = function(){
+    			customElements.define("com-sap-sample-geobaidu01", Map);
+		};
+		document.head.appendChild(script);
+		
 		var map = new BMapGL.Map("allmap");    // 创建Map实例
 		map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
 		map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
