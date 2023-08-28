@@ -17,7 +17,7 @@
 		<title>地图展示</title>
 	</head>
 	<body>
-		<div id="allmap"></div>
+		<div id="allmap">The map</div>
   		<script type="text/javascript">
 		    // GL版命名空间为BMapGL
 		    // 按住鼠标右键，修改倾斜角和角度
