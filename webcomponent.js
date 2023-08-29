@@ -11,13 +11,6 @@
 		</style>
 		<script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"></script>
 		<div id="allmap">all in The map</div>
-  		<script type="text/javascript">
-		    // GL版命名空间为BMapGL
-		    // 按住鼠标右键，修改倾斜角和角度
-			var map = new BMapGL.Map("allmap");    // 创建Map实例
-			map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-			map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-		</script>	
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
@@ -34,6 +27,11 @@
         connectedCallback(){
             this._firstConnection = true;
             this.redraw();
+			// GL版命名空间为BMapGL
+		    	// 按住鼠标右键，修改倾斜角和角度
+			var map = new BMapGL.Map("allmap");    // 创建Map实例
+			map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+			map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
