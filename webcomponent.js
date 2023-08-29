@@ -27,6 +27,12 @@
         connectedCallback(){
             this._firstConnection = true;
             this.redraw();
+			let scriptSrc = "https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = scriptSrc;
+			document.head.appendChild(script);
+		
 			// GL版命名空间为BMapGL
 		    	// 按住鼠标右键，修改倾斜角和角度
 			var map = new BMapGL.Map("allmap");    // 创建Map实例
