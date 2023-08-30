@@ -9,8 +9,11 @@
        				margin:0;
 	   		}
 		</style>
-		<script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"></script>
-		<div id="allmap">all in The map</div>
+		<!-- <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"></script> -->
+		<div id="allmap">
+            <table id="mytable">
+            </table>
+        </div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
@@ -27,17 +30,6 @@
         connectedCallback(){
             this._firstConnection = true;
             this.redraw();
-			let scriptSrc = "https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"
-			var script = document.createElement("script");
-			script.type = "text/javascript";
-			script.src = scriptSrc;
-			document.head.appendChild(script);
-		
-			// GL版命名空间为BMapGL
-		    	// 按住鼠标右键，修改倾斜角和角度
-			var map = new BMapGL.Map("allmap");    // 创建Map实例
-			map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-			map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
@@ -72,6 +64,22 @@
         */
 
         redraw(){
+		var allmap = document.getElementById('allmap')
+        var mytable = document.getElementById('mytable')
+        for(var i = 1; i <= 9; i++){
+            //create new tr tag
+            var tr = document.createElement('tr')
+            for(var j = 1; j <= i; j++){
+                //create new td tag
+                var td = document.createElement('td')
+                //add td to tr
+                td.innerText = i + "x" + j + "=" + (i * j) 
+                tr.appendChild(td)
+            }
+            // add tr to table
+            mytable.appendChild(tr)
+        }
+
         }
     });
 })();
