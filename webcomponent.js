@@ -67,7 +67,7 @@
 		var allmap = document.getElementById('allmap');
         	var mytable = document.getElementById('mytable');
 
-        	console.log(mytable.nodeType);
+        	console.log(mytable);
 
         	for(var i = 1; i <= 9; i++){
 	            //create new tr tag
