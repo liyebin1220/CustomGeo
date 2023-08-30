@@ -66,9 +66,9 @@
         redraw(){
 		var allmap = document.getElementById('allmap');
         	var mytable = document.getElementById('mytable');
-        	var mytable2 = this.getElementById('mytable');
+
         	console.log(mytable.nodeType);
-        	console.log(mytable2.nodeType);
+
         	for(var i = 1; i <= 9; i++){
 	            //create new tr tag
 	            var tr = document.createElement('tr');
