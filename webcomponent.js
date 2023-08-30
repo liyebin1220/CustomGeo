@@ -70,7 +70,7 @@
         	var mytable = this._shadowRoot.getElementById('mytable');
 		console.log(allmap);
         	console.log(mytable);
-
+		
         	for(var i = 1; i <= 9; i++){
 	            //create new tr tag
 	            var tr = document.createElement('tr');
@@ -84,6 +84,13 @@
 	            // add tr to table
 	            mytable.appendChild(tr);
         	}
+
+		let scriptSrc = "https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
+		var script = document.createElement("script");
+		console.log(script);
+        	script.type = "text/javascript";
+       		script.src = scriptSrc;
+        	document.head.appendChild(script);
 
 
         }
