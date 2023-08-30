@@ -64,21 +64,22 @@
         */
 
         redraw(){
-		var allmap = document.getElementById('allmap')
-        var mytable = document.getElementById('mytable')
-        for(var i = 1; i <= 9; i++){
-            //create new tr tag
-            var tr = document.createElement('tr')
-            for(var j = 1; j <= i; j++){
-                //create new td tag
-                var td = document.createElement('td')
-                //add td to tr
-                td.innerText = i + "x" + j + "=" + (i * j) 
-                tr.appendChild(td)
-            }
-            // add tr to table
-            mytable.appendChild(tr)
-        }
+		var allmap = document.getElementById('allmap');
+        	var mytable = document.getElementById('mytable');
+		console.log(mytable.nodeType)
+        	for(var i = 1; i <= 9; i++){
+	            //create new tr tag
+	            var tr = document.createElement('tr');
+	            for(var j = 1; j <= i; j++){
+	                //create new td tag
+	                var td = document.createElement('td');
+	                //add td to tr
+	                td.innerText = i + "x" + j + "=" + (i * j);
+	                tr.appendChild(td);
+	            }
+	            // add tr to table
+	            mytable.appendChild(tr);
+        	}
 
         }
     });
