@@ -85,12 +85,17 @@
 	            mytable.appendChild(tr);
         	}
 
-		let scriptSrc = "//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
-		var script = document.createElement("script");
-		console.log(script);
-        	script.type = "text/javascript";
-       		script.src = scriptSrc;
-        	document.head.appendChild(script);
+		//let scriptSrc = "//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
+		//var script = document.createElement("script");
+		//console.log(script);
+        	//script.type = "text/javascript";
+       		//script.src = scriptSrc;
+        	//document.head.appendChild(script);
+
+		window.BMAP_PROTOCOL = "https"; 
+    		window.BMapGL_loadScriptTime = (new Date).getTime(); 
+    		document.write('<script type="text/javascript" src="https://api.map.baidu.com/getscript?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw&services=&t=20230817155609"></script>');
+    		document.write('<link rel="stylesheet" type="text/css" href="https://api.map.baidu.com/res/webgl/10/bmap.css"/>');
 
 		// GL版命名空间为BMapGL
     		// 按住鼠标右键，修改倾斜角和角度
