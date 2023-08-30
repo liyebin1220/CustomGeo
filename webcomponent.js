@@ -3,17 +3,17 @@
     tmpl.innerHTML = `
 		<style type="text/css">
 			#allmap {
-   				background-color: #faebd7;
-   				width: 400px;
+   				background-color: #ff00ff​;
+   				width: 600px;
        				height: 400px;
        				margin:0;
 	   		}
 		</style>
-		<!-- <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw"></script> -->
+		
 		<div id="allmap">
-            <table id="mytable">
-            </table>
-        </div>
+            		<table id="mytable">
+            		</table>
+        	</div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
@@ -64,9 +64,11 @@
         */
 
         redraw(){
-		var allmap = document.getElementById('allmap');
-        	var mytable = document.getElementById('mytable');
-		console.log(mytable.nodeType)
+		var allmap = document.getElementById('allmap')
+        	var mytable = document.getElementById('mytable')
+        	var mytable2 = this.getElementById('mytable')
+        	console.log(mytable.nodeType)
+        	console.log(mytable2.nodeType)
         	for(var i = 1; i <= 9; i++){
 	            //create new tr tag
 	            var tr = document.createElement('tr');
