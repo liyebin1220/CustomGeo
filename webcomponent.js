@@ -85,7 +85,7 @@
 	            mytable.appendChild(tr);
         	}
 
-		let scriptSrc = "https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
+		let scriptSrc = "//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
 		var script = document.createElement("script");
 		console.log(script);
         	script.type = "text/javascript";
