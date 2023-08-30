@@ -14,26 +14,7 @@
             		<table id="mytable">
             		</table>
         	</div>
-	 	<script​​>
-   		var allmap = document.getElementById('allmap');
-        	var mytable = document.getElementById('mytable');
-		console.log(allmap);
-        	console.log(mytable);
-
-        	for(var i = 1; i <= 9; i++){
-	            //create new tr tag
-	            var tr = document.createElement('tr');
-	            for(var j = 1; j <= i; j++){
-	                //create new td tag
-	                var td = document.createElement('td');
-	                //add td to tr
-	                td.innerText = i + "x" + j + "=" + (i * j);
-	                tr.appendChild(td);
-	            }
-	            // add tr to table
-	            mytable.appendChild(tr);
-        	}
-	 	</script>
+	 	
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
@@ -84,7 +65,26 @@
         */
 
         redraw(){
-		
+
+   		var allmap = this._shadowRoot.getElementById('allmap');
+        	var mytable = this._shadowRoot.getElementById('mytable');
+		console.log(allmap);
+        	console.log(mytable);
+
+        	for(var i = 1; i <= 9; i++){
+	            //create new tr tag
+	            var tr = document.createElement('tr');
+	            for(var j = 1; j <= i; j++){
+	                //create new td tag
+	                var td = document.createElement('td');
+	                //add td to tr
+	                td.innerText = i + "x" + j + "=" + (i * j);
+	                tr.appendChild(td);
+	            }
+	            // add tr to table
+	            mytable.appendChild(tr);
+        	}
+
 
         }
     });
