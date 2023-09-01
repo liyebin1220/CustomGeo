@@ -70,7 +70,7 @@ var getScriptPromisify = (src) => {
         }
         */
 
-        async redraw(){
+        redraw(){
 
    		    var allmap = this._shadowRoot.getElementById('allmap');
         	var mytable = this._shadowRoot.getElementById('mytable');
@@ -98,7 +98,7 @@ var getScriptPromisify = (src) => {
             //script.src = scriptSrc;
             //document.head.appendChild(script);
 
-            await getScriptPromisify("https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw");
+            getScriptPromisify("https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw");
             
             // GL版命名空间为BMapGL
             // 按住鼠标右键，修改倾斜角和角度
