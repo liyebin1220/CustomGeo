@@ -1,9 +1,3 @@
-var getScriptPromisify = (src) => {
-	return new Promise((resolve) => {
-		$.getScript(src, resolve);
-	});
-};
-
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
@@ -11,7 +5,7 @@ var getScriptPromisify = (src) => {
 			#allmap {
    				background-color: #ff00ff​;
    				width: 600px;
-       				height: 400px;
+       				height: 800px;
        				margin:0;
 	   		}
 		</style>
@@ -19,7 +13,7 @@ var getScriptPromisify = (src) => {
 		<div id="allmap">
             		<table id="mytable">
             		</table>
-        </div>
+        	</div>
 	 	
     `;
 
@@ -72,11 +66,9 @@ var getScriptPromisify = (src) => {
 
         redraw(){
 
-   		    var allmap = this._shadowRoot.getElementById('allmap');
+   		
         	var mytable = this._shadowRoot.getElementById('mytable');
-		    console.log(allmap);
-        	console.log(mytable);
-		
+				
         	for(var i = 1; i <= 9; i++){
 	            //create new tr tag
 	            var tr = document.createElement('tr');
@@ -90,15 +82,13 @@ var getScriptPromisify = (src) => {
 	            // add tr to table
 	            mytable.appendChild(tr);
         	}
-
-            //let scriptSrc = "https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw";
-            //var script = document.createElement("script");
-            //console.log(script);
-            //script.type = "text/javascript";
-            //script.src = scriptSrc;
-            //document.head.appendChild(script);
-
-            getScriptPromisify("https://api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw");
+		(function() {
+                    window.BMAP_PROTOCOL = "https"; 
+                    window.BMapGL_loadScriptTime = (new Date).getTime(); 
+                    document.write('<script type="text/javascript" src="https://api.map.baidu.com/getscript?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw&services=&t=20230817155609"></script>');
+                    document.write('<link rel="stylesheet" type="text/css" href="https://api.map.baidu.com/res/webgl/10/bmap.css"/>');
+                })();
+            
             
             // GL版命名空间为BMapGL
             // 按住鼠标右键，修改倾斜角和角度
