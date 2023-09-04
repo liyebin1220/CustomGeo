@@ -24,24 +24,27 @@
 		constructor() {
 			super(); 
 			this._shadowRoot = this.attachShadow({mode: "open"});
-			console.log("attachShadow in constructor");
+			//console.log("attachShadow in constructor");
             		this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
-			console.log("appendChild in constructor");
+			//console.log("appendChild in constructor");
             		this._firstConnection = false;
-			console.log("firstConnection is false");
+			//console.log("firstConnection is false");
 		}
 
         //Fired when the widget is added to the html DOM of the page
         connectedCallback(){
             this._firstConnection = true;
-		console.log("firstConnection");
+		//console.log("firstConnection");
             const resourceUrl = 'https://webapi.amap.com/loader.js';
-		console.log("resourceUrl");
+		//console.log("resourceUrl");
             const scriptElement = document.createElement('script');
-		console.log("scriptElement");
+		//console.log("scriptElement");
             scriptElement.src = resourceUrl;
 
             scriptElement.addEventListener('load', () => {
+		  window._AMapSecurityConfig = {
+    			securityJsCode:"e016b7c8a8df4e14e4e7ec322210f934",
+  			}
                 AMapLoader.load({
                     key: '20acc0972699ca4133fbee84646f41b9',
                     version: '2.0', // or the version you need
