@@ -23,38 +23,41 @@
         connectedCallback(){
             this._firstConnection = true;
 
+                 // Create a script element for the security code
             const securityCodeScript = document.createElement('script');
             securityCodeScript.type = 'text/javascript';
             securityCodeScript.textContent = `
                 window._AMapCbs = {
                 key: '${apiKey}',
                 code: '${securityCode}',
-            };
-            `;
+                };
+                function loadAMap() {
+                // Create a script element for loading the AMap JavaScript API
+                const apiScript = document.createElement('script');
+                apiScript.src = 'https://webapi.amap.com/loader.js';
+                apiScript.async = true;
+                apiScript.addEventListener('load', () => {
+                    // The external script (AMap API) has loaded, and you can use AMap functionality here
+                    AMapLoader.load({
+                    key: apiKey,
+                    // Additional configuration options for AMap can be added here
+                    });
 
+                    // Example: Create a map and add it to the div within the template
+                    const map = new AMap.Map(document.getElementById('map-container'), {
+                    // Map configuration options go here
+                    });
+                });
+
+                // Append the AMap API script element to the document body
+                document.body.appendChild(apiScript);
+                }
+            `;
             // Append the security code script to the Shadow DOM
             this.shadowRoot.appendChild(securityCodeScript);
 
-            // Create a script element for loading the AMap JavaScript API
-            const apiScript = document.createElement('script');
-            apiScript.src = 'https://webapi.amap.com/loader.js';
-            apiScript.async = true;
-
-            apiScript.addEventListener('load', () => {
-                // The external script (AMap API) has loaded, and you can use AMap functionality here
-                AMapLoader.load({
-                key: apiKey,
-                // Additional configuration options for AMap can be added here
-                });
-
-                // Example: Create a map and add it to the div within the template
-                const map = new AMap.Map(this.shadowRoot.querySelector('#map-container'), {
-                // Map configuration options go here
-                });
-            });
-
-                // Append the AMap API script element to the Shadow DOM
-                this.shadowRoot.appendChild(apiScript);
+            // Load AMap after the security code script is executed
+            this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';
             	
                 this.redraw();
 		
