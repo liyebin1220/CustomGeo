@@ -4,16 +4,17 @@
 		<style type="text/css">
 			#allmap {
    				background-color: #ff00ff​;
-   				width: 600px;
-       				height: 800px;
-       				margin:0;
+   				width: 100%;
+       			height: 100%;
+       			
 	   		}
 		</style>
 		
 		<div id="allmap">
             		<table id="mytable">
             		</table>
-        	</div>
+        </div>
+        <div id = "container"></div>
 	 	
     `;
 
@@ -40,7 +41,12 @@
 		console.log("scriptElement");
             scriptElement.src = resourceUrl;
 
-            scriptElement.addEventListener('load', () => {console.log("loading...")});
+            scriptElement.addEventListener('load', () => {
+                AMapLoader.load({
+                    key: 'YOUR_AMAP_API_KEY',
+                    version: '2.0', // or the version you need
+                  });
+            });
 		console.log("addEventListener end");
             this.shadowRoot.appendChild(scriptElement);
 		console.log("appendChild");
