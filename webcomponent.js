@@ -27,35 +27,44 @@ const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             this._firstConnection = true;
 
                  // Create a script element for the security code
-            const securityCodeScript = document.createElement('script');
-            securityCodeScript.type = 'text/javascript';
-            securityCodeScript.textContent = `
-                window._AMapCbs = {
-                key: '${apiKey}',
-                code: '${securityCode}',
-                };
-                function loadAMap() {
-                // Create a script element for loading the AMap JavaScript API
-                const apiScript = document.createElement('script');
-                apiScript.src = 'https://webapi.amap.com/loader.js';
-                apiScript.async = true;
-                apiScript.addEventListener('load', () => {
-                    // The external script (AMap API) has loaded, and you can use AMap functionality here
-                    AMapLoader.load({
-                    key: apiKey,
-                    // Additional configuration options for AMap can be added here
-                    });
+      const securityCodeScript = document.createElement('script');
+      securityCodeScript.type = 'text/javascript';
+      securityCodeScript.textContent = `
+        window._AMapCbs = {
+          key: '${apiKey}',
+          code: '${securityCode}',
+        };
+        function loadAMap() {
+          // Callback function to run when AMap is fully loaded
+          function onAMapLoaded() {
+            // The external script (AMap API) has loaded, and you can use AMap functionality here
+            const map = new AMap.Map(document.getElementById('map-container'), {
+              // Map configuration options go here
+            });
+          }
 
-                    // Example: Create a map and add it to the div within the template
-                    const map = new AMap.Map(document.getElementById('map-container'), {
-                    // Map configuration options go here
-                    });
-                });
+          // Check if AMap is already loaded
+          if (typeof AMap !== 'undefined') {
+            onAMapLoaded();
+          } else {
+            // Create a script element for loading the AMap JavaScript API
+            const apiScript = document.createElement('script');
+            apiScript.src = 'https://webapi.amap.com/loader.js';
+            apiScript.async = true;
+            apiScript.addEventListener('load', () => {
+              // Load the AMap API
+              AMapLoader.load({
+                key: apiKey,
+                // Additional configuration options for AMap can be added here
+                callback: onAMapLoaded, // Specify the callback function
+              });
+            });
 
-                // Append the AMap API script element to the document body
-                document.body.appendChild(apiScript);
-                }
-            `;
+            // Append the AMap API script element to the document body
+            document.body.appendChild(apiScript);
+          }
+        }
+      `;
             // Append the security code script to the Shadow DOM
             this.shadowRoot.appendChild(securityCodeScript);
 
