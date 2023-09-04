@@ -34,7 +34,7 @@
         connectedCallback(){
             this._firstConnection = true;
 		console.log("firstConnection");
-            const resourceUrl = '//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw';
+            const resourceUrl = 'https://webapi.amap.com/loader.js';
 		console.log("resourceUrl");
             const scriptElement = document.createElement('script');
 		console.log("scriptElement");
