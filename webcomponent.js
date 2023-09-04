@@ -23,20 +23,29 @@
 		constructor() {
 			super(); 
 			this._shadowRoot = this.attachShadow({mode: "open"});
+			console.log("attachShadow in constructor");
             		this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
+			console.log("appendChild in constructor");
             		this._firstConnection = false;
+			console.log("firstConnection is false");
 		}
 
         //Fired when the widget is added to the html DOM of the page
         connectedCallback(){
             this._firstConnection = true;
+		console.log("firstConnection");
             const resourceUrl = '//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw';
+		console.log("resourceUrl");
             const scriptElement = document.createElement('script');
+		console.log("scriptElement");
             scriptElement.src = resourceUrl;
 
-            scriptElement.addEventListener('load', () => {});
+            scriptElement.addEventListener('load', () => {console.log("loading...")});
+		console.log("addEventListener end");
             this.shadowRoot.appendChild(scriptElement);
+		console.log("appendChild");
             this.redraw();
+		console.log("redraw");
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
