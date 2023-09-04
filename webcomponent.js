@@ -30,6 +30,12 @@
         //Fired when the widget is added to the html DOM of the page
         connectedCallback(){
             this._firstConnection = true;
+            const resourceUrl = '//api.map.baidu.com/api?type=webgl&v=1.0&ak=eaRmogHU5j9QCWGS1KcLXnLnRIYF9Nyw';
+            const scriptElement = document.createElement('script');
+            scriptElement.src = resourceUrl;
+
+            scriptElement.addEventListener('load', () => {});
+            this.shadowRoot.appendChild(scriptElement);
             this.redraw();
         }
 
@@ -82,10 +88,7 @@
 	            // add tr to table
 	            mytable.appendChild(tr);
         	}
-		(function() {
-                    document.write('<script src="https://webapi.amap.com/loader.js"></script>');
-                   
-                })();
+		
             
             
             // GL版命名空间为BMapGL
