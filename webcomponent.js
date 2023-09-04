@@ -1,3 +1,7 @@
+
+// Declare apiKey as a global variable
+const apiKey = '20acc0972699ca4133fbee84646f41b9';
+const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
@@ -6,8 +10,7 @@
         </style>
         <div id="map-container"></div>	 	
     `;
-    const apiKey = '20acc0972699ca4133fbee84646f41b9';
-    const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
+    
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
 
