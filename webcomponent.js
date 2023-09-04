@@ -43,8 +43,10 @@
 
             scriptElement.addEventListener('load', () => {
                 AMapLoader.load({
-                    key: 'YOUR_AMAP_API_KEY',
+                    key: '20acc0972699ca4133fbee84646f41b9',
                     version: '2.0', // or the version you need
+                  }).then((AMap) => {
+
                   });
             });
 		console.log("addEventListener end");
