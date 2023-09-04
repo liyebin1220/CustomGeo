@@ -42,6 +42,9 @@
             scriptElement.src = resourceUrl;
 
             scriptElement.addEventListener('load', () => {
+		window._AMapSecurityConfig = {
+                    securityJsCode:"e016b7c8a8df4e14e4e7ec322210f934",
+                  }   
                 AMapLoader.load({
                     key: '20acc0972699ca4133fbee84646f41b9',
                     version: '2.0', // or the version you need
