@@ -1,22 +1,13 @@
 (function()  {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-		<style type="text/css">
-			#allmap {
-   				background-color: #ff00ff​;
-   				width: 100%;
-       			height: 100%;
-       			
-	   		}
-		</style>
-		
-		<div id="allmap">
-            		<table id="mytable">
-            		</table>
-        </div>
-        <div id = "container"></div>
-	 	
+        <style>
+        /* Add any custom CSS styles here */
+        </style>
+        <div id="map-container"></div>	 	
     `;
+    const apiKey = '20acc0972699ca4133fbee84646f41b9';
+    const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
 
@@ -24,41 +15,49 @@
 		constructor() {
 			super(); 
 			this._shadowRoot = this.attachShadow({mode: "open"});
-			console.log("attachShadow in constructor");
-            		this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
-			console.log("appendChild in constructor");
-            		this._firstConnection = false;
-			console.log("firstConnection is false");
-			
-			window._AMapSecurityConfig = {
-                    	securityJsCode:"e016b7c8a8df4e14e4e7ec322210f934",
-                  } 
+       		this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
+			this._firstConnection = false;
 		}
 
         //Fired when the widget is added to the html DOM of the page
         connectedCallback(){
             this._firstConnection = true;
-		console.log("firstConnection");
-            const resourceUrl = 'https://webapi.amap.com/loader.js';
-		console.log("resourceUrl");
-            const scriptElement = document.createElement('script');
-		console.log("scriptElement");
-            scriptElement.src = resourceUrl;
 
-            scriptElement.addEventListener('load', () => {
-		  
+            const securityCodeScript = document.createElement('script');
+            securityCodeScript.type = 'text/javascript';
+            securityCodeScript.textContent = `
+                window._AMapCbs = {
+                key: '${apiKey}',
+                code: '${securityCode}',
+            };
+            `;
+
+            // Append the security code script to the Shadow DOM
+            this.shadowRoot.appendChild(securityCodeScript);
+
+            // Create a script element for loading the AMap JavaScript API
+            const apiScript = document.createElement('script');
+            apiScript.src = 'https://webapi.amap.com/loader.js';
+            apiScript.async = true;
+
+            apiScript.addEventListener('load', () => {
+                // The external script (AMap API) has loaded, and you can use AMap functionality here
                 AMapLoader.load({
-                    key: '20acc0972699ca4133fbee84646f41b9',
-                    version: '2.0', // or the version you need
-                  }).then((AMap) => {
+                key: apiKey,
+                // Additional configuration options for AMap can be added here
+                });
 
-                  });
+                // Example: Create a map and add it to the div within the template
+                const map = new AMap.Map(this.shadowRoot.querySelector('#map-container'), {
+                // Map configuration options go here
+                });
             });
-		console.log("addEventListener end");
-            this.shadowRoot.appendChild(scriptElement);
-		console.log("appendChild");
-            this.redraw();
-		console.log("redraw");
+
+                // Append the AMap API script element to the Shadow DOM
+                this.shadowRoot.appendChild(apiScript);
+            	
+                this.redraw();
+		
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
@@ -95,27 +94,27 @@
         redraw(){
 
    		
-        	var mytable = this._shadowRoot.getElementById('mytable');
+        	//var mytable = this._shadowRoot.getElementById('mytable');
 				
-        	for(var i = 1; i <= 9; i++){
+        	//for(var i = 1; i <= 9; i++){
 	            //create new tr tag
-	            var tr = document.createElement('tr');
-	            for(var j = 1; j <= i; j++){
+	         //   var tr = document.createElement('tr');
+	        //    for(var j = 1; j <= i; j++){
 	                //create new td tag
-	                var td = document.createElement('td');
+	        //       var td = document.createElement('td');
 	                //add td to tr
-	                td.innerText = i + "x" + j + "=" + (i * j);
-	                tr.appendChild(td);
-	            }
+	        //        td.innerText = i + "x" + j + "=" + (i * j);
+	        //        tr.appendChild(td);
+	        //   }
 	            // add tr to table
-	            mytable.appendChild(tr);
-        	}
+	        //    mytable.appendChild(tr);
+        	//}
 		
-            const map = new AMap.Map('container', {
-            viewMode: '2D',  // 默认使用 2D 模式
-            zoom:11,  //初始化地图层级
-            center: [116.397428, 39.90923]  //初始化地图中心点
-            });
+            //const map = new AMap.Map('container', {
+            ////viewMode: '2D',  // 默认使用 2D 模式
+            //zoom:11,  //初始化地图层级
+            //center: [116.397428, 39.90923]  //初始化地图中心点
+            //});
             
             
             // GL版命名空间为BMapGL
