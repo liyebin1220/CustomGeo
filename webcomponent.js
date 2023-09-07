@@ -30,7 +30,7 @@
         connectedCallback(){
             this._firstConnection = true;
             this.redraw();
-            this.createMap();
+            this.redraw();
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
@@ -134,14 +134,6 @@
 
             }
 
-            createMap() {
-                const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {
-		        
-                    // Map configuration options go here        
-                    viewMode: '2D',
-                    zoom:11,
-                    center: [116.397428, 39.90923]
-                  });
-            }
+            
         })
 })(); 
