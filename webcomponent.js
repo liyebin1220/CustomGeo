@@ -13,7 +13,9 @@
             height: 100%
           }
         </style>
-        <div id="map-container"></div>
+        <div id="map-container">
+            <button class="drawAMap">Draw a map</button>
+        </div>
     `;
 
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
@@ -79,6 +81,19 @@
 		  };
           console.log("obj _AMapCbs has been assigned.")
 		  function loadAMap() {
+
+            const btnEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementByClass('drawAMap')
+                btnEl.onclick = function() {
+                    const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {
+                    
+                        // Map configuration options go here        
+                        viewMode: '2D',
+                        zoom:11,
+                        center: [116.397428, 39.90923]
+                        });
+                        console.log("Manually new an AMap" + "has been executed.")
+                    }
+                }
 		
 		    const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')
 		    console.log(mapContainerEl + "has been retched.")
@@ -131,6 +146,8 @@
             // Load AMap after the security code script is executed
             this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';
             console.log("loadAMap() has been appended to shadowroot.")
+
+            
 
             }
 
