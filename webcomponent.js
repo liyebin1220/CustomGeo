@@ -1,10 +1,10 @@
     // Declare apiKey as a global variable
-    const apiKey = '20acc0972699ca4133fbee84646f41b9';
+    var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
-    const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
+    var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
 (function()  {
-    let tmpl = document.createElement('template');
+    var tmpl = document.createElement('template');
     tmpl.innerHTML = `
 		<style>
           /* Add any custom CSS styles here */
@@ -15,7 +15,7 @@
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
 
 
-		constructor() {
+		varructor() {
 			super(); 
 			this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
@@ -62,7 +62,7 @@
                 redraw(){
 
                     // Create a script element for the security code
-                const securityCodeScript = document.createElement('script');
+                var securityCodeScript = document.createElement('script');
                 securityCodeScript.type = 'text/javascript';
                 securityCodeScript.textContent = `
                 window._AMapCbs = {
@@ -71,12 +71,12 @@
 		  };
 		  function loadAMap() {
 		
-		    const mapContainerEl = document.getElementById('map-container')
+		    var mapContainerEl = document.getElementById('map-container')
 		    console.log(mapContainerEl + "has been retched.")
 		    // Callback function to run when AMap is fully loaded
 		    function onAMapLoaded() {
 		      // The external script (AMap API) has loaded, and you can use AMap functionality here
-		      const map = new AMap.Map(document.getElementById('map-container'), {
+		      var map = new AMap.Map(document.getElementById('map-container'), {
 		        
 		        // Map configuration options go here        
 		        viewMode: '2D',
@@ -91,7 +91,7 @@
 		      onAMapLoaded();
 		    } else {
 		      // Create a script element for loading the AMap JavaScript API
-		      const apiScript = document.createElement('script');
+		      var apiScript = document.createElement('script');
 		      apiScript.src = 'https://webapi.amap.com/loader.js';
 		      apiScript.async = true;
 		      apiScript.addEventListener('load', () => {
