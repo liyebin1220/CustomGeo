@@ -82,7 +82,7 @@
           console.log("obj _AMapCbs has been assigned.")
 		  function loadAMap() {
 
-            const btnEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementByClass('drawAMap')
+            const btnEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.querySelector('.drawAMap')
                 btnEl.onclick = function() {
                     const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {
                     
