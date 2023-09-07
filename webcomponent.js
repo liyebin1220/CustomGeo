@@ -66,19 +66,38 @@
                 securityCodeScript.type = 'text/javascript';
                 securityCodeScript.textContent = `
                 window._AMapCbs = {
-                key: '${apiKey}',
-                code: '${securityCode}',
+                  key: '${apiKey}',
+                  code: '${securityCode}',
                 };
                 function loadAMap() {
-                // Check if AMap is already loaded
-                if (typeof window.AMap !== 'undefined') {
+                  // Callback function to run when AMap is fully loaded
+                  function onAMapLoaded() {
                     // The external script (AMap API) has loaded, and you can use AMap functionality here
                     const map = new AMap.Map(document.getElementById('map-container'), {
-                    // Map configuration options go here
+                      // Map configuration options go here
                     });
-                } else {
-                    console.error('AMap is not defined. Please check your AMap API configuration.');
-                }
+                  }
+        
+                  // Check if AMap is already loaded
+                  if (typeof AMap !== 'undefined') {
+                    onAMapLoaded();
+                  } else {
+                    // Create a script element for loading the AMap JavaScript API
+                    const apiScript = document.createElement('script');
+                    apiScript.src = 'https://webapi.amap.com/loader.js';
+                    apiScript.async = true;
+                    apiScript.addEventListener('load', () => {
+                      // Load the AMap API
+                      AMapLoader.load({
+                        key: apiKey,
+                        // Additional configuration options for AMap can be added here
+                        callback: onAMapLoaded, // Specify the callback function
+                      });
+                    });
+        
+                    // Append the AMap API script element to the document body
+                    document.body.appendChild(apiScript);
+                  }
                 }
             `;
             // Append the security code script to the Shadow DOM
