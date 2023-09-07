@@ -66,39 +66,47 @@
                 securityCodeScript.type = 'text/javascript';
                 securityCodeScript.textContent = `
                 window._AMapCbs = {
-                  key: '${apiKey}',
-                  code: '${securityCode}',
-                };
-                function loadAMap() {
-                  // Callback function to run when AMap is fully loaded
-                  function onAMapLoaded() {
-                    // The external script (AMap API) has loaded, and you can use AMap functionality here
-                    const map = new AMap.Map(document.getElementById('map-container'), {
-                      // Map configuration options go here
-                    });
-                  }
-        
-                  // Check if AMap is already loaded
-                  if (typeof AMap !== 'undefined') {
-                    onAMapLoaded();
-                  } else {
-                    // Create a script element for loading the AMap JavaScript API
-                    const apiScript = document.createElement('script');
-                    apiScript.src = 'https://webapi.amap.com/loader.js';
-                    apiScript.async = true;
-                    apiScript.addEventListener('load', () => {
-                      // Load the AMap API
-                      AMapLoader.load({
-                        key: apiKey,
-                        // Additional configuration options for AMap can be added here
-                        callback: onAMapLoaded, // Specify the callback function
-                      });
-                    });
-        
-                    // Append the AMap API script element to the document body
-                    document.body.appendChild(apiScript);
-                  }
-                }
+		    key: '${apiKey}',
+		    code: '${securityCode}',
+		  };
+		  function loadAMap() {
+		
+		    const mapContainerEl = document.getElementById('map-container')
+		    console.log(mapContainerEl + "has been retched.")
+		    // Callback function to run when AMap is fully loaded
+		    function onAMapLoaded() {
+		      // The external script (AMap API) has loaded, and you can use AMap functionality here
+		      const map = new AMap.Map(document.getElementById('map-container'), {
+		        
+		        // Map configuration options go here        
+		        viewMode: '2D',
+		        zoom:11,
+		        center: [116.397428, 39.90923]
+		      });
+		      console.log("onAMapLoaded" + "has been executed.")
+		    }
+		
+		    // Check if AMap is already loaded
+		    if (typeof AMap !== 'undefined') {
+		      onAMapLoaded();
+		    } else {
+		      // Create a script element for loading the AMap JavaScript API
+		      const apiScript = document.createElement('script');
+		      apiScript.src = 'https://webapi.amap.com/loader.js';
+		      apiScript.async = true;
+		      apiScript.addEventListener('load', () => {
+		        // Load the AMap API
+		        AMapLoader.load({
+		          key: apiKey,
+		          // Additional configuration options for AMap can be added here
+		          callback: onAMapLoaded, // Specify the callback function
+		        });
+		      });
+		
+		      // Append the AMap API script element to the document body
+		      document.body.appendChild(apiScript);
+		    }
+		  }
             `;
             // Append the security code script to the Shadow DOM
             this.shadowRoot.appendChild(securityCodeScript);
