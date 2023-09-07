@@ -32,7 +32,7 @@
         connectedCallback(){
             this._firstConnection = true;
             this.redraw();
-            this.redraw();
+            //this.redraw();
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
