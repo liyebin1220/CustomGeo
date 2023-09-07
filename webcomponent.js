@@ -15,7 +15,7 @@
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
 
 
-		varructor() {
+		consructor() {
 			super(); 
 			this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
