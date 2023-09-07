@@ -93,7 +93,7 @@
                         });
                         console.log("Manually new an AMap" + "has been executed.")
                     }
-                }
+                
 		
 		    const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')
 		    console.log(mapContainerEl + "has been retched.")
