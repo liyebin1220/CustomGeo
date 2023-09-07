@@ -1,10 +1,10 @@
     // Declare apiKey as a global variable
-    var apiKey = '20acc0972699ca4133fbee84646f41b9';
+    const apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
-    var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
+    const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
 (function()  {
-    var tmpl = document.createElement('template');
+    let tmpl = document.createElement('template');
     tmpl.innerHTML = `
 		<style>
           /* Add any custom CSS styles here */
@@ -15,7 +15,7 @@
     customElements.define('com-sap-sample-geobaidu01', class GeoBaidu01 extends HTMLElement {
 
 
-		consructor() {
+		constructor() {
 			super(); 
 			this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
@@ -62,21 +62,24 @@
                 redraw(){
 
                     // Create a script element for the security code
-                var securityCodeScript = document.createElement('script');
+                const securityCodeScript = document.createElement('script');
+                console.log("securityCodeScript has been created.")
                 securityCodeScript.type = 'text/javascript';
+                console.log("text/javascript has been assigned.")
                 securityCodeScript.textContent = `
                 window._AMapCbs = {
 		    key: '${apiKey}',
 		    code: '${securityCode}',
 		  };
+          console.log("obj _AMapCbs has been assigned.")
 		  function loadAMap() {
 		
-		    var mapContainerEl = document.getElementById('map-container')
+		    const mapContainerEl = document.getElementById('map-container')
 		    console.log(mapContainerEl + "has been retched.")
 		    // Callback function to run when AMap is fully loaded
 		    function onAMapLoaded() {
 		      // The external script (AMap API) has loaded, and you can use AMap functionality here
-		      var map = new AMap.Map(document.getElementById('map-container'), {
+		      const map = new AMap.Map(document.getElementById('map-container'), {
 		        
 		        // Map configuration options go here        
 		        viewMode: '2D',
@@ -89,11 +92,15 @@
 		    // Check if AMap is already loaded
 		    if (typeof AMap !== 'undefined') {
 		      onAMapLoaded();
+              console.log("onAMapLoaded() has been executed when AMap is not undefined.")
 		    } else {
 		      // Create a script element for loading the AMap JavaScript API
-		      var apiScript = document.createElement('script');
+		      const apiScript = document.createElement('script');
+              console.log("apiScript has been created as AMap is undefined.")
 		      apiScript.src = 'https://webapi.amap.com/loader.js';
+              console.log("apiScript.src has been assigned.")
 		      apiScript.async = true;
+              console.log("apiScript.async has been assigned as true.")
 		      apiScript.addEventListener('load', () => {
 		        // Load the AMap API
 		        AMapLoader.load({
@@ -101,18 +108,23 @@
 		          // Additional configuration options for AMap can be added here
 		          callback: onAMapLoaded, // Specify the callback function
 		        });
-		      });
+                console.log("AMapLoader.load has been executed in listener.")
+            
+            });
 		
 		      // Append the AMap API script element to the document body
 		      document.body.appendChild(apiScript);
+              console.log("apiScript has been appended to body.")
 		    }
 		  }
             `;
             // Append the security code script to the Shadow DOM
             this.shadowRoot.appendChild(securityCodeScript);
+            console.log("securityCodeScript has been appended to shadowroot.")
 
             // Load AMap after the security code script is executed
             this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';
+            console.log("loadAMap() has been appended to shadowroot.")
 
             }
         })
