@@ -1,8 +1,10 @@
 
 // Declare apiKey as a global variable
 const apiKey = '20acc0972699ca4133fbee84646f41b9';
-const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
+
 (function()  {
+	  // Replace with your AMap API key and security code
+  const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
         <style>
@@ -26,7 +28,7 @@ const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
         connectedCallback(){
             this._firstConnection = true;
 
-                 // Create a script element for the security code
+                // Create a script element for the security code
       const securityCodeScript = document.createElement('script');
       securityCodeScript.type = 'text/javascript';
       securityCodeScript.textContent = `
@@ -35,41 +37,23 @@ const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
           code: '${securityCode}',
         };
         function loadAMap() {
-          // Callback function to run when AMap is fully loaded
-          function onAMapLoaded() {
+          // Check if AMap is already loaded
+          if (typeof window.AMap !== 'undefined') {
             // The external script (AMap API) has loaded, and you can use AMap functionality here
             const map = new AMap.Map(document.getElementById('map-container'), {
               // Map configuration options go here
             });
-          }
-
-          // Check if AMap is already loaded
-          if (typeof AMap !== 'undefined') {
-            onAMapLoaded();
           } else {
-            // Create a script element for loading the AMap JavaScript API
-            const apiScript = document.createElement('script');
-            apiScript.src = 'https://webapi.amap.com/loader.js';
-            apiScript.async = true;
-            apiScript.addEventListener('load', () => {
-              // Load the AMap API
-              AMapLoader.load({
-                key: apiKey,
-                // Additional configuration options for AMap can be added here
-                callback: onAMapLoaded, // Specify the callback function
-              });
-            });
-
-            // Append the AMap API script element to the document body
-            document.body.appendChild(apiScript);
+            console.error('AMap is not defined. Please check your AMap API configuration.');
           }
         }
       `;
-            // Append the security code script to the Shadow DOM
-            this.shadowRoot.appendChild(securityCodeScript);
+      // Append the security code script to the Shadow DOM
+      this.shadowRoot.appendChild(securityCodeScript);
 
-            // Load AMap after the security code script is executed
-            this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';
+      // Load AMap after the security code script is executed
+      this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';
+    
             	
                 this.redraw();
 		
@@ -107,36 +91,6 @@ const securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
         */
 
         redraw(){
-
-   		
-        	//var mytable = this._shadowRoot.getElementById('mytable');
-				
-        	//for(var i = 1; i <= 9; i++){
-	            //create new tr tag
-	         //   var tr = document.createElement('tr');
-	        //    for(var j = 1; j <= i; j++){
-	                //create new td tag
-	        //       var td = document.createElement('td');
-	                //add td to tr
-	        //        td.innerText = i + "x" + j + "=" + (i * j);
-	        //        tr.appendChild(td);
-	        //   }
-	            // add tr to table
-	        //    mytable.appendChild(tr);
-        	//}
-		
-            //const map = new AMap.Map('container', {
-            ////viewMode: '2D',  // 默认使用 2D 模式
-            //zoom:11,  //初始化地图层级
-            //center: [116.397428, 39.90923]  //初始化地图中心点
-            //});
-            
-            
-            // GL版命名空间为BMapGL
-            // 按住鼠标右键，修改倾斜角和角度
-            //var map = new BMapGL.Map(allmap);    // 创建Map实例
-            //map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-            //map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
         }
     });
