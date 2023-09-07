@@ -74,12 +74,12 @@
           console.log("obj _AMapCbs has been assigned.")
 		  function loadAMap() {
 		
-		    const mapContainerEl = this.getElementById('map-container')
+		    const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')
 		    console.log(mapContainerEl + "has been retched.")
 		    // Callback function to run when AMap is fully loaded
 		    function onAMapLoaded() {
 		      // The external script (AMap API) has loaded, and you can use AMap functionality here
-		      const map = new AMap.Map(this.getElementById('map-container'), {
+		      const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {
 		        
 		        // Map configuration options go here        
 		        viewMode: '2D',
