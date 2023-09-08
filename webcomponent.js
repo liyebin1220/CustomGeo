@@ -128,8 +128,7 @@
 
                   document.body.appendChild(apiScript);
                   console.log("apiScript has been appended to body.")
-                  }
-                }
+                }                
               `;
               // Append the security code script to the Shadow DOM
               this.shadowRoot.appendChild(securityCodeScript);
