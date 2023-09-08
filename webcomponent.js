@@ -8,23 +8,23 @@
     tmpl.innerHTML = `
 		<style>
           /* Add any custom CSS styles here */
-          #map-container {
-            width: 600px
-            height: 800px
-            background-color: #aa2f2f;
-            border: 0cap;
-          }
           .btn {
-            background-color: #aa2f2f;
+            background-color: #ff2f2f;
             border: 0cap;
-            width: 600px;
-            height: 200px
+            width: 800px;
+            height: 50px
+          }
+          .map-container {
+            background-color: #ff2f2f;
+            border: 0cap;
+            width: 800px;
+            height:650px
           }
         </style>
         <div id="btn1" class="btn">
           <button class="drawAMap">Draw a map</button>
         </div>
-        <div id="map-container" class="btn1">
+        <div id="map-container" class="map-container">
             Map will be added here...
         </div>
         <div id="btn2" class="btn">
@@ -96,13 +96,15 @@
                     const btnEl1 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn1')
                     const btnEl2 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn2')
                     btnEl1.onclick = function() {
-                    const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                    const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                           viewMode: '2D',
                           zoom:11,
-                          center: [116.397428, 39.90923]
+                          center: [116.397428, 39.90923],
+                          resizeEnable: true
                           });
                           console.log("Manually new an AMap" + "has been executed.")
                         }
+                    map.add(mapAMap)
                     btnEl2.onclick = btnEl1.onclick
                   }
       
