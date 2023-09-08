@@ -145,7 +145,7 @@
               addAMap.type = 'text/javascript';
               addAMap.textContent = `
                 const mapAMap = null
-                if (typeof AMap === null) {
+                if (typeof AMap === 'undefined') {
                 const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                       viewMode: '2D',
                       zoom:11,
@@ -156,7 +156,7 @@
 
                     }
                 console.log(typeof AMap)
-                if (typeof AMap === null) {   
+                if (typeof AMap === 'undefined') {   
                 setTimeOut(function(){const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                   viewMode: '2D',
                   zoom:11,
@@ -164,7 +164,7 @@
                   resizeEnable: true
                   });
                   
-                  console.log("Manually new an AMap" + "has been executed.")}, 5000)
+                  console.log("Manually new an AMap" + "has been executed.")}, 10000)
                 }
                 
           `;
