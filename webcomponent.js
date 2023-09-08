@@ -14,16 +14,21 @@
             background-color: #aa2f2f;
             border: 0cap;
           }
-          .btn1 {
+          .btn {
             background-color: #aa2f2f;
             border: 0cap;
+            width: 600px;
+            height: 200px
           }
         </style>
-        <div id="btn1" class="btn1">
+        <div id="btn1" class="btn">
           <button class="drawAMap">Draw a map</button>
         </div>
-        <div id="map-container">
-            <button class="drawAMap">Draw a map</button>
+        <div id="map-container" class="btn1">
+            Map will be added here...
+        </div>
+        <div id="btn2" class="btn">
+          <button class="drawAMap">Draw a map</button>
         </div>
     `;
 
@@ -88,15 +93,17 @@
                   };
             
                   function loadAMap() {
-                    const btnEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementByClass('drawAMap')
-                    btnEl.onclick = function() {
+                    const btnEl1 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn1')
+                    const btnEl2 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn2')
+                    btnEl1.onclick = function() {
                     const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                           viewMode: '2D',
                           zoom:11,
                           center: [116.397428, 39.90923]
                           });
                           console.log("Manually new an AMap" + "has been executed.")
-                      }
+                        }
+                    btnEl2.onclick = btnEl1.onclick
                   }
       
                   const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')		            
