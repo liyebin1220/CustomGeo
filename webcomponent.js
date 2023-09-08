@@ -151,7 +151,10 @@
                       center: [116.397428, 39.90923],
                       resizeEnable: true
                       });
+                      // Append the security code script to the Shadow DOM
+                      this.shadowRoot.appendChild(addAMap);
                       console.log("Manually new an AMap" + "has been executed.")
+
                     }
                 console.log(typeof AMap)
                 if (typeof AMap === 'undefined') {   
@@ -161,11 +164,13 @@
                   center: [116.397428, 39.90923],
                   resizeEnable: true
                   });
+                  // Append the security code script to the Shadow DOM
+                  this.shadowRoot.appendChild(addAMap);
                   console.log("Manually new an AMap" + "has been executed.")}, 5000)
                 }
+              
           `;
-          // Append the security code script to the Shadow DOM
-          this.shadowRoot.appendChild(addAMap);
+          
             }
         })
 })(); 
