@@ -144,6 +144,7 @@
               const addAMap = document.createElement('script');
               addAMap.type = 'text/javascript';
               addAMap.textContent = `
+                if (typeof AMap === 'undefined') {
                 const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                       viewMode: '2D',
                       zoom:11,
@@ -151,6 +152,17 @@
                       resizeEnable: true
                       });
                       console.log("Manually new an AMap" + "has been executed.")
+                    }
+                console.log(typeof AMap)
+                if (typeof AMap === 'undefined') {   
+                setTimeOut(function(){const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                  viewMode: '2D',
+                  zoom:11,
+                  center: [116.397428, 39.90923],
+                  resizeEnable: true
+                  });
+                  console.log("Manually new an AMap" + "has been executed.")}, 5000)
+                }
           `;
           // Append the security code script to the Shadow DOM
           this.shadowRoot.appendChild(addAMap);
