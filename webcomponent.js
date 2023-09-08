@@ -43,7 +43,7 @@
         connectedCallback(){
             this._firstConnection = true;
             this.redraw();
-            //this.redraw();
+            this.addAMap();
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
@@ -131,8 +131,6 @@
 
                   document.body.appendChild(apiScript);
                   console.log("apiScript has been appended to body.")
-                  onAMapLoaded();
-                  console.log("onAMapLoaded() has been executed at last.")
                 }                
               `;
               // Append the security code script to the Shadow DOM
@@ -140,6 +138,22 @@
 
               // Load AMap after the security code script is executed
               this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';     
+            }
+            addAMap() {
+              // Create a script element for the security code
+              const addAMap = document.createElement('script');
+              addAMap.type = 'text/javascript';
+              addAMap.textContent = `
+                const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                      viewMode: '2D',
+                      zoom:11,
+                      center: [116.397428, 39.90923],
+                      resizeEnable: true
+                      });
+                      console.log("Manually new an AMap" + "has been executed.")
+          `;
+          // Append the security code script to the Shadow DOM
+          this.shadowRoot.appendChild(addAMap);
             }
         })
 })(); 
