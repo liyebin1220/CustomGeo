@@ -146,7 +146,7 @@
               addAMap.textContent = `
                 const mapAMap = null
                 if (typeof AMap === null) {
-                mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                       viewMode: '2D',
                       zoom:11,
                       center: [116.397428, 39.90923],
@@ -156,8 +156,8 @@
 
                     }
                 console.log(typeof AMap)
-                while (typeof mapAMap === null) {   
-                setTimeOut(function(){mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                if (typeof AMap === null) {   
+                setTimeOut(function(){const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                   viewMode: '2D',
                   zoom:11,
                   center: [116.397428, 39.90923],
@@ -166,10 +166,10 @@
                   
                   console.log("Manually new an AMap" + "has been executed.")}, 5000)
                 }
+                
+          `;
                 // Append the security code script to the Shadow DOM
                 this.shadowRoot.appendChild(addAMap);
-          `;
-          
             }
         })
 })(); 
