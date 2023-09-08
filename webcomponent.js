@@ -9,10 +9,19 @@
 		<style>
           /* Add any custom CSS styles here */
           #map-container {
-            width: 100%
-            height: 100%
+            width: 600px
+            height: 800px
+            background-color: #aa2f2f;
+            border: 0cap;
+          }
+          .btn1 {
+            background-color: #aa2f2f;
+            border: 0cap;
           }
         </style>
+        <div id="btn1" class="btn1">
+          <button class="drawAMap">Draw a map</button>
+        </div>
         <div id="map-container">
             <button class="drawAMap">Draw a map</button>
         </div>
@@ -47,11 +56,11 @@
 
         //When the custom widget is updated, the Custom Widget SDK framework executes this function after the update
 		onCustomWidgetAfterUpdate(oChangedProperties) {
-            if (this._firstConnection){
-                this.redraw();
+          if (this._firstConnection){
+              this.redraw();
                 
-            }
-        }
+          }
+    }
         
         //When the custom widget is removed from the canvas or the analytic application is closed
         onCustomWidgetDestroy(){
@@ -69,88 +78,64 @@
 
                 redraw(){
 
-                    // Create a script element for the security code
-                const securityCodeScript = document.createElement('script');
-                console.log("securityCodeScript has been created.")
-                securityCodeScript.type = 'text/javascript';
-                console.log("text/javascript has been assigned.")
-                securityCodeScript.textContent = `
-                window._AMapCbs = {
-		    key: '${apiKey}',
-		    code: '${securityCode}',
-		  };
-          console.log("obj _AMapCbs has been assigned.")
-		  function loadAMap() {
-
-            const btnEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.querySelector('.drawAMap')
-                btnEl.onclick = function() {
-                    const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {
-                    
-                        // Map configuration options go here        
-                        viewMode: '2D',
-                        zoom:11,
-                        center: [116.397428, 39.90923]
-                        });
-                        console.log("Manually new an AMap" + "has been executed.")
-                    }
-                
-		
-		    const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')
-		    console.log(mapContainerEl + "has been retched.")
-		    // Callback function to run when AMap is fully loaded
-		    function onAMapLoaded() {
-		      // The external script (AMap API) has loaded, and you can use AMap functionality here
-		      const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {
-		        
-		        // Map configuration options go here        
-		        viewMode: '2D',
-		        zoom:11,
-		        center: [116.397428, 39.90923]
-		      });
-		      console.log("onAMapLoaded" + "has been executed.")
-		    }
-		
-		    // Check if AMap is already loaded
-		    if (typeof AMap !== 'undefined') {
-		      onAMapLoaded();
-              console.log("onAMapLoaded() has been executed when AMap is not undefined.")
-		    } else {
-		      // Create a script element for loading the AMap JavaScript API
-		      const apiScript = document.createElement('script');
-              console.log("apiScript has been created as AMap is undefined.")
-		      apiScript.src = 'https://webapi.amap.com/loader.js';
-              console.log("apiScript.src has been assigned.")
-		      apiScript.async = true;
-              console.log("apiScript.async has been assigned as true.")
-		      apiScript.addEventListener('load', () => {
-		        // Load the AMap API
-		        AMapLoader.load({
-		          key: apiKey,
-		          // Additional configuration options for AMap can be added here
-		          callback: onAMapLoaded, // Specify the callback function
-		        });
-                console.log("AMapLoader.load has been executed in listener.")
+                  // Create a script element for the security code
+                  const securityCodeScript = document.createElement('script');
+                  securityCodeScript.type = 'text/javascript';
+                  securityCodeScript.textContent = `
+                  window._AMapCbs = {
+                    key: '${apiKey}',
+                    code: '${securityCode}',
+                  };
             
-            });
-		
-		      // Append the AMap API script element to the document body
-		      document.body.appendChild(apiScript);
-              console.log("apiScript has been appended to body.")
-		    }
-		  }
-            `;
-            // Append the security code script to the Shadow DOM
-            this.shadowRoot.appendChild(securityCodeScript);
-            console.log("securityCodeScript has been appended to shadowroot.")
+                  function loadAMap() {
+                    const btnEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementByClass('drawAMap')
+                    btnEl.onclick = function() {
+                    const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                          viewMode: '2D',
+                          zoom:11,
+                          center: [116.397428, 39.90923]
+                          });
+                          console.log("Manually new an AMap" + "has been executed.")
+                      }
+                  }
+      
+                  const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')		            
 
-            // Load AMap after the security code script is executed
-            this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';
-            console.log("loadAMap() has been appended to shadowroot.")
+                  function onAMapLoaded() {
+                    const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {    
+                      viewMode: '2D',
+                      zoom:11,
+                      center: [116.397428, 39.90923]
+                    });
+                      console.log("onAMapLoaded function" + "has been executed while loading.")
+                  }
+      
 
-            
+                  if (typeof AMap !== 'undefined') {
+                    onAMapLoaded();
+                        console.log("onAMapLoaded() has been executed when AMap is not undefined.")
+                  } else {
+                    const apiScript = document.createElement('script');
+                    apiScript.src = 'https://webapi.amap.com/loader.js';
+                    apiScript.async = true;
+                    apiScript.addEventListener('load', () => {
+                      AMapLoader.load({
+                        key: apiKey,
+                        callback: onAMapLoaded, // Specify the callback function
+                      });
+                      console.log("webapi and apiKey has been loaded.")
+                    });
 
+                  document.body.appendChild(apiScript);
+                  console.log("apiScript has been appended to body.")
+                  }
+                }
+              `;
+              // Append the security code script to the Shadow DOM
+              this.shadowRoot.appendChild(securityCodeScript);
+
+              // Load AMap after the security code script is executed
+              this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap();';     
             }
-
-            
         })
 })(); 
