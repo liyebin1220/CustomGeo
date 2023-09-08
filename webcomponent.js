@@ -11,21 +11,20 @@
           .btn {
             background-color: #002f2f;
             border: 0cap;
-            width: 800px;
+            width: 100%;
             height: 50px
           }
           .map-container {
             background-color: #ee2f2f;
             border: 0cap;
-            width: 800px;
-            height:650px
+            width: 100%;
+            height:1000px
           }
         </style>
-        <div id="btn1" class="btn">
-          <button class="drawAMap">Draw a map</button>
+        <div id="btn" class="btn">
+          <button id="btn1" class="drawAMap">Draw a map</button>
         </div>
         <div id="map-container" class="map-container">
-            Map will be added here...
         </div>
     `;
 
@@ -44,6 +43,7 @@
             this._firstConnection = true;
             this.redraw();
             this.addAMap();
+            this.typeofAMap();
         }
 
          //Fired when the widget is removed from the html DOM of the page (e.g. by hide)
@@ -92,13 +92,14 @@
                   function loadAMap() {
                     const btnEl1 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn1')
                     btnEl1.onclick = function() {
-                    const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+                          const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                           viewMode: '2D',
-                          zoom:11,
+                          zoom:5,
                           center: [116.397428, 39.90923],
                           resizeEnable: true
                           });
                           console.log("Manually new an AMap" + "has been executed.")
+
                         }                
                   }
       
@@ -125,12 +126,13 @@
                     apiScript.addEventListener('load', () => {
                       AMapLoader.load({
                         key: apiKey,
-                      });
-                      console.log("webapi and apiKey has been loaded.")
+                        plugins: ['AMap.Scale','AMap.ToolBar']
+                      })
+                      console.log("AMapLoader.load just has completed.")
                     });
 
-                  document.body.appendChild(apiScript);
-                  console.log("apiScript has been appended to body.")
+                    document.body.appendChild(apiScript);
+                    console.log("apiScript has been appended to body.")
                 }                
               `;
               // Append the security code script to the Shadow DOM
@@ -144,32 +146,25 @@
               const addAMap = document.createElement('script');
               addAMap.type = 'text/javascript';
               addAMap.textContent = `
-                const mapAMap = null
-                if (typeof AMap === 'undefined') {
-                const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
-                      viewMode: '2D',
-                      zoom:11,
-                      center: [116.397428, 39.90923],
-                      resizeEnable: true
-                      });
-                      console.log("Manually new an AMap" + "has been executed.")
 
-                    }
-                console.log(typeof AMap)
-                if (typeof AMap === 'undefined') {   
-                setTimeOut(function(){const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
+              const mapAMap = null
+              
+                mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                   viewMode: '2D',
                   zoom:11,
                   center: [116.397428, 39.90923],
                   resizeEnable: true
-                  });
-                  
-                  console.log("Manually new an AMap" + "has been executed.")}, 10000)
-                }
-                
+                  }); 
+                console.log("mapAMap has been realized.")    
           `;
                 // Append the security code script to the Shadow DOM
                 this.shadowRoot.appendChild(addAMap);
+                console.log("addAMap appended.")
+                //this.shadowRoot.appendChild(document.createElement('script')).textContent = 'loadAMap2();'; 
+                console.log(typeof AMap)
+            }
+            typeofAMap(){
+              console.log("function " + typeof AMap)
             }
         })
 })(); 
