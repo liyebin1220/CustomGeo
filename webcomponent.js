@@ -9,13 +9,13 @@
 		<style>
           /* Add any custom CSS styles here */
           .btn {
-            background-color: #ff2f2f;
+            background-color: #002f2f;
             border: 0cap;
             width: 800px;
             height: 50px
           }
           .map-container {
-            background-color: #ff2f2f;
+            background-color: #ee2f2f;
             border: 0cap;
             width: 800px;
             height:650px
@@ -26,9 +26,6 @@
         </div>
         <div id="map-container" class="map-container">
             Map will be added here...
-        </div>
-        <div id="btn2" class="btn">
-          <button class="drawAMap">Draw a map</button>
         </div>
     `;
 
@@ -94,7 +91,6 @@
             
                   function loadAMap() {
                     const btnEl1 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn1')
-                    const btnEl2 = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('btn2')
                     btnEl1.onclick = function() {
                     const mapAMap = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), { 
                           viewMode: '2D',
@@ -103,9 +99,7 @@
                           resizeEnable: true
                           });
                           console.log("Manually new an AMap" + "has been executed.")
-                        }
-                    map.add(mapAMap)
-                    btnEl2.onclick = btnEl1.onclick
+                        }                
                   }
       
                   const mapContainerEl = window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container')		            
@@ -114,7 +108,8 @@
                     const map = new AMap.Map(window.document.querySelector('.sapCustomWidgetWebComponent')._shadowRoot.getElementById('map-container'), {    
                       viewMode: '2D',
                       zoom:11,
-                      center: [116.397428, 39.90923]
+                      center: [116.397428, 39.90923],
+                      resizeEnable: true
                     });
                       console.log("onAMapLoaded function" + "has been executed while loading.")
                   }
@@ -122,7 +117,7 @@
 
                   if (typeof AMap !== 'undefined') {
                     onAMapLoaded();
-                        console.log("onAMapLoaded() has been executed when AMap is not undefined.")
+                    console.log("onAMapLoaded() has been executed when AMap is not undefined.")
                   } else {
                     const apiScript = document.createElement('script');
                     apiScript.src = 'https://webapi.amap.com/loader.js';
@@ -130,13 +125,14 @@
                     apiScript.addEventListener('load', () => {
                       AMapLoader.load({
                         key: apiKey,
-                        callback: onAMapLoaded, // Specify the callback function
                       });
                       console.log("webapi and apiKey has been loaded.")
                     });
 
                   document.body.appendChild(apiScript);
                   console.log("apiScript has been appended to body.")
+                  onAMapLoaded();
+                  console.log("onAMapLoaded() has been executed at last.")
                 }                
               `;
               // Append the security code script to the Shadow DOM
