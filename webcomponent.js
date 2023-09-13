@@ -193,7 +193,7 @@ var mapAMap = null;
 
     }
 
-        customElements.define('custom-amap', ClassAMap)
+        customElements.define('com-sap-sample-geobaidu01', ClassAMap)
     
 
 
