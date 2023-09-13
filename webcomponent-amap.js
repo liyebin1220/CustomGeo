@@ -26,7 +26,7 @@ var mapAMap = null;
         </style>
         <div id="btn" class="btn">
           <button id="btn1" class="drawAMap">Draw a map</button>
-          <button id="btn2" class="drawAMap">Add DistrictLayer</button>
+          <button id="btn2" class="ClearMap">Clear Map</button>
           <button id="btn3" class="drawAMap">Draw Map2.0</button>
         </div>
         <div id="map-container" class="map-container">
@@ -71,7 +71,9 @@ var mapAMap = null;
             const btnEl1 = this._shadowRoot.getElementById('btn1')
 
             btnEl1.onclick = function() {
-                
+
+                mapAMap = null;
+                console.log("now your have clicked button 1.")  
                 mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         zoom:10,
@@ -83,15 +85,14 @@ var mapAMap = null;
             
             const btnEl2 = this._shadowRoot.getElementById('btn2')
                 btnEl2.onclick = function() {
-                    AMap.plugin('AMap.DistrictSearch', function() {
-                        var districtSearch = new AMap.DistrictSearch()
-                        mapAMap.addControl(districtSearch)
-                    })
+                    mapAMap = null;
+                    console.log("now your have clicked button 2.")  
                 }
             
             const btnEl3 = this._shadowRoot.getElementById('btn3')
 
             btnEl3.onclick = function(mapAMap) {
+                mapAMap = null;
                 console.log("now your have clicked button 3.")                
                 var SOC = 'CHN'                
                 var colors = {};
