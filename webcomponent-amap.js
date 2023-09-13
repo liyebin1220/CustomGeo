@@ -61,10 +61,10 @@ var mapAMap = null;
             }
         </style>
         <div id="btn" class="btn">
-          <button id="btn1" class="drawAMap">Draw a map</button>
+          <button id="btn1" class="drawAMap">init Amap</button>
           <button id="btn2" class="drawAMap-district">District Map</button>
           <button id="btn3" class="drawAMap">Draw Map2.0</button>
-          <button id="btn4" class="drawAMap">Init Map and UI</button>
+          <button id="btn4" class="drawAMap">Init UI</button>
 
         </div>
         <div id="map-container" class="map-container">
@@ -84,7 +84,7 @@ var mapAMap = null;
             
             this.securityScriptLoad()
             this.apiScriptLoad()
-            this.uiScriptLoad()
+
             this.initBtn(this)
             this.drawAMap()
         }
@@ -140,23 +140,16 @@ var mapAMap = null;
                
                 mapAMap = null;
                 console.log("now your have clicked button 4.")  
-                mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
-                        viewMode: '2D',
-                        zoom:10,
-                        center: [116.397428, 39.90923],
-                        resizeEnable: true,                        
-                    });
-                console.log("mapAMap has been created: ", mapAMap)
-                
                 const uiScript = document.createElement('script');
                 uiScript.src = 'https://webapi.amap.com/ui/1.1/main.js?v=1.1.1';
                 uiScript.defer = true;
                 uiScript.addEventListener('load', () => {
-    
+
                 console.log("AMapUI has been loaded: ", AMapUI)
                 })
-                
+            
                 document.head.appendChild(uiScript);
+                
             
                 };
 
@@ -176,7 +169,7 @@ var mapAMap = null;
                         resizeEnable: true,
                         version: 2.0
                     });
-                
+                console.log("mapAMap has been created: ", mapAMap)
                 };
             
             const btnEl2 = this._shadowRoot.getElementById('btn2')
