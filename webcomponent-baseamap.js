@@ -89,7 +89,7 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             onCustomWidgetAfterUpdate(changedProperties) 
             {
                     
-                if ("securityCode" in changedProperties) {
+                /* if ("securityCode" in changedProperties) {
                     this.$securityCode = changedProperties["securityCode"];
                 }
                 securityCode = this.$securityCode; // place passed in value into global
@@ -99,7 +99,14 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
                 }
                 apiKey = this.$apiKey; // place passed in value into global
 
-                console.log("onCustomWidgetAfterUpdate(changedProperties) has been called.")
+                console.log("onCustomWidgetAfterUpdate(changedProperties) has been called.") */
+
+                var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                  viewMode: '2D',
+                  zoom:4,
+                  resizeEnable: true,
+                  version: 2.0
+                });
     
 
             }
