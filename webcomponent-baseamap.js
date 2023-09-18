@@ -9,12 +9,6 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
     tmpl.innerHTML = `
 		<style>
           /* Add any custom CSS styles here */
-          .btn {
-            background-color: #002f2f;
-            border: 0cap;
-            width: 1000px;
-            height: 30px
-          }
           .map-container {
             background-color: #ee2f2f;
             border: 0cap;
@@ -22,9 +16,7 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             height:900px
           }
         </style>
-        <div id="btn" class="btn">
-          <button id="btn1" class="drawAMap">init Amap</button>
-        </div>
+
         <div id="map-container" class="map-container"></div>
     `;
     // Drawing the base boxes.
@@ -39,7 +31,6 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
                         
             this.securityScriptLoad()
             this.apikeyScriptLoad()
-            this.initBtn(this)
         }
 
         securityScriptLoad() {
@@ -79,15 +70,13 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
                       cursor: 'default'
                   });
               };
-            if(AMap !== null) {
+            if(typeof AMap !== undefined) {
               initAMap()
             } else {
               console.log("AMap is null")
             }
 
-        }
-
-        
+        }        
     }
 
     customElements.define('custom-base-amap', ClassAMap)
