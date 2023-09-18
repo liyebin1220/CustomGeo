@@ -64,6 +64,7 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
                 key: apiKey,
+                plugins: ['AMap.Scale','AMap.ToolBar'],
             })})
 
             document.head.appendChild(apiScript);
