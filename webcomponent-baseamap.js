@@ -1,7 +1,9 @@
 // Declare apiKey as a global variable
 var apiKey = '20acc0972699ca4133fbee84646f41b9';
+var gPassedAPIkey // AMap API key
 // Replace with your AMap API key and security code
 var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
+var gPassedSecurityKey; //AMap security key
 
 (function() {
 
@@ -9,6 +11,12 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
     tmpl.innerHTML = `
 		<style>
           /* Add any custom CSS styles here */
+          .btn {
+            background-color: #002f2f;
+            border: 0cap;
+            width: 1000px;
+            height: 30px
+          }
           .map-container {
             background-color: #ee2f2f;
             border: 0cap;
@@ -16,7 +24,9 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             height:900px
           }
         </style>
-
+        <div id="btn" class="btn">
+          <button id="btn1" class="drawAMap">init Amap</button>
+        </div>
         <div id="map-container" class="map-container"></div>
     `;
     // Drawing the base boxes.
@@ -31,6 +41,7 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
                         
             this.securityScriptLoad()
             this.apikeyScriptLoad()
+            this.initBtn(this)
         }
 
         securityScriptLoad() {
@@ -59,24 +70,34 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             })})
 
             document.head.appendChild(apiScript);
+        }
+        initBtn(that) {
 
-            function initAMap() {                
-               
-              var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
-                      //viewMode: '2D',
+          const btnEl1 = this._shadowRoot.getElementById('btn1')
+
+
+          btnEl1.onclick = function() {            
+                    
+         var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                      viewMode: '2D',
                       zoom:4,
                       resizeEnable: true,
-                      version: 2.0,
-                      cursor: 'default'
+                      version: 2.0
                   });
               };
-            if(typeof AMap !== undefined) {
-              initAMap()
-            } else {
-              console.log("AMap is null")
+          }
+        onCustomWidgetAfterUpdate(changedProperties) 
+        {
+            if ("securityKey" in changedProperties) {
+                this.$securityKey = changedProperties["securityKey"];
             }
-
-        }        
+            gPassedSecurityKey = this.$securityKey; 
+  
+            if ("apikey" in changedProperties) {
+                this.$apikey = changedProperties["apikey"];
+            }
+            gPassedAPIkey = this.$apikey;
+        }                
     }
 
     customElements.define('custom-base-amap', ClassAMap)
