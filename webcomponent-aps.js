@@ -68,14 +68,17 @@
             console.log(properties);
             this._firePropertiesChanged(properties);
             return false;
+            console.log("_submit(e) has been triggered")
         }
         _change(e) {
             this._changeProperty(e.target.name);
+            console.log("_change(e) has been triggered")
         }
         _changeProperty(name) {
             let properties = {};
             properties[name] = this[name];
             this._firePropertiesChanged(properties);
+            console.log("_changeProperty(name) has been triggered")
         }
 
         _firePropertiesChanged(properties) {
@@ -84,21 +87,29 @@
                     properties: properties
                 }
             }));
+            console.log("_firePropertiesChanged(properties) has been triggered:", properties)
+            console.log(this)
+            //console.log("Trying to call onCustomWidgetAfterUpdate: ", this.onCustomWidgetAfterUpdate(properties))
+
         }
 
         get apikey() {
+            console.log("will get apikey()")
             return this.getValue("apikey");
             
         }
         set apikey(value) {
+            console.log("will set apikey")
             this.setValue("apikey", value);
             
         }
 
         get securityKey() {
+            console.log("will get security key")
             return this.getValue("securityKey");
         }
         set securityKey(value) {
+            console.log("will set security key")
             this.setValue("securityKey", value);
         
             
@@ -106,14 +117,17 @@
         
 
         getValue(id) {
+            console.log("I don't know what's this: getValue(id)")
             return this._shadowRoot.getElementById(id).value;
         }
         setValue(id, value) {
+            console.log("I don't know what's this: setValue(id)")
           console.log(id +":" + value);
             this._shadowRoot.getElementById(id).value = value;
         }
 
         static get observedAttributes() {
+            console.log("static get observedAttributes()")
             return [
                 "apikey",
                 "securityKey"
@@ -121,6 +135,7 @@
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
+            console.log("attributeChangedCallback()")
             if (oldValue != newValue) {
                 this[name] = newValue;
             }

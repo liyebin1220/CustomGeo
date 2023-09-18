@@ -1,9 +1,7 @@
 // Declare apiKey as a global variable
 var apiKey = '20acc0972699ca4133fbee84646f41b9';
-var gPassedAPIkey // AMap API key
 // Replace with your AMap API key and security code
 var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
-var gPassedSecurityKey; //AMap security key
 
 (function() {
 
@@ -71,33 +69,40 @@ var gPassedSecurityKey; //AMap security key
 
             document.head.appendChild(apiScript);
         }
+
         initBtn(that) {
 
-          const btnEl1 = this._shadowRoot.getElementById('btn1')
+            const btnEl1 = this._shadowRoot.getElementById('btn1')
 
 
-          btnEl1.onclick = function() {            
+            btnEl1.onclick = function() {            
+                      
+           var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                        viewMode: '2D',
+                        zoom:4,
+                        resizeEnable: true,
+                        version: 2.0
+                    });
+                };
+            }
+
+            onCustomWidgetAfterUpdate(changedProperties) 
+            {
                     
-         var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
-                      viewMode: '2D',
-                      zoom:4,
-                      resizeEnable: true,
-                      version: 2.0
-                  });
-              };
-          }
-        onCustomWidgetAfterUpdate(changedProperties) 
-        {
-            if ("securityKey" in changedProperties) {
-                this.$securityKey = changedProperties["securityKey"];
+                if ("securityCode" in changedProperties) {
+                    this.$securityCode = changedProperties["securityCode"];
+                }
+                securityCode = this.$securityCode; // place passed in value into global
+    
+                if ("apiKey" in changedProperties) {
+                    this.$apiKey = changedProperties["apiKey"];
+                }
+                apiKey = this.$apiKey; // place passed in value into global
+
+                console.log("onCustomWidgetAfterUpdate(changedProperties) has been called.")
+    
+
             }
-            gPassedSecurityKey = this.$securityKey; 
-  
-            if ("apikey" in changedProperties) {
-                this.$apikey = changedProperties["apikey"];
-            }
-            gPassedAPIkey = this.$apikey;
-        }                
     }
 
     customElements.define('custom-base-amap', ClassAMap)
