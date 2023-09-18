@@ -54,7 +54,6 @@ var mapAMap = null;
                 securityJsCode: '${securityCode}',
               }
             `
-            console.log("securityScript has been created: ", securityScript)
 
             document.head.appendChild(securityScript);
         }
@@ -79,14 +78,12 @@ var mapAMap = null;
             btnEl1.onclick = function() {                
                
                 mapAMap = null;
-                console.log("now your have clicked button 1.")  
                 mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         zoom:4,
                         resizeEnable: true,
                         version: 2.0
                     });
-                console.log("mapAMap has been created: ", mapAMap)
                 };
             }
     }
