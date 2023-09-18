@@ -2,8 +2,6 @@
 var apiKey = '20acc0972699ca4133fbee84646f41b9';
 // Replace with your AMap API key and security code
 var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
-// Main AMap prepared
-var mapAMap = null;
 
 (function() {
 
@@ -77,8 +75,7 @@ var mapAMap = null;
 
             btnEl1.onclick = function() {                
                
-                mapAMap = null;
-                mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         zoom:4,
                         resizeEnable: true,
