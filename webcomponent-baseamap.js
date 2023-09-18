@@ -68,22 +68,26 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             })})
 
             document.head.appendChild(apiScript);
+
+            function initAMap() {                
+               
+              var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                      //viewMode: '2D',
+                      zoom:4,
+                      resizeEnable: true,
+                      version: 2.0,
+                      cursor: 'default'
+                  });
+              };
+            if(AMap !== null) {
+              initAMap()
+            } else {
+              console.log("AMap is null")
+            }
+
         }
 
-        initBtn(that) {
-
-            const btnEl1 = this._shadowRoot.getElementById('btn1')
-
-            btnEl1.onclick = function() {                
-               
-                var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
-                        viewMode: '2D',
-                        zoom:4,
-                        resizeEnable: true,
-                        version: 2.0
-                    });
-                };
-            }
+        
     }
 
     customElements.define('custom-base-amap', ClassAMap)
