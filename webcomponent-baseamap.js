@@ -75,6 +75,20 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
         {
             this._props = { ...this._props, ...changedProperties };
 
+            const apiScript = document.createElement('script');
+
+            apiScript.src = 'https://webapi.amap.com/loader.js';
+            apiScript.defer = true;
+            apiScript.addEventListener('load', () => {
+            AMapLoader.load({
+                key: apiKey,
+                plugins: ['AMap.Scale','AMap.ToolBar'],
+            })})
+
+            document.head.appendChild(apiScript);
+
+            console.log("BeforeUpdate.")
+
         }
 
         onCustomWidgetAfterUpdate(changedProperties) 
@@ -91,9 +105,26 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             apiKey = this.$apiKey; // place passed in value into global
 
             if (typeof AMap === 'undefined' ) {
-                apikeyScriptLoad()
+                const apiScript = document.createElement('script');
+
+                apiScript.src = 'https://webapi.amap.com/loader.js';
+                apiScript.defer = true;
+                apiScript.addEventListener('load', () => {
+                AMapLoader.load({
+                    key: apiKey,
+                    plugins: ['AMap.Scale','AMap.ToolBar'],
+                })})
+
+                console.log("AMapLoader in AfterUpdate")
+
+            document.head.appendChild(apiScript);
             } else {
-                createAMapInstance()
+                var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                    viewMode: '2D',
+                    zoom:4,
+                    resizeEnable: true,
+                    version: 2.0
+                });
             }
 
             console.log("onCustomWidgetAfterUpdate(changedProperties) has been called: ", changedProperties)
