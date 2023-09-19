@@ -78,13 +78,13 @@
             tmpAMap = mapAMap;
         }
         resetAMapInstance_default() {
-            tmpAMap.setLayer([new AMap.TileLayer()])                
+            tmpAMap.setLayers([new AMap.TileLayer()])                
         }
         resetAMapInstance_Satellite() {
-            tmpAMap.setLayer([new AMap.TileLayer.Satellite()])  
+            tmpAMap.setLayers([new AMap.TileLayer.Satellite()])  
         }
         resetAMapInstance_Satellite_RoadNet() {
-            tmpAMap.setLayer([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
+            tmpAMap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
         }
 
         onCustomWidgetBeforeUpdate(changedProperties)
@@ -112,7 +112,8 @@
         }
 
         isLoaded() {
-            return isLoaded
+            console.log(isLoaded);
+            return isLoaded;
         }
     }
 
