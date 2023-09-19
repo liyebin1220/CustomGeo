@@ -40,13 +40,13 @@
 		"createAMapInstance": {   
 			"description": "AMap Initialization - default"
 		},
-		"createAMapInstance_default": {   
+		"resetAMapInstance_default": {   
 			"description": "AMap Initialization - default"
 		},
-		"createAMapInstance_Satellite": {   
+		"resetAMapInstance_Satellite": {   
 			"description": "AMap Initialization - Satellite"
 		},
-		"createAMapInstance_Satellite_RoadNet": {   
+		"resetAMapInstance_Satellite_RoadNet": {   
 			"description": "AMap Initialization - Satellite and RoadNet"
 		},
 		"isLoaded": {   
