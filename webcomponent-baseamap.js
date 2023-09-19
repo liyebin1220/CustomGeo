@@ -62,7 +62,7 @@
         }
 
         createAMapInstance() {
-           var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         zoom:4,
                         resizeEnable: true,
