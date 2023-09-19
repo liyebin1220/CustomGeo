@@ -6,7 +6,7 @@
 	"license": "",
 	"id": "custom.base.amap",
 	"newInstancePrefix": "GeoBaseAMap",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"icon": "",
 	"webcomponents": [
         {
@@ -18,7 +18,7 @@
         },
 		{
 		  "kind": "builder",
-		  "tag": "com-base-amap-aps",
+		  "tag": "custom-base-amap-aps",
 		  "url": "https://liyebin1220.github.io/CustomGeo/webcomponent-aps.js",
 		  "integrity": "",
 		  "ignoreIntegrity": true

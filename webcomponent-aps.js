@@ -52,8 +52,8 @@
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true));
             console.log("constructor")
 
-            //let form = this._shadowRoot.getElementById("form");
-            //form.addEventListener("submit", this._submit.bind(this));
+            let form = this._shadowRoot.getElementById("form");
+            form.addEventListener("submit", this._submit.bind(this));
         }
 
         connectedCallback() {
