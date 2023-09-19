@@ -41,20 +41,17 @@
 			"description": "AMap Initialization - default"
 		},
 		"resetAMapInstance_default": {   
-			"description": "AMap Initialization - default"
+			"description": "AMap reset - default"
 		},
 		"resetAMapInstance_Satellite": {   
-			"description": "AMap Initialization - Satellite"
+			"description": "AMap reset - Satellite"
 		},
 		"resetAMapInstance_Satellite_RoadNet": {   
-			"description": "AMap Initialization - Satellite and RoadNet"
+			"description": "AMap reset - Satellite and RoadNet"
 		},
-		"isLoaded": {   
-			"returnType": "boolean",
-			"description": "Optional api method - is loaded",
-			"parameters": [
-			],
-			"body": "return this.isLoaded;"
+		"isLoaded": {
+			"returnType": "boolean",   
+			"description": "Optional api method - is loaded"
 		},
 		"getapiKey": {   
 			"returnType": "string",
