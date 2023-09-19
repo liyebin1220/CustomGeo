@@ -1,6 +1,6 @@
 (function () {
-    var gPassedAPIkey;
-    var gPassedSecurityKey;
+    var apiKey;
+    var securityCode;
     let tmpl = document.createElement("template");
     tmpl.innerHTML = `
       <style>
@@ -31,12 +31,12 @@
           <legend>AMap Widget Properties</legend>
           <table>
             <tr>
-              <td><label for="apikey">API Key:</label></td>
-              <td><input id="apikey" name="apikey" type="text"></td>
+              <td><label for="apiKey">API Key:</label></td>
+              <td><input id="apiKey" name="apiKey" type="text"></td>
             </tr>
             <tr>
-              <td><label for="securityKey">securityKey:</label></td>
-              <td><input id="securityKey" name="securityKey" type="text"></td>
+              <td><label for="securityCode">securityCode:</label></td>
+              <td><input id="securityCode" name="securityCode" type="text"></td>
             </tr>
             
           </table>
@@ -53,7 +53,7 @@
 
             let form = this._shadowRoot.getElementById("form");
             form.addEventListener("submit", this._submit.bind(this));
-            form.addEventListener("change", this._change.bind(this));
+            //form.addEventListener("change", this._change.bind(this));
         }
 
         connectedCallback() {
@@ -61,58 +61,50 @@
 
         _submit(e) {
             e.preventDefault();
-            let properties = {};
-            for (let name of restAPIAps.observedAttributes) {
-                properties[name] = this[name];
-            }
-            console.log(properties);
-            this._firePropertiesChanged(properties);
-            return false;
-            console.log("_submit(e) has been triggered")
-        }
-        _change(e) {
-            this._changeProperty(e.target.name);
-            console.log("_change(e) has been triggered")
-        }
-        _changeProperty(name) {
-            let properties = {};
-            properties[name] = this[name];
-            this._firePropertiesChanged(properties);
-            console.log("_changeProperty(name) has been triggered")
-        }
-
-        _firePropertiesChanged(properties) {
             this.dispatchEvent(new CustomEvent("propertiesChanged", {
                 detail: {
-                    properties: properties
+                    properties: {
+                        apiKey: this.apiKey,
+                        securityCode: this.securityCode
+                    }
                 }
-            }));
-            console.log("_firePropertiesChanged(properties) has been triggered:", properties)
-            console.log(this)
-            //console.log("Trying to call onCustomWidgetAfterUpdate: ", this.onCustomWidgetAfterUpdate(properties))
-
+            }))
+            console.log("_submit(e) has been triggered: ", propertiesChanged)    
+            console.log("_submit(e) has been triggered: ", properties)    
         }
 
-        get apikey() {
-            console.log("will get apikey()")
-            return this.getValue("apikey");
+        _change(e) {
+            e.preventDefault();
+            this.dispatchEvent(new CustomEvent("propertiesChanged", {
+                detail: {
+                    properties: {
+                        apiKey: this.apiKey,
+                        securityCode: this.securityCode
+                    }
+                }
+            }))
+            console.log("_change(e) has been triggered: ", propertiesChanged)    
+            console.log("_change(e) has been triggered: ", properties)    
+        }
+
+        get apiKey() {
+            console.log("will get apiKey()")
+            return this.getValue("apiKey");
             
         }
-        set apikey(value) {
+        set apiKey(value) {
             console.log("will set apikey")
-            this.setValue("apikey", value);
+            this.setValue("apiKey", value);
             
         }
 
-        get securityKey() {
-            console.log("will get security key")
-            return this.getValue("securityKey");
+        get securityCode() {
+            console.log("will get Security Code")
+            return this.getValue("securityCode");
         }
-        set securityKey(value) {
-            console.log("will set security key")
-            this.setValue("securityKey", value);
-        
-            
+        set securityCode(value) {
+            console.log("will set Security Code")
+            this.setValue("securityCode", value);
         } 
         
 
@@ -129,8 +121,8 @@
         static get observedAttributes() {
             console.log("static get observedAttributes()")
             return [
-                "apikey",
-                "securityKey"
+                "apiKey",
+                "securityCode"
             ];
         }
 

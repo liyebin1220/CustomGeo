@@ -1,0 +1,84 @@
+{
+	"name": "Geo Base AMap",
+	"description": "The Geo Base AMap",
+	"eula": "",
+	"vendor": "",
+	"license": "",
+	"id": "custom.base.amap",
+	"newInstancePrefix": "GeoBaseAMap",
+	"version": "0.0.3",
+	"icon": "",
+	"webcomponents": [
+        {
+			"kind": "main",
+			"tag": "custom-base-amap",
+            "url": "https://liyebin1220.github.io/CustomGeo/webcomponent-baseamap.js",
+            "integrity": "",
+            "ignoreIntegrity" : true
+        },
+		{
+		  "kind": "builder",
+		  "tag": "com-base-amap-aps",
+		  "url": "https://liyebin1220.github.io/CustomGeo/webcomponent-aps.js",
+		  "integrity": "",
+		  "ignoreIntegrity": true
+		}
+    ],
+	"properties": {
+		"apiKey": {
+			"type": "string",
+			"description": "API Key",
+			"default": "20acc0972699ca4133fbee84646f41b9"  
+		 },
+		 "securityCode": {
+			"type": "string",
+			"description": "Security Code",
+			"default": "e016b7c8a8df4e14e4e7ec322210f934"  
+		 }
+	},
+	"methods": {
+		"getapiKey": {   
+			"returnType": "string",
+			"description": "Optional api method - Get API Key",
+			"parameters": [
+			],
+			"body": "return this.apiKey;"
+		},
+		"setapiKey": {
+			"description": "Set the API Key",
+			"parameters": [
+				{
+				"name": "apiKey",
+				"type": "string",
+				"description": "Set New API Key"
+				}
+			],
+			"body": "this.apiKey = apiKey;"
+		},
+
+		"getsecurityCode": {
+			"returnType": "string",
+			"description": "Get Security Code",
+			"parameters": [
+			],
+			"body": "return this.securityCode;"
+		},
+		"setsecurityCode": {
+			"description": "Set the Security Code",
+			"parameters": [
+			{
+			"name": "securityCode",
+			"type": "string",
+			"description": "New Security Code"
+			}
+		],
+			"body": "this.securityCode = securityCode;"
+		}
+  
+	},
+	"events": {
+		"onStart": {
+			"description": "onStart events trigger"
+		  }
+	}
+}
