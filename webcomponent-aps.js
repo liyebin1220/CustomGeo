@@ -53,7 +53,6 @@
 
             let form = this._shadowRoot.getElementById("form");
             form.addEventListener("submit", this._submit.bind(this));
-            //form.addEventListener("change", this._change.bind(this));
         }
 
         connectedCallback() {
@@ -73,65 +72,23 @@
             console.log("_submit(e) has been triggered: ", properties)    
         }
 
-        _change(e) {
-            e.preventDefault();
-            this.dispatchEvent(new CustomEvent("propertiesChanged", {
-                detail: {
-                    properties: {
-                        apiKey: this.apiKey,
-                        securityCode: this.securityCode
-                    }
-                }
-            }))
-            console.log("_change(e) has been triggered: ", propertiesChanged)    
-            console.log("_change(e) has been triggered: ", properties)    
-        }
-
         get apiKey() {
             console.log("will get apiKey()")
-            return this.getValue("apiKey");
-            
+            return this._shadowRoot.getElementById("apiKey").value;           
         }
-        set apiKey(value) {
-            console.log("will set apikey")
-            this.setValue("apiKey", value);
-            
+        set apiKey(newAPIKey) {
+            console.log("will set apikey()")
+            this._shadowRoot.getElementById("apiKey").value = newAPIKey;           
         }
 
         get securityCode() {
             console.log("will get Security Code")
-            return this.getValue("securityCode");
+            return this._shadowRoot.getElementById("securityCode").value; 
         }
-        set securityCode(value) {
+        set securityCode(newSecurityCode) {
             console.log("will set Security Code")
-            this.setValue("securityCode", value);
-        } 
-        
-
-        getValue(id) {
-            console.log("I don't know what's this: getValue(id)")
-            return this._shadowRoot.getElementById(id).value;
-        }
-        setValue(id, value) {
-            console.log("I don't know what's this: setValue(id)")
-          console.log(id +":" + value);
-            this._shadowRoot.getElementById(id).value = value;
-        }
-
-        static get observedAttributes() {
-            console.log("static get observedAttributes()")
-            return [
-                "apiKey",
-                "securityCode"
-            ];
-        }
-
-        attributeChangedCallback(name, oldValue, newValue) {
-            console.log("attributeChangedCallback()")
-            if (oldValue != newValue) {
-                this[name] = newValue;
-            }
-        }
+            this._shadowRoot.getElementById("securityCode").value = newSecurityCode; 
+        }         
     }
     customElements.define("custom-base-amap-aps", restAPIAps);
 })();
