@@ -69,8 +69,6 @@
                     }
                 }
             }))
-            console.log("_submit(e) has been triggered: ", propertiesChanged)    
-            console.log("_submit(e) has been triggered: ", properties)    
         }
 
         get apiKey() {

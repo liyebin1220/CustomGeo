@@ -90,6 +90,12 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             }
             apiKey = this.$apiKey; // place passed in value into global
 
+            if (typeof AMap === 'undefined' ) {
+                apikeyScriptLoad()
+            } else {
+                createAMapInstance()
+            }
+
             console.log("onCustomWidgetAfterUpdate(changedProperties) has been called: ", changedProperties)
         }
     }
