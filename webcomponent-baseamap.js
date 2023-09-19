@@ -109,8 +109,10 @@
                 this.$isLoaded = changedProperties["isLoaded"];
             }
             isLoaded = this.$isLoaded; // place passed in value into global
+        }
 
-
+        isLoaded() {
+            return isLoaded
         }
     }
 
