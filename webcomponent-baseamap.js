@@ -48,6 +48,7 @@
         }
 
         apikeyScriptLoad() {
+            AMapLoader.reset();
             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
@@ -77,6 +78,8 @@
             const apiScript = document.createElement('script');
 
             if (typeof AMap === 'undefined') {
+
+                AMapLoader.reset()
                 apiScript.src = 'https://webapi.amap.com/loader.js';
                 apiScript.defer = true;
                 apiScript.addEventListener('load', () => {
@@ -106,6 +109,8 @@
             apiKey = this.$apiKey; // place passed in value into global
 
             if (typeof AMap === 'undefined' ) {
+
+                AMapLoader.reset()
                 const apiScript = document.createElement('script');
 
                 apiScript.src = 'https://webapi.amap.com/loader.js';
