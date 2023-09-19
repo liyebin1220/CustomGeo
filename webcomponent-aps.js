@@ -54,12 +54,24 @@
 
             let form = this._shadowRoot.getElementById("form");
             form.addEventListener("submit", this._submit.bind(this));
+            form.addEventListener("change", this._change.bind(this));
         }
 
         connectedCallback() {
         }
 
         _submit(e) {
+            e.preventDefault();
+            this.dispatchEvent(new CustomEvent("propertiesChanged", {
+                detail: {
+                    properties: {
+                        apiKey: this.apiKey,
+                        securityCode: this.securityCode
+                    }
+                }
+            }))
+        }
+        _change(e) {
             e.preventDefault();
             this.dispatchEvent(new CustomEvent("propertiesChanged", {
                 detail: {

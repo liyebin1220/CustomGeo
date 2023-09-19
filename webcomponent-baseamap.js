@@ -1,10 +1,9 @@
-// Replace with your AMap API key and security code
-var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
-
 (function() {
 
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
+    // Replace with your AMap API key and security code
+    var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
@@ -31,7 +30,7 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
             this._firstConnection = false
                         
             this.securityScriptLoad()
-            //this.apikeyScriptLoad()
+            this.apikeyScriptLoad()
         }
 
         securityScriptLoad() {
