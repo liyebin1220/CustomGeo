@@ -1,6 +1,7 @@
 (function () {
     var apiKey;
     var securityCode;
+
     let tmpl = document.createElement("template");
     tmpl.innerHTML = `
       <style>
@@ -99,7 +100,8 @@
         set securityCode(newSecurityCode) {
             console.log("will set Security Code")
             this._shadowRoot.getElementById("securityCode").value = newSecurityCode; 
-        }         
+        }   
+    
     }
     customElements.define("custom-base-amap-aps", restAPIAps);
 })();

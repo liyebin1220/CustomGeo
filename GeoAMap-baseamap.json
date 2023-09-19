@@ -49,6 +49,13 @@
 		"createAMapInstance_Satellite_RoadNet": {   
 			"description": "AMap Initialization - Satellite and RoadNet"
 		},
+		"isLoaded": {   
+			"returnType": "boolean",
+			"description": "Optional api method - is loaded",
+			"parameters": [
+			],
+			"body": "return this.isLoaded;"
+		},
 		"getapiKey": {   
 			"returnType": "string",
 			"description": "Optional api method - Get API Key",

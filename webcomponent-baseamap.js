@@ -5,6 +5,8 @@
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
+    var isLoaded = false;
+
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
 		<style>
@@ -59,6 +61,8 @@
             })})
 
             document.head.appendChild(apiScript);
+
+            isLoaded = true;
         }
 
         createAMapInstance() {
@@ -123,18 +127,12 @@
             }
             apiKey = this.$apiKey; // place passed in value into global
 
-            if (typeof AMap === 'undefined' ) {                
-                console.log("AMap is undefined. Please click button to refresh the map.")
-            } else {
-                var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
-                    viewMode: '2D',
-                    zoom:4,
-                    resizeEnable: true,
-                    version: 2.0
-                });
+            if ("isLoaded" in changedProperties) {
+                this.$isLoaded = changedProperties["isLoaded"];
             }
+            isLoaded = this.$isLoaded; // place passed in value into global
 
-            console.log("onCustomWidgetAfterUpdate(changedProperties) has been called.")
+
         }
     }
 
