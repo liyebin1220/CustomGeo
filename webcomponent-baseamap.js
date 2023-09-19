@@ -48,7 +48,6 @@
         }
 
         apikeyScriptLoad() {
-            AMapLoader.reset();
             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
@@ -100,7 +99,7 @@
                 });
             }
 
-            console.log("onCustomWidgetAfterUpdate(changedProperties) has been called: ", changedProperties)
+            console.log("onCustomWidgetAfterUpdate(changedProperties) has been called.")
         }
     }
 
