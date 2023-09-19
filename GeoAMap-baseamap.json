@@ -37,6 +37,9 @@
 		 }
 	},
 	"methods": {
+		"createAMapInstance": {   
+			"description": "AMap Initialization"
+		},
 		"getapiKey": {   
 			"returnType": "string",
 			"description": "Optional api method - Get API Key",
