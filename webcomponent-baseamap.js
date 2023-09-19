@@ -74,25 +74,6 @@
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
-
-            const apiScript = document.createElement('script');
-
-            if (typeof AMap === 'undefined') {
-
-                AMapLoader.reset()
-                apiScript.src = 'https://webapi.amap.com/loader.js';
-                apiScript.defer = true;
-                apiScript.addEventListener('load', () => {
-                AMapLoader.load({
-                    key: apiKey,
-                    plugins: ['AMap.Scale','AMap.ToolBar'],
-                })})
-
-                document.head.appendChild(apiScript);
-            }
-
-            console.log("BeforeUpdate.")
-
         }
 
         onCustomWidgetAfterUpdate(changedProperties) 
@@ -108,22 +89,8 @@
             }
             apiKey = this.$apiKey; // place passed in value into global
 
-            if (typeof AMap === 'undefined' ) {
-
-                AMapLoader.reset()
-                const apiScript = document.createElement('script');
-
-                apiScript.src = 'https://webapi.amap.com/loader.js';
-                apiScript.defer = true;
-                apiScript.addEventListener('load', () => {
-                AMapLoader.load({
-                    key: apiKey,
-                    plugins: ['AMap.Scale','AMap.ToolBar'],
-                })})
-
-                console.log("AMapLoader in AfterUpdate")
-
-            document.head.appendChild(apiScript);
+            if (typeof AMap === 'undefined' ) {                
+                console.log("AMap is undefined. Please click button to refresh the map.")
             } else {
                 var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                     viewMode: '2D',
