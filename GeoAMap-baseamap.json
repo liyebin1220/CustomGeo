@@ -38,7 +38,16 @@
 	},
 	"methods": {
 		"createAMapInstance": {   
-			"description": "AMap Initialization"
+			"description": "AMap Initialization - default"
+		},
+		"createAMapInstance_default": {   
+			"description": "AMap Initialization - default"
+		},
+		"createAMapInstance_Satellite": {   
+			"description": "AMap Initialization - Satellite"
+		},
+		"createAMapInstance_Satellite_RoadNet": {   
+			"description": "AMap Initialization - Satellite and RoadNet"
 		},
 		"getapiKey": {   
 			"returnType": "string",

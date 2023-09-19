@@ -64,9 +64,44 @@
         createAMapInstance() {
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
-                        zoom:4,
+                        center: [116.397428, 39.90923],
+                        zoom:1,
                         resizeEnable: true,
                         version: 2.0
+                    });
+        }
+        createAMapInstance_default() {
+           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
+                        viewMode: '2D',
+                        center: [116.397428, 39.90923],
+                        zoom:1,
+                        resizeEnable: true,
+                        version: 2.0,
+                        layer: [new AMap.TileLayer()],
+                    });
+        }
+        createAMapInstance_Satellite() {
+           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
+                        viewMode: '2D',
+                        center: [116.397428, 39.90923],
+                        zoom:1,
+                        resizeEnable: true,
+                        version: 2.0,
+                        layers: [new AMap.TileLayer.Satellite()]
+                    });
+        }
+        createAMapInstance_Satellite_RoadNet() {
+           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
+                        viewMode: '2D',
+                        center: [116.397428, 39.90923],
+                        zoom:1,
+                        resizeEnable: true,
+                        version: 2.0,
+                        layers: [// 卫星
+                        new AMap.TileLayer.Satellite(),
+                        // 路网
+                        new AMap.TileLayer.RoadNet()
+                      ]
                     });
         }
 
