@@ -119,7 +119,7 @@ var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
             document.head.appendChild(apiScript);
             } else {
-                var mapAMap = new AMap.Map(that._shadowRoot.getElementById('map-container'), { 
+                var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                     viewMode: '2D',
                     zoom:4,
                     resizeEnable: true,
