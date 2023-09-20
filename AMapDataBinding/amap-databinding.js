@@ -116,18 +116,47 @@
                         // Check if dimensions_0 and measures_0 are defined before trying to access their properties
                         if (row.dimensions_0 && row.measures_0) {
                             return {
-                                dimension: row.dimensions_0.label,
-                                measure: row.measures_0.raw
+                                dim_adcode: row.dimensions_0.label,
+                                dim_province: row.dimensions_1.label,
+                                dim_product: row.dimensions_2.label,
+                                dim_city: row.dimensions_3.label,
+                                kfg_sales_volumns: row.measures_0.raw,
+                                kfg_lat: row.measures_1.raw,
+                                kfg_log: row.measures_2.raw,
+                                kfg_revenue: row.measures_3.raw
                             };
                         }
                     }).filter(Boolean);  // Filter out any undefined values
         
-                    //this._renderChart(transformedData);
+                    this._renderChart(transformedData);
                     console.log(transformedData)
                 } else {
                     console.error('Data is not an array:', dataBinding && dataBinding.data);
                 }
             }
+        }
+
+        _renderChart(thedata) {
+            for(var i = 0; i < thedata.length; i += 1){
+                var center = "[" + thedata[i].lat + "," + thedata[i].log + "]";
+                
+                var circleMarker = new AMap.CircleMarker({
+                  center:center,
+                  radius:10+(thedata[i].kfg_revenue%10),
+                  strokeColor:'white',
+                  strokeWeight:2,
+                  strokeOpacity:0.5,
+                  fillColor:'rgba(0,0,255,1)',
+                  fillOpacity:0.5,
+                  zIndex:10,
+                  bubble:true,
+                  cursor:'pointer',
+                  clickable: true
+                })
+                console.log("center: ", center)
+                console.log("revenue: ", thedata[i].kfg_revenue%10)
+                circleMarker.setMap(mapAMap)
+              }
         }
     }
 
