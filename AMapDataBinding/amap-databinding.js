@@ -30,6 +30,7 @@
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             this._firstConnection = false
+            this._props = {}
                         
             this.securityScriptLoad()
             this.apikeyScriptLoad()
@@ -48,6 +49,10 @@
 
             document.head.appendChild(securityScript);
         }
+        onCustomWidgetBeforeUpdate(changedProperties)
+        {
+            this._props = { ...this._props, ...changedProperties };
+        }        
 
         apikeyScriptLoad() {
             const apiScript = document.createElement('script');
@@ -61,6 +66,8 @@
             })})
 
             document.head.appendChild(apiScript);
+
+            this._ready = true
         }
 
         createAMapInstance() {
@@ -83,14 +90,44 @@
             tmpAMap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
         }
 
-        onCustomWidgetBeforeUpdate(changedProperties)
-        {
-            this._props = { ...this._props, ...changedProperties };
-        }
-
         onCustomWidgetAfterUpdate(changedProperties) 
         {
-            console.log("onCustomWidgetAfterUpdate has been executed automatically")       
+            if ("myDataBinding" in changedProperties) {
+                this._updateData(changedProperties.myDataBinding)
+            }
+            console.log("changedProperties: ", changedProperties)       
+        }
+
+        _updateData(dataBinding) {
+            console.log('dataBinding:', dataBinding);
+            if (!dataBinding) {
+                console.error('dataBinding is undefined');
+            }
+            if (!dataBinding || !dataBinding.data) {
+                console.error('dataBinding.data is undefined');
+            }
+            
+            if (this._ready) {
+                // Check if dataBinding and dataBinding.data are defined
+                if (dataBinding && Array.isArray(dataBinding.data)) {
+                    // Transform the data into the correct format
+                    const transformedData = dataBinding.data.map(row => {
+                        console.log('row:', row);
+                        // Check if dimensions_0 and measures_0 are defined before trying to access their properties
+                        if (row.dimensions_0 && row.measures_0) {
+                            return {
+                                dimension: row.dimensions_0.label,
+                                measure: row.measures_0.raw
+                            };
+                        }
+                    }).filter(Boolean);  // Filter out any undefined values
+        
+                    //this._renderChart(transformedData);
+                    console.log(transformedData)
+                } else {
+                    console.error('Data is not an array:', dataBinding && dataBinding.data);
+                }
+            }
         }
     }
 
