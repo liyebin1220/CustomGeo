@@ -94,5 +94,5 @@
         }
     }
 
-    customElements.define('custom-base-amap', ClassAMap)
+    customElements.define('custom-base-amap-databinding', ClassAMap)
 })();
