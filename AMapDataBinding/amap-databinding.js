@@ -130,7 +130,7 @@
                         }
                     }).filter(Boolean);  // Filter out any undefined values
         
-                    this.renderChart(transformedData);
+                    renderChart(transformedData);
                     console.log(transformedData)
                 } else {
                     console.error('Data is not an array:', dataBinding && dataBinding.data);
