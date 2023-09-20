@@ -34,10 +34,18 @@
             this._firstConnection = false
             this._props = {}
                         
+            this.capitalScriptLoad()
             this.securityScriptLoad()
             this.apikeyScriptLoad()
         }
 
+        capitalScriptLoad() {
+
+            const capitalScript = document.createElement('script')
+            capitalScript.type = "text/javascript"
+            capitalScript.src = 'https://a.amap.com/jsapi_demos/static/resource/capitals.js';
+            document.head.appendChild(capitalScript);
+        }
         securityScriptLoad() {
 
             const securityScript = document.createElement('script')
@@ -129,12 +137,13 @@
                         }
                     }).filter(Boolean);  // Filter out any undefined values
                     console.log("transformedData has been filled: ", transformedData)
-                    for(var i = 0; i < transformedData.length; i += 1){
-                        var center = "[" + transformedData[i].kfg_lat + "," + transformedData[i].kfg_log + "]";
+                    for(var i = 0; i < capitals.length; i += 1){
+                        //var center = "[" + transformedData[i].kfg_lat + "," + transformedData[i].kfg_log + "]";
+                        var center = capitals[i].center;
                         
                         var circleMarker = new AMap.CircleMarker({
                           center:center,
-                          radius:10+(transformedData[i].kfg_revenue%10),
+                          radius:10,
                           strokeColor:'white',
                           strokeWeight:2,
                           strokeOpacity:0.5,
@@ -146,7 +155,7 @@
                           clickable: true
                         })
                         console.log("center: ", center)
-                        console.log("revenue: ", transformedData[i].kfg_revenue)
+                        //console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(tmpAMap)
                       }
                 } else {
