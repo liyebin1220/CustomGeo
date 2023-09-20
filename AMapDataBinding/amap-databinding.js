@@ -63,8 +63,7 @@
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
-                key: apiKey,
-                plugins: ['AMap.Scale','AMap.ToolBar'],
+                key: apiKey
             })})
 
             document.head.appendChild(apiScript);
@@ -131,7 +130,7 @@
                     }).filter(Boolean);  // Filter out any undefined values
                     console.log("transformedData has been filled: ", transformedData)
                     for(var i = 0; i < transformedData.length; i += 1){
-                        var center = "[" + transformedData[i].lat + "," + transformedData[i].log + "]";
+                        var center = "[" + transformedData[i].kfg_lat + "," + transformedData[i].kfg_log + "]";
                         
                         var circleMarker = new AMap.CircleMarker({
                           center:center,
@@ -147,7 +146,7 @@
                           clickable: true
                         })
                         console.log("center: ", center)
-                        console.log("revenue: ", transformedData[i].kfg_revenue%10)
+                        console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(tmpAMap)
                       }
                 } else {
