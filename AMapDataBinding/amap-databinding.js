@@ -103,6 +103,7 @@
         {
             if ("myDataBinding" in changedProperties) {
                 this._updateData(changedProperties.myDataBinding)
+                console.log(this)
             }
             console.log("changedProperties: ", changedProperties)       
         }
@@ -110,10 +111,10 @@
         _updateData(dataBinding) {
             console.log('dataBinding:', dataBinding);
             if (!dataBinding) {
-                console.error('dataBinding is undefined');
+                console.error(this, 'dataBinding is undefined');
             }
             if (!dataBinding || !dataBinding.data) {
-                console.error('dataBinding.data is undefined');
+                console.error(this, 'dataBinding.data is undefined');
             }
             
             if (this._ready) {
