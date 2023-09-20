@@ -5,8 +5,6 @@
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
-    var isLoaded = false;
-
     var tmpAMap = null;
 
     let tmpl = document.createElement('template');
@@ -63,8 +61,6 @@
             })})
 
             document.head.appendChild(apiScript);
-
-            isLoaded = true;
         }
 
         createAMapInstance() {
@@ -94,26 +90,7 @@
 
         onCustomWidgetAfterUpdate(changedProperties) 
         {
-                    
-            if ("securityCode" in changedProperties) {
-                this.$securityCode = changedProperties["securityCode"];
-            }
-            securityCode = this.$securityCode; // place passed in value into global
-    
-            if ("apiKey" in changedProperties) {
-                this.$apiKey = changedProperties["apiKey"];
-            }
-            apiKey = this.$apiKey; // place passed in value into global
-
-            if ("isLoaded" in changedProperties) {
-                this.$isLoaded = changedProperties["isLoaded"];
-            }
-            isLoaded = this.$isLoaded; // place passed in value into global
-        }
-
-        isLoaded() {
-            console.log(isLoaded);
-            return isLoaded;
+            console.log("onCustomWidgetAfterUpdate has been executed automatically")       
         }
     }
 

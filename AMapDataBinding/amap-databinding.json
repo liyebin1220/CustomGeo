@@ -1,0 +1,64 @@
+{
+	"name": "Geo Base AMap - data binding",
+	"description": "The Geo Base AMap with data binding",
+	"eula": "",
+	"vendor": "",
+	"license": "",
+	"id": "custom.base.amap.databinding",
+	"newInstancePrefix": "GeoBaseAMapDataBinding",
+	"version": "0.0.5",
+	"icon": "",
+	"webcomponents": [
+        {
+			"kind": "main",
+			"tag": "custom-base-amap-databinding",
+            "url": "https://liyebin1220.github.io/CustomGeo/AMapDataBinding/amap-databinding.js",
+            "integrity": "",
+            "ignoreIntegrity" : true
+        }
+    ],
+	"properties": {
+	},
+	"methods": {
+		"createAMapInstance": {   
+			"description": "AMap Initialization - default"
+		},
+		"resetAMapInstance_default": {   
+			"description": "AMap reset - default"
+		},
+		"resetAMapInstance_Satellite": {   
+			"description": "AMap reset - Satellite"
+		},
+		"resetAMapInstance_Satellite_RoadNet": {   
+			"description": "AMap reset - Satellite and RoadNet"
+		},
+		"getapiKey": {   
+			"returnType": "string",
+			"description": "Optional api method - Get API Key",
+			"parameters": [
+			],
+			"body": "return this.apiKey;"
+		}  
+	},
+	"events": {
+		"onStart": {
+			"description": "onStart events trigger"
+		  }
+	},
+	"dataBinding": {
+		"myDataBinding": {
+            "feeds": [
+                {
+                    "id": "dimensions",
+                    "description": "Dimensions",
+                    "type": "dimension"
+                },
+                {
+                    "id": "measures",
+                    "description": "Measures",
+                    "type": "mainStructureMember"
+                }
+            ]
+        }
+	}
+}

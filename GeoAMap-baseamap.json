@@ -49,10 +49,6 @@
 		"resetAMapInstance_Satellite_RoadNet": {   
 			"description": "AMap reset - Satellite and RoadNet"
 		},
-		"isLoaded": {
-			"returnType": "boolean",   
-			"description": "Optional api method - is loaded"
-		},
 		"getapiKey": {   
 			"returnType": "string",
 			"description": "Optional api method - Get API Key",
