@@ -31,6 +31,9 @@
 		},
 		"resetAMapInstance_Satellite_RoadNet": {   
 			"description": "AMap reset - Satellite and RoadNet"
+		}, 
+		"_renderChart": {   
+			"description": "AMap data rendering"
 		} 
 	},
 	"events": {
