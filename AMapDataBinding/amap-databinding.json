@@ -31,21 +31,14 @@
 		},
 		"resetAMapInstance_Satellite_RoadNet": {   
 			"description": "AMap reset - Satellite and RoadNet"
-		},
-		"getapiKey": {   
-			"returnType": "string",
-			"description": "Optional api method - Get API Key",
-			"parameters": [
-			],
-			"body": "return this.apiKey;"
-		}  
+		} 
 	},
 	"events": {
 		"onStart": {
 			"description": "onStart events trigger"
 		  }
 	},
-	"dataBinding": {
+	"dataBindings": {
 		"myDataBinding": {
             "feeds": [
                 {
