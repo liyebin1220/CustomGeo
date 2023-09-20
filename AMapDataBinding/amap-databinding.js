@@ -76,7 +76,7 @@
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         center: [116.397428, 39.90923],
-                        zoom:1,
+                        zoom:5,
                         resizeEnable: true,
                         version: 2.0
                     });
@@ -130,35 +130,35 @@
                         }
                     }).filter(Boolean);  // Filter out any undefined values
         
-                    //this._renderChart(transformedData);
+                    this.renderChart(transformedData);
                     console.log(transformedData)
                 } else {
                     console.error('Data is not an array:', dataBinding && dataBinding.data);
                 }
             }
-        }
 
-        _renderChart(thedata) {
-            for(var i = 0; i < thedata.length; i += 1){
-                var center = "[" + thedata[i].lat + "," + thedata[i].log + "]";
-                
-                var circleMarker = new AMap.CircleMarker({
-                  center:center,
-                  radius:10+(thedata[i].kfg_revenue%10),
-                  strokeColor:'white',
-                  strokeWeight:2,
-                  strokeOpacity:0.5,
-                  fillColor:'rgba(0,0,255,1)',
-                  fillOpacity:0.5,
-                  zIndex:10,
-                  bubble:true,
-                  cursor:'pointer',
-                  clickable: true
-                })
-                console.log("center: ", center)
-                console.log("revenue: ", thedata[i].kfg_revenue%10)
-                circleMarker.setMap(mapAMap)
-              }
+            function renderChart(thedata) {
+                for(var i = 0; i < thedata.length; i += 1){
+                    var center = "[" + thedata[i].lat + "," + thedata[i].log + "]";
+                    
+                    var circleMarker = new AMap.CircleMarker({
+                      center:center,
+                      radius:10+(thedata[i].kfg_revenue%10),
+                      strokeColor:'white',
+                      strokeWeight:2,
+                      strokeOpacity:0.5,
+                      fillColor:'rgba(0,0,255,1)',
+                      fillOpacity:0.5,
+                      zIndex:10,
+                      bubble:true,
+                      cursor:'pointer',
+                      clickable: true
+                    })
+                    console.log("center: ", center)
+                    console.log("revenue: ", thedata[i].kfg_revenue%10)
+                    circleMarker.setMap(mapAMap)
+                  }
+            }
         }
     }
 
