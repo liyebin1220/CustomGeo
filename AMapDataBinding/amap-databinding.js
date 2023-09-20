@@ -76,7 +76,7 @@
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         center: [116.397428, 39.90923],
-                        zoom:5,
+                        zoom:4,
                         resizeEnable: true,
                         version: 2.0
                     });
@@ -129,7 +129,7 @@
                             };
                         }
                     }).filter(Boolean);  // Filter out any undefined values
-        
+                    console.log("transformedData has been filled: ", transformedData)
                     for(var i = 0; i < transformedData.length; i += 1){
                         var center = "[" + transformedData[i].lat + "," + transformedData[i].log + "]";
                         
@@ -150,8 +150,6 @@
                         console.log("revenue: ", transformedData[i].kfg_revenue%10)
                         circleMarker.setMap(tmpAMap)
                       }
-
-                    console.log(transformedData)
                 } else {
                     console.error('Data is not an array:', dataBinding && dataBinding.data);
                 }
