@@ -325,7 +325,7 @@
                         //绘制某个区域的边界
                         function renderAreaPolygons(areaNode) {
                             //更新地图视野
-                            tmpAMapAMap.setBounds(areaNode.getBounds(), null, null, true);
+                            tmpAMap.setBounds(areaNode.getBounds(), null, null, true);
 
                             //清除已有的绘制内容
                             districtExplorer.clearFeaturePolygons();
