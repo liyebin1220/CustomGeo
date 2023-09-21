@@ -161,9 +161,8 @@
 
         onCustomWidgetAfterUpdate(changedProperties) 
         {
-            if (("myDataBinding" in changedProperties)&& AMap !== 'undefinded') {
+            if (("myDataBinding" in changedProperties)) {
                 this._updateData(changedProperties.myDataBinding)
-
             }
             console.log("changedProperties: ", changedProperties)     
         }
@@ -203,7 +202,7 @@
                         
                         var circleMarker = new AMap.CircleMarker({
                           center:center,
-                          radius:10,
+                          radius:10 + transformedData[i].kfg_revenue/5000000,
                           strokeColor:'white',
                           strokeWeight:2,
                           strokeOpacity:0.5,
