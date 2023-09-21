@@ -1,25 +1,25 @@
 {
-	"name": "Geo Base AMap",
+	"name": "Base AMap",
 	"description": "The Geo Base AMap",
 	"eula": "",
 	"vendor": "",
 	"license": "",
-	"id": "custom.base.amap",
-	"newInstancePrefix": "GeoBaseAMap",
-	"version": "0.0.5",
+	"id": "cust.base.amap",
+	"newInstancePrefix": "AMapBaseMap",
+	"version": "0.1.2",
 	"icon": "",
 	"webcomponents": [
         {
 			"kind": "main",
 			"tag": "custom-base-amap",
-            "url": "https://liyebin1220.github.io/CustomGeo/AMap-baseamap.js",
+            "url": "https://liyebin1220.github.io/CustomGeo/AMapBaseMap/AMap-basemap.js",
             "integrity": "",
             "ignoreIntegrity" : true
         },
 		{
 		  "kind": "builder",
-		  "tag": "custom-base-amap-aps",
-		  "url": "https://liyebin1220.github.io/CustomGeo/AMap-basemap.js",
+		  "tag": "custom-base-amap-builder",
+		  "url": "https://liyebin1220.github.io/CustomGeo/AMapBaseMap/AMap-basemap-builder.js",
 		  "integrity": "",
 		  "ignoreIntegrity": true
 		}
