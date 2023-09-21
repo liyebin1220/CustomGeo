@@ -206,6 +206,8 @@
                         $tipMarkerContent.html(props.adcode + ': ' + props.name);
                         //更新位置
                         tipMarker.setPosition(position || props.center);
+                        console.log(position)
+                        console.log(props.center)
                     }
 
 /*                     $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
