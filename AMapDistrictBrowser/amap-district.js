@@ -205,7 +205,13 @@
                         //更新提示内容
                         $tipMarkerContent.html(props.adcode + ': ' + props.name);
                         //更新位置
-                        tipMarker.setPosition(position || props.center);
+                        //tipMarker.setPosition(position || props.center);
+                        tipMarker.setPosition({
+                            Q: 47.219053302199015,
+                            R: 133.91815312474967,
+                            lat: 47.219053,
+                            lng: 133.918153
+                        });
                     }
 
 /*                     $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
