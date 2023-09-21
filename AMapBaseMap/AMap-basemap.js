@@ -30,7 +30,7 @@
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             this._firstConnection = false
-            require('https://webapi.amap.com/loader.js');
+            var tryAMap = require('https://webapi.amap.com/loader.js');
             this.securityScriptLoad()
             this.apikeyScriptLoad()
         }
