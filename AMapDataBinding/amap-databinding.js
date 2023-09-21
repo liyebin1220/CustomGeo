@@ -87,6 +87,7 @@
                         resizeEnable: true,
                         version: 2.0
                     });
+            this._updateData(this._props.changedProperties.myDataBinding)
             tmpAMap = mapAMap;
         }
         resetAMapInstance_default() {
