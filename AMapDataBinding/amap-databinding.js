@@ -165,8 +165,8 @@
         onCustomWidgetAfterUpdate(changedProperties) 
         {
             if ("myDataBinding" in changedProperties) {
-                this._updateData(changedProperties.myDataBinding)
-                console.log(this)
+                //this._updateData(changedProperties.myDataBinding)
+
             }
             console.log("changedProperties: ", changedProperties)       
         }
