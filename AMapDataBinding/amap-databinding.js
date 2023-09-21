@@ -93,7 +93,7 @@
             console.log(_props)
             console.log(changedProperties)
             //this._updateData(this._props.changedProperties.myDataBinding)
-            var theDataBinding = this._props.changedProperties.myDataBinding
+            var theDataBinding = this._props.myDataBinding
             
         
             console.log('theDataBinding:', theDataBinding);
