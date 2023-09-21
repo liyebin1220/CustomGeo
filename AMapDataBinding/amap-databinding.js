@@ -87,7 +87,63 @@
                         resizeEnable: true,
                         version: 2.0
                     });
-            this._updateData(this._props.changedProperties.myDataBinding)
+            //this._updateData(this._props.changedProperties.myDataBinding)
+            var theDataBinding = this._props.changedProperties.myDataBinding
+        
+            console.log('theDataBinding:', theDataBinding);
+            if (!theDataBinding) {
+                console.error(this, 'theDataBinding is undefined');
+            }
+            if (!theDataBinding || !theDataBinding.data) {
+                console.error(this, 'theDataBinding.data is undefined');
+            }
+            
+            if (this._ready) {
+                // Check if theDataBinding and theDataBinding.data are defined
+                if (theDataBinding && Array.isArray(theDataBinding.data)) {
+                    // Transform the data into the correct format
+                    transformedData = theDataBinding.data.map(row => {
+                        console.log('row:', row);
+                        // Check if dimensions_0 and measures_0 are defined before trying to access their properties
+                        if (row.dimensions_0 && row.measures_0) {
+                            return {
+                                dim_adcode: row.dimensions_0.label,
+                                dim_province: row.dimensions_1.label,
+                                dim_product: row.dimensions_2.label,
+                                dim_city: row.dimensions_3.label,
+                                kfg_sales_volumns: row.measures_0.raw,
+                                kfg_lat: row.measures_1.raw,
+                                kfg_log: row.measures_2.raw,
+                                kfg_revenue: row.measures_3.raw
+                            };
+                        }
+                    }).filter(Boolean);  // Filter out any undefined values
+                    console.log("transformedData has been filled: ", transformedData)
+                    for(var i = 0; i < transformedData.length; i += 1){
+                        var center = new Array(transformedData[i].kfg_log, transformedData[i].kfg_lat) 
+                        
+                        var circleMarker = new AMap.CircleMarker({
+                          center:center,
+                          radius:10,
+                          strokeColor:'white',
+                          strokeWeight:2,
+                          strokeOpacity:0.5,
+                          fillColor:'rgba(0,0,255,1)',
+                          fillOpacity:0.5,
+                          zIndex:10,
+                          bubble:true,
+                          cursor:'pointer',
+                          clickable: true
+                        })
+                        console.log("center: ", center)
+                        console.log("revenue: ", transformedData[i].kfg_revenue)
+                        circleMarker.setMap(tmpAMap)
+                      }
+                } else {
+                    console.error('Data is not an array:', theDataBinding && theDataBinding.data);
+                }
+            }
+        
             tmpAMap = mapAMap;
         }
         resetAMapInstance_default() {
