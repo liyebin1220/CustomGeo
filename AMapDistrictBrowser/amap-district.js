@@ -159,6 +159,7 @@
                         console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(mapAMap)
                       }
+
                       AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
                         //创建一个实例
                         var districtExplorer = window.districtExplorer = new DistrictExplorer({
@@ -207,7 +208,7 @@
                                     fillOpacity: isHover ? 0.5 : 0.2
                                 });
                             }
-
+                        }
                             //监听feature的hover事件
                             districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
                                 toggleHoverFeature(feature, e.type === 'featureMouseover',
@@ -471,20 +472,13 @@
 
                                 //全国
                                 switch2AreaNode(100000);
-                            }
-                        })
-
-                        
+                            })                      
 
 
-                      }
-                
-                
-                
                     } else {
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
                 }
-            
+            }
         
             tmpAMap = mapAMap;
         }
