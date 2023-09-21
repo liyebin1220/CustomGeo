@@ -106,5 +106,5 @@
 
     }
 
-    customElements.define('custom-base-amap', ClassAMap)
+    customElements.define('cust-base-amap', ClassAMap)
 })();

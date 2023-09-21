@@ -103,5 +103,5 @@
         }   
     
     }
-    customElements.define("custom-base-amap-builder", restAPIAps);
+    customElements.define("cust-base-amap-builder", restAPIAps);
 })();

@@ -11,14 +11,14 @@
 	"webcomponents": [
         {
 			"kind": "main",
-			"tag": "custom-base-amap",
+			"tag": "cust-base-amap",
             "url": "https://liyebin1220.github.io/CustomGeo/AMapBaseMap/AMap-basemap.js",
             "integrity": "",
             "ignoreIntegrity" : true
         },
 		{
 		  "kind": "builder",
-		  "tag": "custom-base-amap-builder",
+		  "tag": "cust-base-amap-builder",
 		  "url": "https://liyebin1220.github.io/CustomGeo/AMapBaseMap/AMap-basemap-builder.js",
 		  "integrity": "",
 		  "ignoreIntegrity": true
