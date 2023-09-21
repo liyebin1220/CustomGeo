@@ -1,0 +1,57 @@
+{
+	"name": "AMap - District Browser",
+	"description": "The AMap District Browser",
+	"eula": "",
+	"vendor": "",
+	"license": "",
+	"id": "custom.amap.district",
+	"newInstancePrefix": "GeoAMapDistrict",
+	"version": "0.1.0",
+	"icon": "",
+	"webcomponents": [
+        {
+			"kind": "main",
+			"tag": "custom-amap-district",
+            "url": "https://liyebin1220.github.io/CustomGeo/AMapDistrictBrowser/amap-district.js",
+            "integrity": "",
+            "ignoreIntegrity" : true
+        }
+    ],
+	"properties": {
+	},
+	"methods": {
+		"createAMapInstance": {   
+			"description": "AMap Initialization - default"
+		},
+		"resetAMapInstance_default": {   
+			"description": "AMap reset - default"
+		},
+		"resetAMapInstance_Satellite": {   
+			"description": "AMap reset - Satellite"
+		},
+		"resetAMapInstance_Satellite_RoadNet": {   
+			"description": "AMap reset - Satellite and RoadNet"
+		}
+	},
+	"events": {
+		"onStart": {
+			"description": "onStart events trigger"
+		  }
+	},
+	"dataBindings": {
+		"myDataBinding": {
+            "feeds": [
+                {
+                    "id": "dimensions",
+                    "description": "Dimensions",
+                    "type": "dimension"
+                },
+                {
+                    "id": "measures",
+                    "description": "Measures",
+                    "type": "mainStructureMember"
+                }
+            ]
+        }
+	}
+}
