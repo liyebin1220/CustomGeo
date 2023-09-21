@@ -23,6 +23,9 @@
 		"createAMapInstance": {   
 			"description": "AMap Initialization - default"
 		},
+		"createAMapDistrict": {   
+			"description": "AMap Initialization - district"
+		},
 		"resetAMapInstance_default": {   
 			"description": "AMap reset - default"
 		},
