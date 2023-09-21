@@ -55,6 +55,8 @@
             uiScript.type = "text/javascript"
             uiScript.src = 'https://webapi.amap.com/ui/1.1/main.js?v=1.1.1';
             document.head.appendChild(uiScript);
+
+            console.log("uiScriptLoad()")
         }
         liteToolbarScriptLoad() {
 
