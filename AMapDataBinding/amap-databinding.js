@@ -161,11 +161,11 @@
 
         onCustomWidgetAfterUpdate(changedProperties) 
         {
-            if ("myDataBinding" in changedProperties) {
+            if (("myDataBinding" in changedProperties)&& AMap !== 'undefinded') {
                 this._updateData(changedProperties.myDataBinding)
 
             }
-            console.log("changedProperties: ", changedProperties)       
+            console.log("changedProperties: ", changedProperties)     
         }
 
         _updateData(dataBinding) {
