@@ -141,7 +141,7 @@
                         })
                         console.log("center: ", center)
                         console.log("revenue: ", transformedData[i].kfg_revenue)
-                        circleMarker.setMap(tmpAMap)
+                        circleMarker.setMap(mapAMap)
                       }
                 } else {
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
