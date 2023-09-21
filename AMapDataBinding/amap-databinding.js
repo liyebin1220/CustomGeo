@@ -127,7 +127,7 @@
                         
                         var circleMarker = new AMap.CircleMarker({
                           center:center,
-                          radius:10 + transformedData[i].kfg_revenue/10000000,
+                          radius:10 + transformedData[i].kfg_revenue/5000000,
                           strokeColor:'white',
                           strokeWeight:2,
                           strokeOpacity:0.5,
