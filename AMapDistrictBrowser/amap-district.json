@@ -6,7 +6,7 @@
 	"license": "",
 	"id": "custom.amap.district",
 	"newInstancePrefix": "GeoAMapDistrict",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"icon": "",
 	"webcomponents": [
         {
@@ -25,6 +25,9 @@
 		},
 		"createAMapDistrict": {   
 			"description": "AMap Initialization - district"
+		},
+		"uiScriptLoad": {   
+			"description": "AMap UI - UI load"
 		},
 		"resetAMapInstance_default": {   
 			"description": "AMap reset - default"
