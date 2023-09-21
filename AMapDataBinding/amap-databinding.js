@@ -87,8 +87,14 @@
                         resizeEnable: true,
                         version: 2.0
                     });
+
+            console.log("this._props: ", this._props)
+            console.log("this._props.changedProperties: ", this._props.changedProperties)
+            console.log(_props)
+            console.log(changedProperties)
             //this._updateData(this._props.changedProperties.myDataBinding)
             var theDataBinding = this._props.changedProperties.myDataBinding
+            
         
             console.log('theDataBinding:', theDataBinding);
             if (!theDataBinding) {
