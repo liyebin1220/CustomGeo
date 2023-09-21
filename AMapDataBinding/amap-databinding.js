@@ -83,7 +83,7 @@
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         center: [121.51194, 31.23921],
-                        zoom:5,
+                        zoom:4,
                         resizeEnable: true
                     });
 
