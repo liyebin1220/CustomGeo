@@ -85,20 +85,16 @@
         }
 
         get apiKey() {
-            console.log("will get apiKey()")
             return this._shadowRoot.getElementById("apiKey").value;           
         }
         set apiKey(newAPIKey) {
-            console.log("will set apikey()")
             this._shadowRoot.getElementById("apiKey").value = newAPIKey;           
         }
 
         get securityCode() {
-            console.log("will get Security Code")
             return this._shadowRoot.getElementById("securityCode").value; 
         }
         set securityCode(newSecurityCode) {
-            console.log("will set Security Code")
             this._shadowRoot.getElementById("securityCode").value = newSecurityCode; 
         }   
     

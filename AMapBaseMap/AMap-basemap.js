@@ -7,7 +7,7 @@
 
     var tmpAMap = null;
 
-    var tryAMap = require('https://webapi.amap.com/loader.js');
+    //var tryAMap = require('https://webapi.amap.com/loader.js');
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
