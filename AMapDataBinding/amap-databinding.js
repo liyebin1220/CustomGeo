@@ -82,10 +82,9 @@
         createAMapInstance() {
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
-                        center: [116.397428, 39.90923],
-                        zoom:4,
-                        resizeEnable: true,
-                        version: 2.0
+                        center: [121.51194, 31.23921],
+                        zoom:5,
+                        resizeEnable: true
                     });
 
             console.log("this._props.myDataBinding: ", this._props.myDataBinding)
@@ -128,7 +127,7 @@
                         
                         var circleMarker = new AMap.CircleMarker({
                           center:center,
-                          radius:10,
+                          radius:10 + transformedData[i].kfg_revenue/10000000,
                           strokeColor:'white',
                           strokeWeight:2,
                           strokeOpacity:0.5,
