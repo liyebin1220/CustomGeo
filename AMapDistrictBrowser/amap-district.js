@@ -11,7 +11,7 @@
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-        <base href="//webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css" />
+        <link rel="stylesheet" href="//webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">
 		<style>
           /* Add any custom CSS styles here */
           .map-container {
