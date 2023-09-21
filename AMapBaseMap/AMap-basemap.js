@@ -7,7 +7,7 @@
 
     var tmpAMap = null;
 
-    //var tryAMap = require('https://webapi.amap.com/loader.js');
+    var tryAMap = require('https://webapi.amap.com/loader.js');
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
@@ -58,8 +58,7 @@
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
-                key: apiKey,
-                plugins: ['AMap.Scale','AMap.ToolBar'],
+                key: apiKey
             })})
 
             document.head.appendChild(apiScript);
@@ -69,7 +68,7 @@
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         center: [116.397428, 39.90923],
-                        zoom:1,
+                        zoom:4,
                         resizeEnable: true,
                         version: 2.0
                     });
