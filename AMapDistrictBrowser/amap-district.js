@@ -208,7 +208,7 @@
                         tipMarker.setPosition(position || props.center);
                     }
 
-                    $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover);
+/*                     $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
 
                     //更新相关多边形的样式
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
@@ -223,12 +223,14 @@
                     districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
+                            console.log("监听feature的hover事件: ", e.originalEvent ? e.originalEvent.lnglat : null);
                     });
 
                     //监听鼠标在feature上滑动
                     districtExplorer.on('featureMousemove', function(e, feature) {
                         //更新提示位置
                         tipMarker.setPosition(e.originalEvent.lnglat);
+                        console.log("更新提示位置: ", e.originalEvent.lnglat)
                     });
 
                     //feature被点击
@@ -435,7 +437,7 @@
                             });
                         }
 
-                        $('#area-tree').on('mouseenter mouseleave', 'h2[data-adcode]', function(e) {
+                        /* $('#area-tree').on('mouseenter mouseleave', 'h2[data-adcode]', function(e) {
 
                             if (e.type === 'mouseleave') {
                                 districtExplorer.setHoverFeature(null);
@@ -478,7 +480,7 @@
                                     });
                                 }
                             }
-                        });
+                        }); */
 
                         //全国
                         switch2AreaNode(100000);
