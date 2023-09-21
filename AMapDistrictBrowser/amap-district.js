@@ -11,6 +11,7 @@
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
+        <base href="//webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css" />
 		<style>
           /* Add any custom CSS styles here */
           .map-container {
@@ -35,6 +36,8 @@
             this._props = {}
                         
             this.capitalScriptLoad()
+            this.uiScriptLoad()
+            this.liteToolbarScriptLoad()
             this.securityScriptLoad()
             this.apikeyScriptLoad()
         }
@@ -45,6 +48,20 @@
             capitalScript.type = "text/javascript"
             capitalScript.src = 'https://a.amap.com/jsapi_demos/static/resource/capitals.js';
             document.head.appendChild(capitalScript);
+        }
+        uiScriptLoad() {
+
+            const uiScript = document.createElement('script')
+            uiScript.type = "text/javascript"
+            uiScript.src = 'https://webapi.amap.com/ui/1.1/main.js?v=1.1.1';
+            document.head.appendChild(uiScript);
+        }
+        liteToolbarScriptLoad() {
+
+            const liteToolbarScript = document.createElement('script')
+            liteToolbarScript.type = "text/javascript"
+            liteToolbarScript.src = 'https://webapi.amap.com/demos/js/liteToolbar.js?v=1.0.11"';
+            document.head.appendChild(liteToolbarScript);
         }
         securityScriptLoad() {
 
@@ -62,7 +79,7 @@
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
-        }        
+        }       
 
         apikeyScriptLoad() {
             const apiScript = document.createElement('script');
@@ -80,20 +97,20 @@
         }
 
         createAMapInstance() {
+            var colors = [
+                "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+                "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+                "#651067", "#329262", "#5574a6", "#3b3eac"
+            ];
+
            var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                         viewMode: '2D',
                         center: [121.51194, 31.23921],
-                        zoom:4,
-                        resizeEnable: true
+                        zoom:4
                     });
 
-            console.log("this._props.myDataBinding: ", this._props.myDataBinding)
-
-            //this._updateData(this._props.changedProperties.myDataBinding)
             var theDataBinding = this._props.myDataBinding
             
-        
-            console.log('theDataBinding:', theDataBinding);
             if (!theDataBinding) {
                 console.error(this, 'theDataBinding is undefined');
             }
@@ -142,10 +159,332 @@
                         console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(mapAMap)
                       }
-                } else {
+                      AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
+                        //创建一个实例
+                        var districtExplorer = window.districtExplorer = new DistrictExplorer({
+                            eventSupport: true, //打开事件支持
+                            map: mapAMap
+                        });
+
+                        //当前聚焦的区域
+                        var currentAreaNode = null;  
+                        
+                        //鼠标hover提示内容
+                        var $tipMarkerContent = $('<div class="tipMarker top"></div>');
+
+                        var tipMarker = new AMap.Marker({
+                            content: $tipMarkerContent.get(0),
+                            offset: new AMap.Pixel(0, 0),
+                            bubble: true
+                        });
+
+                        //根据Hover状态设置相关样式
+                        function toggleHoverFeature(feature, isHover, position) {
+
+                            tipMarker.setMap(isHover ? mapAMap : null);
+
+                            if (!feature) {
+                                return;
+                            }
+
+                            var props = feature.properties;
+
+                            if (isHover) {
+
+                                //更新提示内容
+                                $tipMarkerContent.html(props.adcode + ': ' + props.name);
+                                //更新位置
+                                tipMarker.setPosition(position || props.center);
+                            }
+
+                            $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover);
+
+                            //更新相关多边形的样式
+                            var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
+                            for (var i = 0, len = polys.length; i < len; i++) {
+
+                                polys[i].setOptions({
+                                    fillOpacity: isHover ? 0.5 : 0.2
+                                });
+                            }
+
+                            //监听feature的hover事件
+                            districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
+                                toggleHoverFeature(feature, e.type === 'featureMouseover',
+                                    e.originalEvent ? e.originalEvent.lnglat : null);
+                            });
+
+                            //监听鼠标在feature上滑动
+                            districtExplorer.on('featureMousemove', function(e, feature) {
+                                //更新提示位置
+                                tipMarker.setPosition(e.originalEvent.lnglat);
+                            });
+
+                            //feature被点击
+                            districtExplorer.on('featureClick', function(e, feature) {
+
+                                var props = feature.properties;
+                                //如果存在子节点
+                                // if (props.childrenNum > 0) {
+                                    //切换聚焦区域
+                                    switch2AreaNode(props.adcode);
+                                // }
+                            });
+
+                            //外部区域被点击
+                            districtExplorer.on('outsideClick', function(e) {
+
+                                districtExplorer.locatePosition(e.originalEvent.lnglat, function(error, routeFeatures) {
+
+                                    if (routeFeatures && routeFeatures.length > 1) {
+                                        //切换到省级区域
+                                        switch2AreaNode(routeFeatures[1].properties.adcode);
+                                    } else {
+                                        //切换到全国
+                                        switch2AreaNode(100000);
+                                    }
+
+                                }, {
+                                    levelLimit: 2
+                                });
+                            });
+
+                            //绘制区域面板的节点
+                                function renderAreaPanelNode(ele, props, color) {
+
+                                    var $box = $('<li/>').addClass('lv_' + props.level);
+
+                                    var $h2 = $('<h2/>').addClass('lv_' + props.level).attr({
+                                        'data-adcode': props.adcode,
+                                        'data-level': props.level,
+                                        'data-children-num': props.childrenNum || void(0),
+                                        'data-center': props.center.join(',')
+                                    }).html(props.name).appendTo($box);
+
+                                    if (color) {
+                                        $h2.css('borderColor', color);
+                                    }
+
+                                    //如果存在子节点
+                                    if (props.childrenNum > 0) {
+
+                                        //显示隐藏
+                                        $('<div class="showHideBtn"></div>').appendTo($box);
+
+                                        //子区域列表
+                                        $('<ul/>').addClass('sublist lv_' + props.level).appendTo($box);
+
+                                        $('<div class="clear"></div>').appendTo($box);
+
+                                        if (props.level !== 'country') {
+                                            $box.addClass('hide-sub');
+                                        }
+                                    }
+
+                                    $box.appendTo(ele);
+                                }
+
+
+                                //填充某个节点的子区域列表
+                                function renderAreaPanel(areaNode) {
+
+                                    var props = areaNode.getProps();
+
+                                    var $subBox = $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').siblings('ul.sublist');
+
+                                    if (!$subBox.length && props.childrenNum) {
+                                        //父节点不存在，先创建
+                                        renderAreaPanelNode($('#area-tree'), props);
+                                        $subBox = $('#area-tree').find('ul.sublist');
+                                    }
+                                    if ($subBox.attr('data-loaded') === 'rendered') {
+                                        return;
+                                    }
+
+                                    $subBox.attr('data-loaded', 'rendered');
+
+                                    var subFeatures = areaNode.getSubFeatures();
+
+                                    //填充子区域
+                                    for (var i = 0, len = subFeatures.length; i < len; i++) {
+                                        renderAreaPanelNode($subBox, areaNode.getPropsOfFeature(subFeatures[i]), colors[i % colors.length]);
+                                    }
+                                }
+
+                                //绘制某个区域的边界
+                                function renderAreaPolygons(areaNode) {
+                                    //更新地图视野
+                                    mapAMap.setBounds(areaNode.getBounds(), null, null, true);
+
+                                    //清除已有的绘制内容
+                                    districtExplorer.clearFeaturePolygons();
+
+                                    //绘制子区域
+                                    districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
+
+                                        var fillColor = colors[i % colors.length];
+                                        var strokeColor = colors[colors.length - 1 - i % colors.length];
+
+                                        return {
+                                            cursor: 'default',
+                                            bubble: true,
+                                            strokeColor: strokeColor, //线颜色
+                                            strokeOpacity: 1, //线透明度
+                                            strokeWeight: 1, //线宽
+                                            fillColor: fillColor, //填充色
+                                            fillOpacity: 0.35, //填充透明度
+                                        };
+                                    });
+
+                                    //绘制父区域
+                                    districtExplorer.renderParentFeature(areaNode, {
+                                        cursor: 'default',
+                                        bubble: true,
+                                        strokeColor: 'black', //线颜色
+                                        strokeOpacity: 1, //线透明度
+                                        strokeWeight: 1, //线宽
+                                        fillColor: areaNode.getSubFeatures().length ? null : colors[0], //填充色
+                                        fillOpacity: 0.35, //填充透明度
+                                    });
+                                }
+
+                                //切换区域后刷新显示内容
+                                function refreshAreaNode(areaNode) {
+
+                                    districtExplorer.setHoverFeature(null);
+
+                                    renderAreaPolygons(areaNode);
+
+                                    //更新选中节点的class
+                                    var $nodeEles = $('#area-tree').find('h2');
+
+                                    $nodeEles.removeClass('selected');
+
+                                    var $selectedNode = $nodeEles.filter('h2[data-adcode=' + areaNode.getAdcode() + ']').addClass('selected');
+
+                                    //展开下层节点
+                                    $selectedNode.closest('li').removeClass('hide-sub');
+
+                                    //折叠下层的子节点
+                                    $selectedNode.siblings('ul.sublist').children().addClass('hide-sub');
+                                }
+
+                                //切换区域
+                                function switch2AreaNode(adcode, callback) {
+
+                                    if (currentAreaNode && ('' + currentAreaNode.getAdcode() === '' + adcode)) {
+                                        return;
+                                    }
+
+                                    loadAreaNode(adcode, function(error, areaNode) {
+
+                                        if (error) {
+
+                                            if (callback) {
+                                                callback(error);
+                                            }
+
+                                            return;
+                                        }
+
+                                        currentAreaNode = window.currentAreaNode = areaNode;
+
+                                        //设置当前使用的定位用节点
+                                        districtExplorer.setAreaNodesForLocating([currentAreaNode]);
+
+                                        refreshAreaNode(areaNode);
+
+                                        if (callback) {
+                                            callback(null, areaNode);
+                                        }
+                                    });
+                                }
+
+                                //加载区域
+                                function loadAreaNode(adcode, callback) {
+
+                                    districtExplorer.loadAreaNode(adcode, function(error, areaNode) {
+
+                                        if (error) {
+
+                                            if (callback) {
+                                                callback(error);
+                                            }
+
+                                            console.error(error);
+
+                                            return;
+                                        }
+
+                                        renderAreaPanel(areaNode);
+
+                                        if (callback) {
+                                            callback(null, areaNode);
+                                        }
+                                    });
+                                }
+
+                                $('#area-tree').on('mouseenter mouseleave', 'h2[data-adcode]', function(e) {
+
+                                    if (e.type === 'mouseleave') {
+                                        districtExplorer.setHoverFeature(null);
+                                        return;
+                                    }
+
+                                    var adcode = $(this).attr('data-adcode');
+
+                                    districtExplorer.setHoverFeature(currentAreaNode.getSubFeatureByAdcode(adcode));
+                                });
+
+
+                                $('#area-tree').on('click', 'h2', function() {
+                                    var adcode = $(this).attr('data-adcode');
+                                    switch2AreaNode(adcode);
+                                });
+
+                                $('#area-tree').on('click', '.showHideBtn', function() {
+
+                                    var $li = $(this).closest('li');
+
+                                    $li.toggleClass('hide-sub');
+
+                                    if (!$li.hasClass('hide-sub')) {
+
+                                        //子节点列表被展开
+                                        var $subList = $li.children('ul.sublist');
+
+                                        //尚未加载
+                                        if (!$subList.attr('data-loaded')) {
+
+                                            $subList.attr('data-loaded', 'loading');
+
+                                            $li.addClass('loading');
+
+                                            //加载
+                                            loadAreaNode($li.children('h2').attr('data-adcode'), function() {
+
+                                                $li.removeClass('loading');
+                                            });
+                                        }
+                                    }
+                                });
+
+                                //全国
+                                switch2AreaNode(100000);
+                            }
+                        })
+
+                        
+
+
+                      }
+                
+                
+                
+                    } else {
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
                 }
-            }
+            
         
             tmpAMap = mapAMap;
         }
@@ -162,7 +501,7 @@
         onCustomWidgetAfterUpdate(changedProperties) 
         {
             if (("myDataBinding" in changedProperties)) {
-                this._updateData(changedProperties.myDataBinding)
+                //this._updateData(changedProperties.myDataBinding)
             }
             console.log("changedProperties: ", changedProperties)     
         }
