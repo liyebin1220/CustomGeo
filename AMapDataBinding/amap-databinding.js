@@ -88,10 +88,8 @@
                         version: 2.0
                     });
 
-            console.log("this._props: ", this._props)
-            console.log("this._props.changedProperties: ", this._props.changedProperties)
-            console.log(_props)
-            console.log(changedProperties)
+            console.log("this._props.myDataBinding: ", this._props.myDataBinding)
+
             //this._updateData(this._props.changedProperties.myDataBinding)
             var theDataBinding = this._props.myDataBinding
             
