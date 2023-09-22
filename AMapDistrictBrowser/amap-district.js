@@ -115,8 +115,8 @@
                 console.error(this, 'theDataBinding.data is undefined');
             }
             
-            //if (this._ready) {
-            if (false) {
+            if (this._ready) {
+            //if (false) {
                 // Check if theDataBinding and theDataBinding.data are defined
                 if (theDataBinding && Array.isArray(theDataBinding.data)) {
                     // Transform the data into the correct format
@@ -137,7 +137,7 @@
                         }
                     }).filter(Boolean);  // Filter out any undefined values
                     console.log("transformedData has been filled: ", transformedData)
-                    for(var i = 0; i < transformedData.length; i += 1){
+                    /* for(var i = 0; i < transformedData.length; i += 1){
                         var center = new Array(transformedData[i].kfg_log, transformedData[i].kfg_lat) 
                         
                         var circleMarker = new AMap.CircleMarker({
@@ -156,7 +156,7 @@
                         console.log("center: ", center)
                         console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(mapAMap)
-                      }
+                      } */
                     } else {
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
                 }
@@ -195,29 +195,21 @@
 
                 //根据Hover状态设置相关样式
                 function toggleHoverFeature(feature, isHover, position) {
-
                     tipMarker.setMap(isHover ? tmpAMap : null);
-
                     if (!feature) {
                         return;
                     }
-
                     var props = feature.properties;
-
-                    if (isHover) {
-
+                    if (isHover) { 
                         //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name);
+                        $tipMarkerContent.html(props.adcode + ': ' + props.name + "营收:" + transformedData.find(object => object.dim_adcode === props.adcode).kfg_revenue);
                         //更新位置
                         tipMarker.setPosition(position || props.center);
                     }
-
                     /*$('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
-
                     //更新相关多边形的样式
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
                     for (var i = 0, len = polys.length; i < len; i++) {
-
                         polys[i].setOptions({
                             fillOpacity: isHover ? 0.5 : 0.2
                         });
@@ -237,7 +229,6 @@
 
                     //feature被点击
                     districtExplorer.on('featureClick', function(e, feature) {
-
                         var props = feature.properties;
                         //如果存在子节点
                         // if (props.childrenNum > 0) {
