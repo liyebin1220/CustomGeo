@@ -1,18 +1,4 @@
 (function() {
-    const parseMetadata = metadata => {
-        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
-        const dimensions = []
-        for (const key in dimensionsMap) {
-          const dimension = dimensionsMap[key]
-          dimensions.push({ key, ...dimension })
-        }
-        const measures = []
-        for (const key in measuresMap) {
-          const measure = measuresMap[key]
-          measures.push({ key, ...measure })
-        }
-        return { dimensions, measures, dimensionsMap, measuresMap }
-      }
 
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
@@ -138,7 +124,7 @@
                 if (theDataBinding && Array.isArray(theDataBinding.data)) {
                     // Transform the data into the correct format
                     transformedData = theDataBinding.data.map(row => {
-                        console.log('row:', row);
+                        //console.log('row:', row);
                         // Check if dimensions_0 and measures_0 are defined before trying to access their properties
                         if (row.dimensions_0 && row.measures_0) {
                             return {
@@ -254,11 +240,6 @@
                             //切换聚焦区域
                             //switch2AreaNode(props.adcode);
                         // }
-                        const { dimensions, measures } = parseMetadata(metadata)
-
-                        console.log("parseMetadata(metadata): ",parseMetadata(metadata))
-                        console.log("dimensions ",dimensions)
-                        console.log("measures", measures)
 
                         /* const selectedItem = transformedData.find(object => object.dim_adcode === props.adcode.toString());
 
