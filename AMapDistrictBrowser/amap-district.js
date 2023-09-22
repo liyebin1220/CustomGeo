@@ -221,7 +221,11 @@
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
                             console.log(transformedData)
-                            console.log(transformedData.data)
+                            console.log(transformedData[7])
+                            console.log(transformedData[7].kfg_revenue)
+                            console.log("props.adcode: ", feature.properties.adcode)
+                            console.log("Find the object from array", transformedData.find(object => object.dim_adcode === feature.properties.adcode))
+                            console.log("Find the kfg revenue", transformedData.find(object => object.dim_adcode === feature.properties.adcode).kfg_revenue)
                     });
 
                     //监听鼠标在feature上滑动
