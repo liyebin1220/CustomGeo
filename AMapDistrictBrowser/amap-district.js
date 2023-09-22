@@ -200,9 +200,10 @@
                         return;
                     }
                     var props = feature.properties;
+                    
                     if (isHover) { 
                         //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name + "营收:" + transformedData.find(object => object.dim_adcode === props.adcode).kfg_revenue);
+                        $tipMarkerContent.html(props.adcode + ': ' + props.name)// + "营收:" + transformedData.find(object => object.dim_adcode === props.adcode).kfg_revenue);
                         //更新位置
                         tipMarker.setPosition(position || props.center);
                     }
@@ -219,6 +220,8 @@
                     districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
+                            console.log(transformedData)
+                            console.log(transformedData.data)
                     });
 
                     //监听鼠标在feature上滑动
