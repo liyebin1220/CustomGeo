@@ -203,7 +203,7 @@
                     
                     if (isHover) { 
                         //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name)// + "营收:" + transformedData.find(object => object.dim_adcode === props.adcode).kfg_revenue);
+                        $tipMarkerContent.html(props.adcode + ': ' + props.name + "营收:" + transformedData.find(object => object.dim_adcode.toString() === props.adcode).kfg_revenue);
                         //更新位置
                         tipMarker.setPosition(position || props.center);
                     }
@@ -220,11 +220,11 @@
                     districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
-
+/* 
                             console.log("typeof feature.properties.adcode", typeof feature.properties.adcode)
                             console.log("Find the object from array", transformedData.find(object => object.dim_adcode === '230000'))
                             console.log("Find the kfg revenue", transformedData.find(object => object.dim_adcode === '230000').kfg_revenue)
-                            console.log("Find the index: ", transformedData.findIndex(object => object.dim_adcode === '230000'))
+                            console.log("Find the index: ", transformedData.findIndex(object => object.dim_adcode === '230000')) */
                     });
 
                     //监听鼠标在feature上滑动
