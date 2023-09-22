@@ -115,7 +115,8 @@
                 console.error(this, 'theDataBinding.data is undefined');
             }
             
-            if (this._ready) {
+            //if (this._ready) {
+            if (false) {
                 // Check if theDataBinding and theDataBinding.data are defined
                 if (theDataBinding && Array.isArray(theDataBinding.data)) {
                     // Transform the data into the correct format
@@ -205,13 +206,7 @@
                         //更新提示内容
                         $tipMarkerContent.html(props.adcode + ': ' + props.name);
                         //更新位置
-                        //tipMarker.setPosition(position || props.center);
-                        tipMarker.setPosition({
-                            Q: 47.219053302199015,
-                            R: 133.91815312474967,
-                            lat: 47.219053,
-                            lng: 133.918153
-                        });
+                        tipMarker.setPosition(position || props.center);
                     }
 
 /*                     $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
