@@ -220,6 +220,11 @@
                     districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
+/* 
+                            console.log("typeof feature.properties.adcode", typeof feature.properties.adcode)
+                            console.log("Find the object from array", transformedData.find(object => object.dim_adcode === '230000'))
+                            console.log("Find the kfg revenue", transformedData.find(object => object.dim_adcode === '230000').kfg_revenue)
+                            console.log("Find the index: ", transformedData.findIndex(object => object.dim_adcode === '230000')) */
                     });
 
                     //监听鼠标在feature上滑动
@@ -234,8 +239,17 @@
                         //如果存在子节点
                         // if (props.childrenNum > 0) {
                             //切换聚焦区域
-                            switch2AreaNode(props.adcode);
+                            //switch2AreaNode(props.adcode);
                         // }
+                        console.log(feature)
+                        /* const linkedAnalysis = props['dataBindings'].getDataBinding('dataBinding').getLinkedAnalysis();
+                        if (selectedItem) {
+                            const selection = {};
+                            selection[dimensionId] = selectedItem[key].id;
+                            linkedAnalysis.setFilters(selection)
+                        } else {
+                            linkedAnalysis.removeFilters();
+                        } */
                     });
 
                     //外部区域被点击
@@ -557,5 +571,5 @@
         }
     }
 
-    customElements.define('custom-amap-district', ClassAMap)
+    customElements.define('custom-amap-linkedana', ClassAMap)
 })();

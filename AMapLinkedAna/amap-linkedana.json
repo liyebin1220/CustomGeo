@@ -1,0 +1,64 @@
+{
+	"name": "AMap - Linked Analysis",
+	"description": "The AMap Linked Analysis",
+	"eula": "",
+	"vendor": "",
+	"license": "",
+	"id": "custom.amap.linkedana",
+	"newInstancePrefix": "GeoAMapLinkedAna",
+	"version": "1.0.0",
+	"supportsLinkedAnalysisFilterOnSelection": true,
+	"icon": "",
+	"webcomponents": [
+        {
+			"kind": "main",
+			"tag": "custom-amap-linkedana",
+            "url": "https://liyebin1220.github.io/CustomGeo/AMapLinkedAna/amap-linkedana.js",
+            "integrity": "",
+            "ignoreIntegrity" : true
+        }
+    ],
+	"properties": {
+	},
+	"methods": {
+		"createAMapInstance": {   
+			"description": "AMap Initialization - default"
+		},
+		"createAMapDistrict": {   
+			"description": "AMap Initialization - district"
+		},
+		"uiScriptLoad": {   
+			"description": "AMap UI - UI load"
+		},
+		"resetAMapInstance_default": {   
+			"description": "AMap reset - default"
+		},
+		"resetAMapInstance_Satellite": {   
+			"description": "AMap reset - Satellite"
+		},
+		"resetAMapInstance_Satellite_RoadNet": {   
+			"description": "AMap reset - Satellite and RoadNet"
+		}
+	},
+	"events": {
+		"onStart": {
+			"description": "onStart events trigger"
+		  }
+	},
+	"dataBindings": {
+		"myDataBinding": {
+            "feeds": [
+                {
+                    "id": "dimensions",
+                    "description": "Dimensions",
+                    "type": "dimension"
+                },
+                {
+                    "id": "measures",
+                    "description": "Measures",
+                    "type": "mainStructureMember"
+                }
+            ]
+        }
+	}
+}
