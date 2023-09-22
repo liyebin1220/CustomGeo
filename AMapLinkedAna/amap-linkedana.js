@@ -242,7 +242,7 @@
                         // }
                         console.log("feature: ", feature)
                         console.log("transformedData: ", transformedData.find(object => object.dim_adcode === props.adcode.toString()))
-
+                        console.log(props)
                         //console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
                         const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         //console.log("linkedAnalysis: ", linkedAnalysis)
