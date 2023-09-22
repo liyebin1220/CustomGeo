@@ -239,7 +239,9 @@
                         // }
                         console.log("feature: ", feature)
                         console.log("transformedData: ", transformedData.find(object => object.dim_adcode === props.adcode.toString()))
-                        const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+
+                        console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
+                        //const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         console.log("linkedAnalysis: ", linkedAnalysis)
                         /* const dataType = params.dataType;
                         const label = dataType === 'node' ? params.data.name : dataType === 'edge' ? params.data.target : '';
