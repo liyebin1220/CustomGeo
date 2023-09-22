@@ -1,4 +1,18 @@
 (function() {
+    const parseMetadata = metadata => {
+        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
+        const dimensions = []
+        for (const key in dimensionsMap) {
+          const dimension = dimensionsMap[key]
+          dimensions.push({ key, ...dimension })
+        }
+        const measures = []
+        for (const key in measuresMap) {
+          const measure = measuresMap[key]
+          measures.push({ key, ...measure })
+        }
+        return { dimensions, measures, dimensionsMap, measuresMap }
+      }
 
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
@@ -240,30 +254,22 @@
                             //切换聚焦区域
                             //switch2AreaNode(props.adcode);
                         // }
-                        console.log("feature: ", feature)
-                        console.log("props: ", props)
-                        console.log("this._props: ", this._props)
-                        console.log("theprops: ",theprops)
-                        //console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
-                        console.log("theprops['dataBindings']: ", theprops['dataBindings'])
-                        console.log("theprops['dataBindings'].getDataBinding('myDataBinding'): ", theprops['dataBindings'].getDataBinding('myDataBinding'))
-                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
-                        console.log("linkedAnalysis: ", linkedAnalysis)
-                        /* const dataType = params.dataType;
-                        const label = dataType === 'node' ? params.data.name : dataType === 'edge' ? params.data.target : '';
-                
-                        const key = transformedData.dimension.key;
-                        const dimensionId = transformedData.dimension.id;
-                        const selectedItem = dataBinding.data.find(item => item[key].label === label); */
+                        const { dimensions, measures } = parseMetadata(metadata)
 
-                        /* const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        console.log("parseMetadata(metadata): ",parseMetadata(metadata))
+                        console.log("dimensions ",dimensions)
+                        console.log("measures", measures)
+
+                        /* const selectedItem = transformedData.find(object => object.dim_adcode === props.adcode.toString());
+
+                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         if (selectedItem) {
-                            const selection = {};
-                            selection[dimensionId] = selectedItem[key].id;
-                            linkedAnalysis.setFilters(selection)
+
+                            linkedAnalysis.setFilters(selectedItem.adcode)
                         } else {
                             linkedAnalysis.removeFilters();
                         } */
+
                     });
 
                     //外部区域被点击
