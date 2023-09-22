@@ -9,7 +9,7 @@
 
     var transformedData = null;
 
-    var props = null;
+    var theprops = null;
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
@@ -241,10 +241,10 @@
                             //switch2AreaNode(props.adcode);
                         // }
                         console.log("feature: ", feature)
-                        console.log("transformedData: ", transformedData.find(object => object.dim_adcode === props.adcode.toString()))
-                        console.log(props)
+                        console.log("props: ", props)
+                        console.log(theprops)
                         //console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
-                        const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         //console.log("linkedAnalysis: ", linkedAnalysis)
                         /* const dataType = params.dataType;
                         const label = dataType === 'node' ? params.data.name : dataType === 'edge' ? params.data.target : '';
