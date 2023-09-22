@@ -83,7 +83,7 @@
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
-            props = this._props;
+            theprops = this._props;
         }       
 
         apikeyScriptLoad() {
@@ -242,7 +242,8 @@
                         // }
                         console.log("feature: ", feature)
                         console.log("props: ", props)
-                        console.log(theprops)
+                        console.log("this._props: ", this._props)
+                        console.log("theprops: ",theprops)
                         //console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
                         const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         //console.log("linkedAnalysis: ", linkedAnalysis)
