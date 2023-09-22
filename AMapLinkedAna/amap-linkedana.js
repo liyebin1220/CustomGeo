@@ -9,6 +9,8 @@
 
     var transformedData = null;
 
+    var props = null;
+
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
         <link rel="stylesheet" type="text/css" href="//webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">
@@ -81,6 +83,7 @@
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
+            props = this._props;
         }       
 
         apikeyScriptLoad() {
@@ -240,9 +243,9 @@
                         console.log("feature: ", feature)
                         console.log("transformedData: ", transformedData.find(object => object.dim_adcode === props.adcode.toString()))
 
-                        console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
-                        //const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
-                        console.log("linkedAnalysis: ", linkedAnalysis)
+                        //console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
+                        const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        //console.log("linkedAnalysis: ", linkedAnalysis)
                         /* const dataType = params.dataType;
                         const label = dataType === 'node' ? params.data.name : dataType === 'edge' ? params.data.target : '';
                 
