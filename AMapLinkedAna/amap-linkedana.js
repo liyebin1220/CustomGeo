@@ -244,9 +244,11 @@
                         console.log("props: ", props)
                         console.log("this._props: ", this._props)
                         console.log("theprops: ",theprops)
-                        //console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
+                        console.log("theDataBinding.getLinkedAnalysis(): ", theDataBinding.getLinkedAnalysis())
+                        console.log("theprops['dataBindings']: ", theprops['dataBindings'])
+                        console.log("theprops['dataBindings'].getDataBinding('myDataBinding'): ", theprops['dataBindings'].getDataBinding('myDataBinding'))
                         const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
-                        //console.log("linkedAnalysis: ", linkedAnalysis)
+                        console.log("linkedAnalysis: ", linkedAnalysis)
                         /* const dataType = params.dataType;
                         const label = dataType === 'node' ? params.data.name : dataType === 'edge' ? params.data.target : '';
                 
