@@ -238,8 +238,9 @@
                             //switch2AreaNode(props.adcode);
                         // }
                         console.log("feature: ", feature)
-                        console.log("this._props: ", this._props)
                         console.log("transformedData: ", transformedData.find(object => object.dim_adcode === props.adcode.toString()))
+                        const linkedAnalysis = props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        console.log("linkedAnalysis: ", linkedAnalysis)
                         /* const dataType = params.dataType;
                         const label = dataType === 'node' ? params.data.name : dataType === 'edge' ? params.data.target : '';
                 
