@@ -166,6 +166,9 @@
         }
 
         createAMapDistrict() {
+            var theDataBinding = this._props.myDataBinding
+            console.log("theDataBinding in createAMapDistrict():", theDataBinding)
+
             var colors = [
                 "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
                 "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
@@ -209,7 +212,7 @@
                         tipMarker.setPosition(position || props.center);
                     }
 
-/*                     $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
+                    /*$('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
 
                     //更新相关多边形的样式
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
