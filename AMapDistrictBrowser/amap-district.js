@@ -203,7 +203,7 @@
                     
                     if (isHover) { 
                         //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name + "营收:" + transformedData.find(object => object.dim_adcode.toString() === props.adcode).kfg_revenue);
+                        $tipMarkerContent.html(props.adcode + ': ' + props.name + "营收:" + transformedData.find(object => object.dim_adcode === props.adcode.toString()).kfg_revenue);
                         //更新位置
                         tipMarker.setPosition(position || props.center);
                     }
