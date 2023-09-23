@@ -244,7 +244,8 @@
                         const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         if (selectedItem) {
                             var selection = {}
-                            selection['dim_adcode'] = selectedItem.dim_adcode
+                            var key = "dim_adcode"
+                            selection[key] = selectedItem.dim_adcode
                             console.log(selection)
                             linkedAnalysis.setFilters(selection)
                         } else {
