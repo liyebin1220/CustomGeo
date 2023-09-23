@@ -5,8 +5,6 @@
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
-    var tmpAMap = null;
-
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
 		<style>
@@ -18,8 +16,9 @@
             height:900px
           }
         </style>
-
-        <div id="map-container" class="map-container"></div>
+        <div id="root" style=width: 100%; height: 100%">
+            <div id="map-container" class="map-container"></div>
+        </div>
     `;
     // Drawing the base boxes.
 
@@ -29,8 +28,10 @@
             super()
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
-            this._firstConnection = false
-            var tryAMap = require('https://webapi.amap.com/loader.js');
+            this._root = this._shadowRoot.getElementById('root')
+            this._props = {}
+            this._amap = {}
+
             this.securityScriptLoad()
             this.apikeyScriptLoad()
         }
@@ -50,9 +51,12 @@
         }
 
         apikeyScriptLoad() {
+            window.onLoad = function() {
+                createAMapInstance();
+            }
             const apiScript = document.createElement('script');
 
-            apiScript.src = 'https://webapi.amap.com/loader.js';
+            apiScript.src = 'https://webapi.amap.com/loader.js&v=2.0&callback=onLoad';
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
@@ -70,16 +74,16 @@
                         resizeEnable: true,
                         version: 2.0
                     });
-            tmpAMap = mapAMap;
+            this._amap = mapAMap;
         }
         resetAMapInstance_default() {
-            tmpAMap.setLayers([new AMap.TileLayer()])                
+            this._amap.setLayers([new AMap.TileLayer()])                
         }
         resetAMapInstance_Satellite() {
-            tmpAMap.setLayers([new AMap.TileLayer.Satellite()])  
+            this._amap.setLayers([new AMap.TileLayer.Satellite()])  
         }
         resetAMapInstance_Satellite_RoadNet() {
-            tmpAMap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
+            this._amap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
         }
 
         onCustomWidgetBeforeUpdate(changedProperties)
@@ -89,16 +93,7 @@
 
         onCustomWidgetAfterUpdate(changedProperties) 
         {
-                    
-            if ("securityCode" in changedProperties) {
-                this.$securityCode = changedProperties["securityCode"];
-            }
-            securityCode = this.$securityCode; // place passed in value into global
-    
-            if ("apiKey" in changedProperties) {
-                this.$apiKey = changedProperties["apiKey"];
-            }
-            apiKey = this.$apiKey; // place passed in value into global
+
         }
 
     }
