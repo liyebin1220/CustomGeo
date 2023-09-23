@@ -274,7 +274,7 @@
                         console.log("theprops.myDataBinding: ", theprops.myDataBinding)
                         console.log("theprops.myDataBinding.data: ", theprops.myDataBinding.data)
                         console.log("props.adcode: ", props.adcode)
-                        const selectedItem = theprops.myDataBinding.data.find(item => item[key].label === props.adcode);
+                        const selectedItem = theprops.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         console.log("selectedItem: ", selectedItem)
                 
                         const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
