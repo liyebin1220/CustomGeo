@@ -247,7 +247,7 @@
                             var selection = {}
                             var key = "dim_adcode"
                             console.log(selectedItem.dim_adcode)
-                            selection[key] = selectedItem.dim_adcode
+                            selection = selectedItem.dim_adcode
 
                             console.log(selection)
                             linkedAnalysis.setFilters(selection)

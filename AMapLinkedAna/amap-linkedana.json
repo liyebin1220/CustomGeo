@@ -13,7 +13,7 @@
         {
 			"kind": "main",
 			"tag": "custom-amap-linkedana",
-            "url": "/amap-linkedana.js",
+            "url": "https://liyebin1220.github.io/CustomGeo/AMapLinkedAna/amap-linkedana.js",
             "integrity": "",
             "ignoreIntegrity" : true
         }
