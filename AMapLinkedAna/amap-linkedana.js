@@ -194,6 +194,9 @@
             console.log("dimensions: ", dimensions)
             console.log("measures", measures)
 
+            const [dimension] = dimensions
+            const [measure] = measures
+
             var colors = [
                 "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
                 "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
@@ -262,22 +265,24 @@
                             //切换聚焦区域
                             //switch2AreaNode(props.adcode);
                         // }
-
-                        const selectedItem = transformedData.find(object => object.dim_adcode === props.adcode.toString());
-                        console.log(selectedItem)
-
-                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        const key = dimension.key;
+                        console.log("dimension.key: ", dimension.key)
+                        
+                        const dimensionId = dimension.id;
+                        console.log("dimension.id: ", dimension.id)
+                
+                        const selectedItem = myDataBinding.data.find(item => item[key].label === props.adcode);
+                        console.log("selectedItem: ", selectedItem)
+                
+                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('dataBinding').getLinkedAnalysis();
                         if (selectedItem) {
-
-                            var selection = {}
-                            var key = "dim_adcode"
-
-                            selection[key] = selectedItem.dim_adcode
-
-                            console.log(selection)
-                            linkedAnalysis.setFilters(selection)
+                          const selection = {};
+                          selection[dimensionId] = selectedItem[key].id; //Creating an Object and grant a value selectedItem[key].id to item "dimensionId": product
+                          console.log("selectedItem[key].id: ", selectedItem[key].id)
+                          console.log("selection: ", selection)
+                          linkedAnalysis.setFilters(selection)
                         } else {
-                            linkedAnalysis.removeFilters();
+                          linkedAnalysis.removeFilters();
                         }
 
                     });
