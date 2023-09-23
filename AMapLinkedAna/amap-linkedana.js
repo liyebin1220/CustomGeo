@@ -270,7 +270,7 @@
                         
                         const dimensionId = dimension.id;
                         console.log("dimension.id: ", dimension.id)
-                
+                        console.log(theprops)
                         const selectedItem = theprops.myDataBinding.data.find(item => item[key].label === props.adcode);
                         console.log("selectedItem: ", selectedItem)
                 
