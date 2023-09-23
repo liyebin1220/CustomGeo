@@ -1,5 +1,4 @@
 (function() {
-
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
@@ -169,8 +168,6 @@
         }
 
         createAMapDistrict() {
-            var theDataBinding = this._props.myDataBinding
-            console.log("theDataBinding in createAMapDistrict():", theDataBinding)
 
             var colors = [
                 "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
@@ -241,15 +238,18 @@
                             //switch2AreaNode(props.adcode);
                         // }
 
-                        /* const selectedItem = transformedData.find(object => object.dim_adcode === props.adcode.toString());
+                        const selectedItem = transformedData.find(object => object.dim_adcode === props.adcode.toString());
+                        console.log(selectedItem)
 
                         const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         if (selectedItem) {
-
-                            linkedAnalysis.setFilters(selectedItem.adcode)
+                            var selection = {}
+                            selection[adcode] = selectedItem.adcode
+                            console.log(selection)
+                            linkedAnalysis.setFilters(selection)
                         } else {
                             linkedAnalysis.removeFilters();
-                        } */
+                        }
 
                     });
 
