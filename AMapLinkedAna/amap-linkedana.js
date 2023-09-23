@@ -1,4 +1,24 @@
 (function() {
+
+    const parseMetadata = metadata => {
+        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
+        const dimensions = []
+        for (const key in dimensionsMap) {
+          const dimension = dimensionsMap[key]
+          dimensions.push({ key, ...dimension })
+        }
+        const measures = []
+        for (const key in measuresMap) {
+          const measure = measuresMap[key]
+          measures.push({ key, ...measure })
+        }
+        console.log(metadata)
+        console.log(dimensions)
+        console.log(measures)
+        console.log(dimensionsMap)
+        console.log(measuresMap)
+        return { dimensions, measures, dimensionsMap, measuresMap }
+      }
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
@@ -168,6 +188,11 @@
         }
 
         createAMapDistrict() {
+
+            let { data, metadata } = this._props.myDataBinding
+            const { dimensions, measures } = parseMetadata(metadata)
+            console.log("dimensions: ", dimensions)
+            console.log("measures", measures)
 
             var colors = [
                 "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
