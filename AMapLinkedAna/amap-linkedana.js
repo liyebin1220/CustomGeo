@@ -274,7 +274,7 @@
                         const selectedItem = theprops.myDataBinding.data.find(item => item[key].label === props.adcode);
                         console.log("selectedItem: ", selectedItem)
                 
-                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('dataBinding').getLinkedAnalysis();
+                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         if (selectedItem) {
                           const selection = {};
                           selection[dimensionId] = selectedItem[key].id; //Creating an Object and grant a value selectedItem[key].id to item "dimensionId": product
