@@ -5,8 +5,9 @@
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
-    mapAMap = null;
-    
+    var mapAMap = null;
+
+
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
 		<style>
