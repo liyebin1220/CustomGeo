@@ -56,11 +56,14 @@
             }
             const apiScript = document.createElement('script');
 
-            apiScript.src = 'https://webapi.amap.com/loader.js&v=2.0&callback=onLoad';
+            apiScript.src = 'https://webapi.amap.com/loader.js';
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
-                key: apiKey
+                key: apiKey,
+                varsion: 2.0,
+                callback: onLoad,
+                plugins: []
             })})
 
             document.head.appendChild(apiScript);
