@@ -57,7 +57,7 @@
             document.head.appendChild(jsapi);
 
             console.log("this in apikeyScriptLoad: ", this)
-            function onApiLoaded() {
+            window.onApiLoaded = function() {
                 console.log("this in onAMapLoad: ", this)
                 var mapAMap = new AMap.Map((container), { 
                     viewMode: '2D',
