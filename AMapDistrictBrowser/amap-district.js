@@ -32,14 +32,15 @@
             super()
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
-            this._firstConnection = false
+            var container = this._shadowRoot.getElementById('map-container')
+
             this._props = {}
                         
-            this.capitalScriptLoad()
-            this.uiScriptLoad()
-            this.liteToolbarScriptLoad()
-            this.securityScriptLoad()
-            this.apikeyScriptLoad()
+            //this.capitalScriptLoad()
+            //this.uiScriptLoad()
+            //this.liteToolbarScriptLoad()
+            //this.securityScriptLoad()
+            this.apikeyScriptLoad(container)
         }
 
         capitalScriptLoad() {
@@ -83,18 +84,30 @@
             this._props = { ...this._props, ...changedProperties };
         }       
 
-        apikeyScriptLoad() {
+        apikeyScriptLoad(container) {
             const apiScript = document.createElement('script');
-
+  
             apiScript.src = 'https://webapi.amap.com/loader.js';
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
-                key: apiKey
-            })})
+                key: apiKey,
+                "plugins": [],
+                "AMapUI": {             
+                  "version": '1.1',   
+                  "plugins":['overlay/SimpleMarker'], 
+                },
+            }).then((AMap)=>{
+                var mapAMap = new AMap.Map(container, {
+                    viewMode: '2D',
+                    center: [121.51194, 31.23921],
+                    zoom:4     
+                });
+                tmpAMap = mapAMap
+              })          
+          })
 
             document.head.appendChild(apiScript);
-
             this._ready = true
         }
 
@@ -137,7 +150,7 @@
                         }
                     }).filter(Boolean);  // Filter out any undefined values
                     console.log("transformedData has been filled: ", transformedData)
-                    /* for(var i = 0; i < transformedData.length; i += 1){
+                    for(var i = 0; i < transformedData.length; i += 1){
                         var center = new Array(transformedData[i].kfg_log, transformedData[i].kfg_lat) 
                         
                         var circleMarker = new AMap.CircleMarker({
@@ -156,7 +169,7 @@
                         console.log("center: ", center)
                         console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(mapAMap)
-                      } */
+                      }
                     } else {
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
                 }
