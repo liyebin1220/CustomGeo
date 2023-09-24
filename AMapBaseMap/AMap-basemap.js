@@ -52,7 +52,7 @@
 
         apikeyScriptLoad() {
             console.log("this in apikeyScriptLoad: ", this)
-            window.onAMapLoad = function() {
+            function onApiLoaded() {
                 console.log("this in onAMapLoad: ", this)
                 var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                     viewMode: '2D',
@@ -61,8 +61,13 @@
                     resizeEnable: true,
                 });
             this._amap = mapAMap;
+
+            var url = 'https://webapi.amap.com/maps?v=2.0&key=20acc0972699ca4133fbee84646f41b9&callback=onApiLoaded';
+            var jsapi = document.createElement('script');
+            jsapi.src = url;
+            document.head.appendChild(jsapi);
             }
-            const apiScript = document.createElement('script');
+/*             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
             apiScript.defer = true;
@@ -72,7 +77,7 @@
                 callback: onAMapLoad
             })})
 
-            document.head.appendChild(apiScript);
+            document.head.appendChild(apiScript); */
         }
 
         createAMapInstance() {
