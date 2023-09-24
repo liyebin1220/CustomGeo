@@ -51,13 +51,14 @@
         }
 
         apikeyScriptLoad() {
-            window.onLoad = function() {
+            console.log("this in apikeyScriptLoad: ", this)
+            window.onAMapLoad = function() {
+                console.log("this in onAMapLoad: ", this)
                 var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
                     viewMode: '2D',
                     center: [116.397428, 39.90923],
                     zoom:4,
                     resizeEnable: true,
-                    version: 2.0
                 });
             this._amap = mapAMap;
             }
@@ -68,9 +69,7 @@
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
                 key: apiKey,
-                varsion: 2.0,
-                callback: onLoad,
-                plugins: []
+                callback: onAMapLoad
             })})
 
             document.head.appendChild(apiScript);
