@@ -28,12 +28,12 @@
             super()
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
-            this._root = this._shadowRoot.getElementById('root')
+            this._map_container = this._shadowRoot.getElementById('map-container')
             this._props = {}
             this._amap = {}
 
             this.securityScriptLoad()
-            this.apikeyScriptLoad()
+            this.apikeyScriptLoad(this._map_container)
         }
 
         securityScriptLoad() {
@@ -50,22 +50,22 @@
             document.head.appendChild(securityScript);
         }
 
-        apikeyScriptLoad() {
+        apikeyScriptLoad(container) {
+            var url = 'https://webapi.amap.com/maps?v=2.0&key=20acc0972699ca4133fbee84646f41b9&callback=onApiLoaded';
+            var jsapi = document.createElement('script');
+            jsapi.src = url;
+            document.head.appendChild(jsapi);
+
             console.log("this in apikeyScriptLoad: ", this)
             function onApiLoaded() {
                 console.log("this in onAMapLoad: ", this)
-                var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
+                var mapAMap = new AMap.Map((container), { 
                     viewMode: '2D',
                     center: [116.397428, 39.90923],
                     zoom:4,
                     resizeEnable: true,
                 });
             this._amap = mapAMap;
-
-            var url = 'https://webapi.amap.com/maps?v=2.0&key=20acc0972699ca4133fbee84646f41b9&callback=onApiLoaded';
-            var jsapi = document.createElement('script');
-            jsapi.src = url;
-            document.head.appendChild(jsapi);
             }
 /*             const apiScript = document.createElement('script');
 
