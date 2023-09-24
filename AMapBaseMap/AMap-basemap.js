@@ -52,7 +52,14 @@
 
         apikeyScriptLoad() {
             window.onLoad = function() {
-                createAMapInstance();
+                var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
+                    viewMode: '2D',
+                    center: [116.397428, 39.90923],
+                    zoom:4,
+                    resizeEnable: true,
+                    version: 2.0
+                });
+            this._amap = mapAMap;
             }
             const apiScript = document.createElement('script');
 
@@ -70,14 +77,7 @@
         }
 
         createAMapInstance() {
-           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
-                        viewMode: '2D',
-                        center: [116.397428, 39.90923],
-                        zoom:4,
-                        resizeEnable: true,
-                        version: 2.0
-                    });
-            this._amap = mapAMap;
+           
         }
         resetAMapInstance_default() {
             this._amap.setLayers([new AMap.TileLayer()])                
