@@ -28,16 +28,16 @@
             super()
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
-            this._map_container = this._shadowRoot.getElementById('map-container')
+            var container = this._shadowRoot.getElementById('map-container')
             this._props = {}
             this._amap = {}
-
+  
             this.securityScriptLoad()
-            this.apikeyScriptLoad(this._map_container)
+            this.apikeyScriptLoad(container)
         }
-
+  
         securityScriptLoad() {
-
+  
             const securityScript = document.createElement('script')
             securityScript.type = "text/javascript"
             securityScript.defer = true;
@@ -45,41 +45,33 @@
                 window._AMapSecurityConfig = {
                 securityJsCode: '${securityCode}',
               }
-            `
-
+            `  
             document.head.appendChild(securityScript);
         }
+  
+        apikeyScriptLoad(container) {       
 
-        apikeyScriptLoad(container) {
-            var url = 'https://webapi.amap.com/maps?v=2.0&key=20acc0972699ca4133fbee84646f41b9&callback=onApiLoaded';
-            var jsapi = document.createElement('script');
-            jsapi.src = url;
-            document.head.appendChild(jsapi);
-
-            console.log("this in apikeyScriptLoad: ", this)
-            window.onApiLoaded = function() {
-                console.log("this in onAMapLoad: ", this)
-                var mapAMap = new AMap.Map((container), { 
-                    viewMode: '2D',
-                    center: [116.397428, 39.90923],
-                    zoom:4,
-                    resizeEnable: true,
-                });
-            this._amap = mapAMap;
-            }
-/*             const apiScript = document.createElement('script');
-
+            const apiScript = document.createElement('script');
+  
             apiScript.src = 'https://webapi.amap.com/loader.js';
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
                 key: apiKey,
-                callback: onAMapLoad
-            })})
-
-            document.head.appendChild(apiScript); */
-        }
-
+                "plugins": [],
+                "AMapUI": {             
+                  "version": '1.1',   
+                  "plugins":['overlay/SimpleMarker'], 
+                },
+            }).then((AMap)=>{
+                mapAMap = new AMap.Map(container);
+              })          
+          })
+  
+            document.head.appendChild(apiScript);
+  
+            this._amap = mapAMap;
+        }  
         createAMapInstance() {
            
         }
@@ -92,18 +84,16 @@
         resetAMapInstance_Satellite_RoadNet() {
             this._amap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
         }
-
+  
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
         }
-
+  
         onCustomWidgetAfterUpdate(changedProperties) 
         {
-
-        }
-
+  
+        }  
     }
-
     customElements.define('cust-base-amap', ClassAMap)
 })();
