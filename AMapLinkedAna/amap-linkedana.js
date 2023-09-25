@@ -26,6 +26,8 @@
 
     var tmpAMap = null;
 
+    var mapAMap = null;
+
     var transformedData = null;
 
     var theprops = null;
@@ -53,14 +55,15 @@
             super()
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
-            this._firstConnection = false
+            var container = this._shadowRoot.getElementById('map-container')
             this._props = {}
                         
-            this.capitalScriptLoad()
-            this.uiScriptLoad()
-            this.liteToolbarScriptLoad()
-            this.securityScriptLoad()
-            this.apikeyScriptLoad()
+            //this.capitalScriptLoad()
+            //this.uiScriptLoad()
+            //this.liteToolbarScriptLoad()
+            //this.securityScriptLoad()
+            this.apikeyScriptLoad(container)
+            this.createAMapDistrict()
         }
 
         capitalScriptLoad() {
@@ -105,28 +108,35 @@
             theprops = this._props;
         }       
 
-        apikeyScriptLoad() {
+        apikeyScriptLoad(container) {
             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
             apiScript.defer = true;
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
-                key: apiKey
-            })})
-
+                key: apiKey,
+                "plugins": [],
+                "AMapUI": {                                 // 是否加载 AMapUI，缺省不加载
+                  "version": '1.1',                         // AMapUI 版本
+                  "plugins":['overlay/SimpleMarker'],       // 需要加载的 AMapUI ui插件
+                },
+                dragEnable: true,
+            }).then((AMap)=>{
+                  mapAMap = new AMap.Map(container, { 
+                    viewMode: '2D',
+                    zoom:4,
+                    center: [116.397428, 39.90923],
+                    resizeEnable: true
+                });
+              }
+            )
+          
+          })
+  
             document.head.appendChild(apiScript);
 
             this._ready = true
-        }
-
-        createAMapInstance() {
-
-           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
-                        viewMode: '2D',
-                        center: [121.51194, 31.23921],
-                        zoom:4
-                    });
 
             var theDataBinding = this._props.myDataBinding
             
@@ -185,6 +195,17 @@
             }
         
             tmpAMap = mapAMap;
+        }
+
+        createAMapInstance() {
+
+           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
+                        viewMode: '2D',
+                        center: [121.51194, 31.23921],
+                        zoom:4
+                    });
+
+            
         }
 
         createAMapDistrict() {
