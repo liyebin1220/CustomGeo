@@ -150,7 +150,7 @@
                         }
                     }).filter(Boolean);  // Filter out any undefined values
                     console.log("transformedData has been filled: ", transformedData)
-                    for(var i = 0; i < transformedData.length; i += 1){
+                    /* for(var i = 0; i < transformedData.length; i += 1){
                         var center = new Array(transformedData[i].kfg_log, transformedData[i].kfg_lat) 
                         
                         var circleMarker = new AMap.CircleMarker({
@@ -169,7 +169,7 @@
                         console.log("center: ", center)
                         console.log("revenue: ", transformedData[i].kfg_revenue)
                         circleMarker.setMap(mapAMap)
-                      }
+                      } */
                     } else {
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
                 }
