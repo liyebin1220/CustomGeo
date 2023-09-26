@@ -63,7 +63,7 @@
             //this.liteToolbarScriptLoad()
             //this.securityScriptLoad()
             this.apikeyScriptLoad(container)
-            this.createAMapDistrict()
+            //this.createAMapDistrict()
         }
 
         capitalScriptLoad() {
