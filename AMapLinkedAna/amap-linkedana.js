@@ -57,6 +57,7 @@
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
             this._props = {}
+            this._amap = {}
                         
             //this.capitalScriptLoad()
             //this.uiScriptLoad()
@@ -182,7 +183,9 @@
                     center: [116.397428, 39.90923],
                     resizeEnable: true
                 });
+                this._amap = mapAMap
               }
+              
             )
           
           })  
@@ -209,7 +212,7 @@
                 //创建一个实例
                 var districtExplorer = window.districtExplorer = new DistrictExplorer({
                     eventSupport: true, //打开事件支持
-                    map: tmpAMap
+                    map: this._amap
                 });
 
                 //当前聚焦的区域
@@ -226,7 +229,7 @@
 
                 //根据Hover状态设置相关样式
                 function toggleHoverFeature(feature, isHover, position) {
-                    tipMarker.setMap(isHover ? tmpAMap : null);
+                    tipMarker.setMap(isHover ? this._amap : null);
                     if (!feature) {
                         return;
                     }
@@ -376,7 +379,7 @@
                         //绘制某个区域的边界
                         function renderAreaPolygons(areaNode) {
                             //更新地图视野
-                            tmpAMap.setBounds(areaNode.getBounds(), null, null, true);
+                            this._amap.setBounds(areaNode.getBounds(), null, null, true);
 
                             //清除已有的绘制内容
                             districtExplorer.clearFeaturePolygons();
@@ -538,13 +541,13 @@
 
 
         resetAMapInstance_default() {
-            tmpAMap.setLayers([new AMap.TileLayer()])                
+            this._amap.setLayers([new AMap.TileLayer()])                
         }
         resetAMapInstance_Satellite() {
-            tmpAMap.setLayers([new AMap.TileLayer.Satellite()])  
+            this._amap.setLayers([new AMap.TileLayer.Satellite()])  
         }
         resetAMapInstance_Satellite_RoadNet() {
-            tmpAMap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
+            this._amap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
         }
 
         onCustomWidgetAfterUpdate(changedProperties) 
@@ -603,7 +606,7 @@
                         })
                         console.log("center: ", center)
                         console.log("revenue: ", transformedData[i].kfg_revenue)
-                        circleMarker.setMap(tmpAMap)
+                        circleMarker.setMap(this._amap)
                       }
                 } else {
                     console.error('Data is not an array:', dataBinding && dataBinding.data);
