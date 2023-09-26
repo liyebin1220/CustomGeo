@@ -24,8 +24,6 @@
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
-    var tmpAMap = null;
-
     var mapAMap = null;
 
     var transformedData = null;
@@ -359,7 +357,7 @@
 
                             if (!$subBox.length && props.childrenNum) {
                                 //父节点不存在，先创建
-                                renderAreaPanelNode($('#area-tree'), props);
+                                //renderAreaPanelNode($('#area-tree'), props);
                                 $subBox = $('#area-tree').find('ul.sublist');
                             }
                             if ($subBox.attr('data-loaded') === 'rendered') {
@@ -372,7 +370,7 @@
 
                             //填充子区域
                             for (var i = 0, len = subFeatures.length; i < len; i++) {
-                                renderAreaPanelNode($subBox, areaNode.getPropsOfFeature(subFeatures[i]), colors[i % colors.length]);
+                                //renderAreaPanelNode($subBox, areaNode.getPropsOfFeature(subFeatures[i]), colors[i % colors.length]);
                             }
                         }
 
@@ -421,17 +419,17 @@
                             renderAreaPolygons(areaNode);
 
                             //更新选中节点的class
-                            var $nodeEles = $('#area-tree').find('h2');
+                            //var $nodeEles = $('#area-tree').find('h2');
 
-                            $nodeEles.removeClass('selected');
+                            //$nodeEles.removeClass('selected');
 
-                            var $selectedNode = $nodeEles.filter('h2[data-adcode=' + areaNode.getAdcode() + ']').addClass('selected');
+                            //var $selectedNode = $nodeEles.filter('h2[data-adcode=' + areaNode.getAdcode() + ']').addClass('selected');
 
                             //展开下层节点
-                            $selectedNode.closest('li').removeClass('hide-sub');
+                            //$selectedNode.closest('li').removeClass('hide-sub');
 
                             //折叠下层的子节点
-                            $selectedNode.siblings('ul.sublist').children().addClass('hide-sub');
+                            //$selectedNode.siblings('ul.sublist').children().addClass('hide-sub');
                         }
 
                         //切换区域
