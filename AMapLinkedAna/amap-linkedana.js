@@ -52,7 +52,7 @@
     class ClassAMap extends HTMLElement {
 
         constructor() {
-            super()
+            super() //调用父类HTMLElement构造函数，写在this 前面
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
@@ -65,7 +65,7 @@
             this.apikeyScriptLoad(container)
             //this.createAMapDistrict()
         }
-
+        //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
         capitalScriptLoad() {
 
             const capitalScript = document.createElement('script')
@@ -105,43 +105,11 @@
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
-            theprops = this._props;
-        }       
-
-        apikeyScriptLoad(container) {
-            const apiScript = document.createElement('script');
-
-            apiScript.src = 'https://webapi.amap.com/loader.js';
-            apiScript.defer = true;
-            apiScript.addEventListener('load', () => {
-            AMapLoader.load({
-                key: apiKey,
-                "plugins": [],
-                "AMapUI": {                                 // 是否加载 AMapUI，缺省不加载
-                  "version": '1.1',                         // AMapUI 版本
-                  "plugins":['overlay/SimpleMarker'],       // 需要加载的 AMapUI ui插件
-                },
-                dragEnable: true,
-            }).then((AMap)=>{
-                  mapAMap = new AMap.Map(container, { 
-                    viewMode: '2D',
-                    zoom:4,
-                    center: [116.397428, 39.90923],
-                    resizeEnable: true
-                });
-              }
-            )
-          
-          })
-  
-            document.head.appendChild(apiScript);
-
-            this._ready = true
-
-            console.log("this.props: ", this.props)
-            console.log("theprops: " , theprops)
-
+            
             var theDataBinding = this._props.myDataBinding
+
+            console.log("this._props", this._props)
+            console.log("theDataBinding", theDataBinding)
             
             if (!theDataBinding) {
                 console.error(this, 'theDataBinding is undefined');
@@ -151,13 +119,8 @@
             }
             
             if (this._ready) {
-            //if (false) {
-                // Check if theDataBinding and theDataBinding.data are defined
                 if (theDataBinding && Array.isArray(theDataBinding.data)) {
-                    // Transform the data into the correct format
                     transformedData = theDataBinding.data.map(row => {
-                        //console.log('row:', row);
-                        // Check if dimensions_0 and measures_0 are defined before trying to access their properties
                         if (row.dimensions_0 && row.measures_0) {
                             return {
                                 dim_adcode: row.dimensions_0.label,
@@ -196,19 +159,35 @@
                     console.error('Data is not an array:', theDataBinding && theDataBinding.data);
                 }
             }
-        
-            tmpAMap = mapAMap;
-        }
+        }       
 
-        createAMapInstance() {
+        apikeyScriptLoad(container) {
+            const apiScript = document.createElement('script');
 
-           var mapAMap = new AMap.Map(this._shadowRoot.getElementById('map-container'), { 
-                        viewMode: '2D',
-                        center: [121.51194, 31.23921],
-                        zoom:4
-                    });
-
-            
+            apiScript.src = 'https://webapi.amap.com/loader.js';
+            apiScript.defer = true;
+            apiScript.addEventListener('load', () => {
+            AMapLoader.load({
+                key: apiKey,
+                "plugins": [],
+                "AMapUI": {                                 // 是否加载 AMapUI，缺省不加载
+                  "version": '1.1',                         // AMapUI 版本
+                  "plugins":['overlay/SimpleMarker'],       // 需要加载的 AMapUI ui插件
+                },
+                dragEnable: true,
+            }).then((AMap)=>{
+                  mapAMap = new AMap.Map(container, { 
+                    viewMode: '2D',
+                    zoom:4,
+                    center: [116.397428, 39.90923],
+                    resizeEnable: true
+                });
+              }
+            )
+          
+          })  
+            document.head.appendChild(apiScript);
+            this._ready = true
         }
 
         createAMapDistrict() {
