@@ -339,5 +339,5 @@
         }
     }
 
-    customElements.define('custom-amap-district', ClassAMap)
+    customElements.define('custom-amap-linkedana', ClassAMap)
 })();
