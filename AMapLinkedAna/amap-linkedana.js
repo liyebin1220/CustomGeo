@@ -138,6 +138,9 @@
 
             this._ready = true
 
+            console.log("this.props: ", this.props)
+            console.log("theprops: " , theprops)
+
             var theDataBinding = this._props.myDataBinding
             
             if (!theDataBinding) {
