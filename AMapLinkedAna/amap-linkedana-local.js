@@ -1,3 +1,10 @@
+var getScriptPromisify = (src) => {
+    console.log(src)
+    return new Promise((resolve) => {
+      $.getScript(src, resolve);
+    });
+  };
+
 (function() {
 
     // Declare apiKey as a global variable
@@ -57,19 +64,41 @@
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
             var lnglat = this._shadowRoot.getElementById("lnglat")
-            this.capitalScriptLoad()
+
             this._props = {}
             this._amap = {}
-                        
+            this.utilsScriptLoad()                        
             this.apikeyScriptLoad(lnglat, container)          
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
-        capitalScriptLoad() {
+        async utilsScriptLoad() {
 
-            const capitalScript = document.createElement('script')
-            capitalScript.type = "text/javascript"
-            capitalScript.src = 'https://a.amap.com/jsapi_demos/static/resource/capitals.js';
-            document.head.appendChild(capitalScript);
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
+
+            /* const backboneScript = document.createElement('script')
+            backboneScript.type = "text/javascript"
+            backboneScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js'; 
+            document.head.appendChild(backboneScript);
+            const pretyjsonScript = document.createElement('script')
+            pretyjsonScript.type = "text/javascript"
+            pretyjsonScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js';
+            document.head.appendChild(pretyjsonScript);
+            const jqueryScript = document.createElement('script')
+            jqueryScript.type = "text/javascript"
+            jqueryScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js';
+            document.head.appendChild(jqueryScript);
+            const underscoreminScript = document.createElement('script')
+            underscoreminScript.type = "text/javascript"
+            underscoreminScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js';
+            document.head.appendChild(underscoreminScript);
+            const demoutilsScript = document.createElement('script')
+            demoutilsScript.type = "text/javascript"
+            demoutilsScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js';
+            document.head.appendChild(demoutilsScript);*/
         }
         
         securityScriptLoad() {
