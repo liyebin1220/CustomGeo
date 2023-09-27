@@ -96,9 +96,9 @@ var getScriptPromisify = (src) => {
         async utilsScriptLoad() {
             console.log("calling utilsScriptLoad")
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");            
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
         }
         
