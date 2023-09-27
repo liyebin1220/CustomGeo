@@ -72,7 +72,7 @@ var getScriptPromisify = (src) => {
             
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
-                <h4>当前地图状态（Status）</h4>
+                <h5>当前地图状态（Status）</h5>
                 <p><span id="map-status"></span></p>
             </div>
         </div>    
@@ -86,12 +86,11 @@ var getScriptPromisify = (src) => {
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
-            var lnglat = this._shadowRoot.getElementById("lnglat")
 
             this._props = {}
             this._amap = {}
             this.utilsScriptLoad()                        
-            this.apikeyScriptLoad(lnglat, container)          
+            this.apikeyScriptLoad(container)          
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
         async utilsScriptLoad() {
@@ -120,7 +119,7 @@ var getScriptPromisify = (src) => {
             this._props = { ...this._props, ...changedProperties };
         }       
 
-        apikeyScriptLoad(lnglat, container) {
+        apikeyScriptLoad(container) {
             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
