@@ -1,9 +1,9 @@
-var getScriptPromisify = (src) => {
+/* var getScriptPromisify = (src) => {
     console.log(src)
     return new Promise((resolve) => {
       $.getScript(src, resolve);
     });
-  };
+  }; */
 (function() {
 
     // Declare apiKey as a global variable
