@@ -239,9 +239,29 @@
                          //}
 
                          tipMarker.setPosition(e.originalEvent.lnglat);
-                         console.log(tipMarker)
-                         console.log(tipMarker.De.position)
-                         console.log(e.originalEvent.lnglat)
+                         const key = dimension.key;
+                        console.log("dimension.key: ", dimension.key)
+                        
+                        const dimensionId = dimension.id;
+                        console.log("dimension.id: ", dimension.id)
+                        console.log("this_props: ", this_props)
+                        console.log("this_props.myDataBinding: ", this_props.myDataBinding)
+                        console.log("this_props.myDataBinding.data: ", this_props.myDataBinding.data)
+                        console.log("props.adcode: ", props.adcode)
+                        const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
+                        console.log("selectedItem: ", selectedItem)
+                
+                        const linkedAnalysis = this_props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        if (selectedItem) {
+                          const selection = {};
+                          selection[dimensionId] = selectedItem[key].id; //Creating an Object and grant a value selectedItem[key].id to item "dimensionId": product
+                          console.log("selectedItem[key].id: ", selectedItem[key].id)
+                          console.log("selection: ", selection)
+                          linkedAnalysis.setFilters(selection)
+                        } else {
+                          linkedAnalysis.removeFilters();
+                        }
+
                     });
 
                     //外部区域被点击
