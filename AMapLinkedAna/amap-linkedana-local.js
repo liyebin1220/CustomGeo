@@ -68,80 +68,39 @@ var getScriptPromisify = (src) => {
             font-size: 1rem;
           }
         </style>
-        <div class="root">
+        <div class="box">
             
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
-                <h4>当前地图状态（Status）</h4>
+                <h5>当前地图状态（Status）</h5>
                 <p><span id="map-status"></span></p>
             </div>
         </div>    
     `;
     // Drawing the base boxes.
-    class Renderer {
-        constructor (root) {
-            this._root = root
-            this._amap = null
-          } 
-        async render (props) {
-            console.log("start loading JSs......")
-/*             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");            
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"); */
-            await getScriptPromisify("https://webapi.amap.com/loader.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
 
-            
-            AMapLoader.load({
-                key: apiKey,
-                "plugins": [],
-                "AMapUI": {                                 // 是否加载 AMapUI，缺省不加载
-                  "version": '1.1',                         // AMapUI 版本
-                },
-                dragEnable: true,
-            }).then((AMap)=>{
-                var  mapAMap = new AMap.Map(this._root, { 
-                    viewMode: '2D',
-                    zoom:4,
-                    center: [116.397428, 39.90923],
-                    resizeEnable: true
-                });
-                this._amap = mapAMap
-                //renderAMapDistrict(mapAMap) 
-                console.log("AMap........",mapAMap)
-              })
-        }      
-          
-
-        
-
-    }
     class ClassAMap extends HTMLElement {
 
         constructor() {
             super() //调用父类HTMLElement构造函数，写在this 前面
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
-            //var container = this._shadowRoot.getElementById('map-container')
-            this._root = this._shadowRoot.getElementById('map-container')
+            var container = this._shadowRoot.getElementById('map-container')
 
             this._props = {}
             this._amap = {}
-            this._renderer = new Renderer(this._root)
-            console.log(this._renderer)
-
-            this.onCustomWidgetAfterUpdate()
-                      
-            //this.apikeyScriptLoad(container)          
+            this.utilsScriptLoad()                        
+            this.apikeyScriptLoad(container)          
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
-
+        async utilsScriptLoad() {
+            console.log("calling utilsScriptLoad")
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
+        }
         
         securityScriptLoad() {
 
@@ -156,8 +115,9 @@ var getScriptPromisify = (src) => {
 
             document.head.appendChild(securityScript);
         }
-        async onCustomWidgetBeforeUpdate(changedProperties)
+        onCustomWidgetBeforeUpdate(changedProperties)
         {
+            console.log("Calling before Update")
             this._props = { ...this._props, ...changedProperties };
         }       
 
@@ -426,22 +386,12 @@ var getScriptPromisify = (src) => {
             this._amap.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()])    
         }
 
-        async onCustomWidgetAfterUpdate(changedProperties) 
+        onCustomWidgetAfterUpdate(changedProperties) 
         {
-            this.render()
-            console.log(this.render)
-            console.log("this.render() has been called")     
-        }
-
-        render() {
-            // if (!document.contains(this)) {
-            //     // Delay the render to assure the custom widget is appended on dom
-            //     setTimeout(this.render.bind(this), 0)
-            //     return
-            //   }
-              console.log("this._props?", this._props)
-              this._renderer.render(this._props)  
-              console.log(this._renderer.render)
+            if (("myDataBinding" in changedProperties)) {
+                //this._updateData(changedProperties.myDataBinding)
+            }
+            console.log("changedProperties: ", changedProperties)     
         }
     }
 
