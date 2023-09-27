@@ -94,6 +94,7 @@ var getScriptPromisify = (src) => {
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
         async utilsScriptLoad() {
+            console.log("calling utilsScriptLoad")
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");            
@@ -116,6 +117,7 @@ var getScriptPromisify = (src) => {
         }
         onCustomWidgetBeforeUpdate(changedProperties)
         {
+            console.log("Calling before Update")
             this._props = { ...this._props, ...changedProperties };
         }       
 
