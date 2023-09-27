@@ -2,10 +2,35 @@ var getScriptPromisify = (src) => {
     console.log(src)
     return new Promise((resolve) => {
       $.getScript(src, resolve);
+
     });
   };
 
 (function() {
+    // Parsing the data binding
+    const parseMetadata = metadata => {
+        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
+        const dimensions = []
+        for (const key in dimensionsMap) {
+          const dimension = dimensionsMap[key]
+          dimensions.push({ key, ...dimension })
+        }
+        const measures = []
+        for (const key in measuresMap) {
+          const measure = measuresMap[key]
+          measures.push({ key, ...measure })
+        }
+        console.log(metadata)
+        console.log(dimensions)
+        console.log(measures)
+        console.log(dimensionsMap)
+        console.log(measuresMap)
+        return { dimensions, measures, dimensionsMap, measuresMap }
+      }
+    // Parsing data binding end
+
+
+
 
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
@@ -13,10 +38,7 @@ var getScriptPromisify = (src) => {
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
     let tmpl = document.createElement('template');
-    tmpl.innerHTML = `   
-        
-        <link rel="stylesheet" type="text/css" href="https://a.amap.com/jsapi_demos/static/demo-center/css/prety-json.css">
-        <link rel="stylesheet" type="text/css" href="https://webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">     
+    tmpl.innerHTML = `       
 		<style>
           /* Add any custom CSS styles here */
           .map-container {
@@ -36,13 +58,14 @@ var getScriptPromisify = (src) => {
             margin-bottom: 1rem;
             border-radius: .25rem;
             position: fixed;
-            top: 1rem;
+            bottom: 10rem;
             background-color: white;
             width: auto;
             min-width: 22rem;
             border-width: 0;
             right: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+            font-size: 1rem;
           }
         </style>
         <div class="box">
@@ -72,33 +95,11 @@ var getScriptPromisify = (src) => {
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
         async utilsScriptLoad() {
-
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
+            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");            
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
             await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
-
-            /* const backboneScript = document.createElement('script')
-            backboneScript.type = "text/javascript"
-            backboneScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js'; 
-            document.head.appendChild(backboneScript);
-            const pretyjsonScript = document.createElement('script')
-            pretyjsonScript.type = "text/javascript"
-            pretyjsonScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js';
-            document.head.appendChild(pretyjsonScript);
-            const jqueryScript = document.createElement('script')
-            jqueryScript.type = "text/javascript"
-            jqueryScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js';
-            document.head.appendChild(jqueryScript);
-            const underscoreminScript = document.createElement('script')
-            underscoreminScript.type = "text/javascript"
-            underscoreminScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js';
-            document.head.appendChild(underscoreminScript);
-            const demoutilsScript = document.createElement('script')
-            demoutilsScript.type = "text/javascript"
-            demoutilsScript.src = 'https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js';
-            document.head.appendChild(demoutilsScript);*/
         }
         
         securityScriptLoad() {
@@ -151,6 +152,13 @@ var getScriptPromisify = (src) => {
             this._ready = true
 
             function renderAMapDistrict(map) {
+                let { data, metadata } = this._props.myDataBinding
+                const { dimensions, measures } = parseMetadata(metadata)
+                console.log("dimensions: ", dimensions)
+                console.log("measures", measures)
+
+                const [dimension] = dimensions
+                const [measure] = measures
                 var colors = [
                     "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
                     "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
@@ -237,17 +245,35 @@ var getScriptPromisify = (src) => {
 
                     //feature被点击
                     districtExplorer.on('featureClick', function(e, feature) {
-                        var props = feature.properties;
+                        var area = feature.properties;
                         //如果存在子节点
-                         //if (props.childrenNum = 0) {
+                         //if (area.childrenNum = 0) {
                             //切换聚焦区域
-                            switch2AreaNode(props.adcode);
+                            switch2AreaNode(area.adcode);
                          //}
-
-                         tipMarker.setPosition(e.originalEvent.lnglat);
-                         console.log(tipMarker)
-                         console.log(tipMarker.De.position)
-                         console.log(e.originalEvent.lnglat)
+                        const key = dimension.key;
+                        console.log("dimension.key: ", dimension.key)
+                        
+                        const dimensionId = dimension.id;
+                        console.log("dimension.id: ", dimension.id)
+                        console.log(this)
+                        console.log("this._props: ", this._props)
+                        console.log("this._props.myDataBinding: ", this._props.myDataBinding)
+                        console.log("this._props.myDataBinding.data: ", this._props.myDataBinding.data)
+                        console.log("props.adcode: ", props.adcode)
+                        const selectedItem = this._props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
+                        console.log("selectedItem: ", selectedItem)
+                
+                        const linkedAnalysis = this._props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        if (selectedItem) {
+                          const selection = {};
+                          selection[dimensionId] = selectedItem[key].id; //Creating an Object and grant a value selectedItem[key].id to item "dimensionId": product
+                          console.log("selectedItem[key].id: ", selectedItem[key].id)
+                          console.log("selection: ", selection)
+                          linkedAnalysis.setFilters(selection)
+                        } else {
+                          linkedAnalysis.removeFilters();
+                        }
                     });
 
                     //外部区域被点击
