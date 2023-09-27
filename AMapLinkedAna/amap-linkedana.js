@@ -14,7 +14,6 @@ var getScriptPromisify = (src) => {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `   
         
-        <link rel="stylesheet" type="text/css" href="https://a.amap.com/jsapi_demos/static/demo-center/css/prety-json.css">
         <link rel="stylesheet" type="text/css" href="https://webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">     
 		<style>
           /* Add any custom CSS styles here */
@@ -35,12 +34,12 @@ var getScriptPromisify = (src) => {
             margin-bottom: 1rem;
             border-radius: .25rem;
             position: fixed;
-            top: 1rem;
+            bottom: 10rem;
             background-color: white;
             width: auto;
             min-width: 22rem;
             border-width: 0;
-            right: 1rem;
+            left: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
           }
         </style>
@@ -48,7 +47,7 @@ var getScriptPromisify = (src) => {
             
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
-                <h4>当前地图状态（Status）</h4>
+                <h5>当前地图状态（Status）</h5>
                 <p><span id="map-status"></span></p>
             </div>
         </div>    

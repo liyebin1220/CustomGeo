@@ -1,13 +1,5 @@
-var getScriptPromisify = (src) => {
-    console.log(src)
-    return new Promise((resolve) => {
-      $.getScript(src, resolve);
-
-    });
-  };
-
 (function() {
-    // Parsing the data binding
+
     const parseMetadata = metadata => {
         const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
         const dimensions = []
@@ -27,26 +19,28 @@ var getScriptPromisify = (src) => {
         console.log(measuresMap)
         return { dimensions, measures, dimensionsMap, measuresMap }
       }
-    // Parsing data binding end
-
-
-
-
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
 
+    var mapAMap = null;
+
+    var transformedData = null;
+
+    var theprops = null;
+
     let tmpl = document.createElement('template');
-    tmpl.innerHTML = `       
+    tmpl.innerHTML = `
+        <link rel="stylesheet" type="text/css" href="//webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">
 		<style>
           /* Add any custom CSS styles here */
           .map-container {
             background-color: #777799;
             border: 0cap;
-            width: 1200px;
+            width: 1000px;
             height:900px
-          }       
+          }
           .info hr {
             margin-right: 0;
             margin-left: 0;
@@ -63,19 +57,16 @@ var getScriptPromisify = (src) => {
             width: auto;
             min-width: 22rem;
             border-width: 0;
-            right: 1rem;
+            left: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
-            font-size: 1rem;
-          }
         </style>
-        <div class="box">
-            
-            <div id="map-container" class="map-container" tabindex="0"></div>
-            <div class="info">
-                <h5>当前地图状态（Status）</h5>
+        <div id="box">
+        <div id="map-container" class="map-container"></div>
+        <div class="info">
+                <h4>当前地图状态（Status）</h4>
                 <p><span id="map-status"></span></p>
             </div>
-        </div>    
+        </div>
     `;
     // Drawing the base boxes.
 
@@ -86,22 +77,40 @@ var getScriptPromisify = (src) => {
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
-
             this._props = {}
             this._amap = {}
-            this.utilsScriptLoad()                        
-            this.apikeyScriptLoad(container)          
+                        
+            //this.capitalScriptLoad()
+            //this.uiScriptLoad()
+            //this.liteToolbarScriptLoad()
+            //this.securityScriptLoad()
+            this.apikeyScriptLoad(container)
+            //this.createAMapDistrict()
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
-        async utilsScriptLoad() {
-            console.log("calling utilsScriptLoad")
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
+        capitalScriptLoad() {
+
+            const capitalScript = document.createElement('script')
+            capitalScript.type = "text/javascript"
+            capitalScript.src = 'https://a.amap.com/jsapi_demos/static/resource/capitals.js';
+            document.head.appendChild(capitalScript);
         }
-        
+        uiScriptLoad() {
+
+            const uiScript = document.createElement('script')
+            uiScript.type = "text/javascript"
+            uiScript.src = 'https://webapi.amap.com/ui/1.1/main.js?v=1.1.1';
+            document.head.appendChild(uiScript);
+
+            console.log("uiScriptLoad()")
+        }
+        liteToolbarScriptLoad() {
+
+            const liteToolbarScript = document.createElement('script')
+            liteToolbarScript.type = "text/javascript"
+            liteToolbarScript.src = 'https://webapi.amap.com/demos/js/liteToolbar.js?v=1.0.11"';
+            document.head.appendChild(liteToolbarScript);
+        }
         securityScriptLoad() {
 
             const securityScript = document.createElement('script')
@@ -117,8 +126,61 @@ var getScriptPromisify = (src) => {
         }
         onCustomWidgetBeforeUpdate(changedProperties)
         {
-            console.log("Calling before Update")
             this._props = { ...this._props, ...changedProperties };
+            
+            var theDataBinding = this._props.myDataBinding
+
+            console.log("this._props", this._props)
+            console.log("theDataBinding", theDataBinding)
+            
+            if (!theDataBinding) {
+                console.error(this, 'theDataBinding is undefined');
+            }
+            if (!theDataBinding || !theDataBinding.data) {
+                console.error(this, 'theDataBinding.data is undefined');
+            }
+            
+            if (this._ready) {
+                if (theDataBinding && Array.isArray(theDataBinding.data)) {
+                    transformedData = theDataBinding.data.map(row => {
+                        if (row.dimensions_0 && row.measures_0) {
+                            return {
+                                dim_adcode: row.dimensions_0.label,
+                                dim_province: row.dimensions_1.label,
+                                dim_product: row.dimensions_2.label,
+                                dim_city: row.dimensions_3.label,
+                                kfg_sales_volumns: row.measures_0.raw,
+                                kfg_lat: row.measures_1.raw,
+                                kfg_log: row.measures_2.raw,
+                                kfg_revenue: row.measures_3.raw
+                            };
+                        }
+                    }).filter(Boolean);  // Filter out any undefined values
+                    console.log("transformedData has been filled: ", transformedData)
+                    /* for(var i = 0; i < transformedData.length; i += 1){
+                        var center = new Array(transformedData[i].kfg_log, transformedData[i].kfg_lat) 
+                        
+                        var circleMarker = new AMap.CircleMarker({
+                          center:center,
+                          radius:10 + transformedData[i].kfg_revenue/5000000,
+                          strokeColor:'white',
+                          strokeWeight:2,
+                          strokeOpacity:0.5,
+                          fillColor:'rgba(0,0,255,1)',
+                          fillOpacity:0.5,
+                          zIndex:10,
+                          bubble:true,
+                          cursor:'pointer',
+                          clickable: true
+                        })
+                        console.log("center: ", center)
+                        console.log("revenue: ", transformedData[i].kfg_revenue)
+                        circleMarker.setMap(mapAMap)
+                      } */
+                    } else {
+                    console.error('Data is not an array:', theDataBinding && theDataBinding.data);
+                }
+            }
         }       
 
         apikeyScriptLoad(container) {
@@ -132,18 +194,17 @@ var getScriptPromisify = (src) => {
                 "plugins": [],
                 "AMapUI": {                                 // 是否加载 AMapUI，缺省不加载
                   "version": '1.1',                         // AMapUI 版本
+                  "plugins":['overlay/SimpleMarker'],       // 需要加载的 AMapUI ui插件
                 },
                 dragEnable: true,
             }).then((AMap)=>{
-                var  mapAMap = new AMap.Map(container, { 
+                  mapAMap = new AMap.Map(container, { 
                     viewMode: '2D',
                     zoom:4,
                     center: [116.397428, 39.90923],
                     resizeEnable: true
                 });
                 this._amap = mapAMap
-                renderAMapDistrict(mapAMap) 
-                          
               }
               
             )
@@ -151,75 +212,58 @@ var getScriptPromisify = (src) => {
           })  
             document.head.appendChild(apiScript);
             this._ready = true
+        }
 
-            function renderAMapDistrict(map) {
-                let { data, metadata } = this._props.myDataBinding
-                const { dimensions, measures } = parseMetadata(metadata)
-                console.log("dimensions: ", dimensions)
-                console.log("measures", measures)
+        createAMapDistrict() {
 
-                const [dimension] = dimensions
-                const [measure] = measures
-                var colors = [
-                    "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
-                    "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
-                    "#651067", "#329262", "#5574a6", "#3b3eac"
-                ];
+            let { data, metadata } = this._props.myDataBinding
+            const { dimensions, measures } = parseMetadata(metadata)
+            console.log("dimensions: ", dimensions)
+            console.log("measures", measures)
 
-                AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
-                //---------------------------------------------------------------------
-                var mapOpts = {}
-              
-                  //获取并展示地图状态信息
-                  function logMapOptions() {
-                    var node = new PrettyJSON.view.Node({
-                      el: container.parentNode.querySelector("#map-status"),
-                      data: mapOpts
-                    });
-                  }
-              
-                  logMapOptions();    
+            const [dimension] = dimensions
+            const [measure] = measures
 
-                //---------------------------------------------------------------------
+            var colors = [
+                "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+                "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+                "#651067", "#329262", "#5574a6", "#3b3eac"
+            ];
+            AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
+                //创建一个实例
+                var districtExplorer = window.districtExplorer = new DistrictExplorer({
+                    eventSupport: true, //打开事件支持
+                    map: this._amap
+                });
 
-                    var districtExplorer = window.districtExplorer = new DistrictExplorer({
-                        eventSupport: true, //打开事件支持
-                        map: map
-                    });
-                    
-                    //当前聚焦的区域
-                    var currentAreaNode = null;
+                //当前聚焦的区域
+                var currentAreaNode = null;  
+                
+                //鼠标hover提示内容
+                var $tipMarkerContent = $('<div class="tipMarker top"></div>');
 
-                    //鼠标hover提示内容
-                    var $tipMarkerContent = $('<div class="tipMarker top"></div>');
+                var tipMarker = new AMap.Marker({
+                    content: $tipMarkerContent.get(0),
+                    offset: new AMap.Pixel(0, 0),
+                    bubble: true
+                });
 
-                    var tipMarker = new AMap.Marker({
-                        content: $tipMarkerContent.get(0),
-                        offset: new AMap.Pixel(0, 0),
-                        bubble: true
-                    });
-
-                    //根据Hover状态设置相关样式
+                //根据Hover状态设置相关样式
                 function toggleHoverFeature(feature, isHover, position) {
-                    tipMarker.setMap(isHover ? map : null);
+                    tipMarker.setMap(isHover ? this._amap : null);
                     if (!feature) {
                         return;
                     }
                     var props = feature.properties;
-                    //console.log(props.center)
                     
                     if (isHover) { 
                         //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name);
+                        $tipMarkerContent.html(props.adcode + ': ' + props.name + "  营收:" + transformedData.find(object => object.dim_adcode === props.adcode.toString()).kfg_revenue);
                         //更新位置
                         tipMarker.setPosition(position || props.center);
-                        mapOpts.lng = position.lng
-                        mapOpts.lat = position.lat
-                        mapOpts.adcode = props.adcode
-                        mapOpts.name = props.name
-                        logMapOptions(); 
                     }
-
+                    /*$('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover); */
+                    //更新相关多边形的样式
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
                     for (var i = 0, len = polys.length; i < len; i++) {
                         polys[i].setOptions({
@@ -231,41 +275,36 @@ var getScriptPromisify = (src) => {
                     districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
-                        if(e.type === 'featureMouseout') {
-                            mapOpts = {}
-                            logMapOptions(); 
-                        }
+
                     });
 
                     //监听鼠标在feature上滑动
                     districtExplorer.on('featureMousemove', function(e, feature) {
                         //更新提示位置
                         tipMarker.setPosition(e.originalEvent.lnglat);
-
                     });
 
                     //feature被点击
                     districtExplorer.on('featureClick', function(e, feature) {
-                        var area = feature.properties;
+                        var props = feature.properties;
                         //如果存在子节点
-                         //if (area.childrenNum = 0) {
+                        // if (props.childrenNum > 0) {
                             //切换聚焦区域
-                            switch2AreaNode(area.adcode);
-                         //}
+                            //switch2AreaNode(props.adcode);
+                        // }
                         const key = dimension.key;
                         console.log("dimension.key: ", dimension.key)
                         
                         const dimensionId = dimension.id;
                         console.log("dimension.id: ", dimension.id)
-                        console.log(this)
-                        console.log("this._props: ", this._props)
-                        console.log("this._props.myDataBinding: ", this._props.myDataBinding)
-                        console.log("this._props.myDataBinding.data: ", this._props.myDataBinding.data)
+                        console.log("theprops: ", theprops)
+                        console.log("theprops.myDataBinding: ", theprops.myDataBinding)
+                        console.log("theprops.myDataBinding.data: ", theprops.myDataBinding.data)
                         console.log("props.adcode: ", props.adcode)
-                        const selectedItem = this._props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
+                        const selectedItem = theprops.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         console.log("selectedItem: ", selectedItem)
                 
-                        const linkedAnalysis = this._props['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
+                        const linkedAnalysis = theprops['dataBindings'].getDataBinding('myDataBinding').getLinkedAnalysis();
                         if (selectedItem) {
                           const selection = {};
                           selection[dimensionId] = selectedItem[key].id; //Creating an Object and grant a value selectedItem[key].id to item "dimensionId": product
@@ -275,11 +314,14 @@ var getScriptPromisify = (src) => {
                         } else {
                           linkedAnalysis.removeFilters();
                         }
+
                     });
 
                     //外部区域被点击
                     districtExplorer.on('outsideClick', function(e) {
+
                         districtExplorer.locatePosition(e.originalEvent.lnglat, function(error, routeFeatures) {
+
                             if (routeFeatures && routeFeatures.length > 1) {
                                 //切换到省级区域
                                 switch2AreaNode(routeFeatures[1].properties.adcode);
@@ -287,21 +329,88 @@ var getScriptPromisify = (src) => {
                                 //切换到全国
                                 switch2AreaNode(100000);
                             }
+
                         }, {
                             levelLimit: 2
                         });
                     });
 
-                        //[函数定义]绘制某个区域的边界
-                        function renderAreaPolygons(map, areaNode) {
+                    //绘制区域面板的节点
+                        function renderAreaPanelNode(ele, props, color) {
+
+                            var $box = $('<li/>').addClass('lv_' + props.level);
+
+                            var $h2 = $('<h2/>').addClass('lv_' + props.level).attr({
+                                'data-adcode': props.adcode,
+                                'data-level': props.level,
+                                'data-children-num': props.childrenNum || void(0),
+                                'data-center': props.center.join(',')
+                            }).html(props.name).appendTo($box);
+
+                            if (color) {
+                                $h2.css('borderColor', color);
+                            }
+
+                            //如果存在子节点
+                            if (props.childrenNum > 0) {
+
+                                //显示隐藏
+                                $('<div class="showHideBtn"></div>').appendTo($box);
+
+                                //子区域列表
+                                $('<ul/>').addClass('sublist lv_' + props.level).appendTo($box);
+
+                                $('<div class="clear"></div>').appendTo($box);
+
+                                if (props.level !== 'country') {
+                                    $box.addClass('hide-sub');
+                                }
+                            }
+
+                            $box.appendTo(ele);
+                        }
+
+
+                        //填充某个节点的子区域列表
+                        function renderAreaPanel(areaNode) {
+
+                            var props = areaNode.getProps();
+
+                            var $subBox = $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').siblings('ul.sublist');
+
+                            if (!$subBox.length && props.childrenNum) {
+                                //父节点不存在，先创建
+                                //renderAreaPanelNode($('#area-tree'), props);
+                                $subBox = $('#area-tree').find('ul.sublist');
+                            }
+                            if ($subBox.attr('data-loaded') === 'rendered') {
+                                return;
+                            }
+
+                            $subBox.attr('data-loaded', 'rendered');
+
+                            var subFeatures = areaNode.getSubFeatures();
+
+                            //填充子区域
+                            for (var i = 0, len = subFeatures.length; i < len; i++) {
+                                //renderAreaPanelNode($subBox, areaNode.getPropsOfFeature(subFeatures[i]), colors[i % colors.length]);
+                            }
+                        }
+
+                        //绘制某个区域的边界
+                        function renderAreaPolygons(areaNode) {
                             //更新地图视野
-                            map.setBounds(areaNode.getBounds(), null, null, true);
+                            this._amap.setBounds(areaNode.getBounds(), null, null, true);
+
                             //清除已有的绘制内容
                             districtExplorer.clearFeaturePolygons();
+
                             //绘制子区域
                             districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
+
                                 var fillColor = colors[i % colors.length];
                                 var strokeColor = colors[colors.length - 1 - i % colors.length];
+
                                 return {
                                     cursor: 'default',
                                     bubble: true,
@@ -325,56 +434,132 @@ var getScriptPromisify = (src) => {
                             });
                         }
 
-                        //[函数定义]切换区域后刷新显示内容
-                        function refreshAreaNode(map, areaNode) {
+                        //切换区域后刷新显示内容
+                        function refreshAreaNode(areaNode) {
+
                             districtExplorer.setHoverFeature(null);
-                            renderAreaPolygons(map, areaNode);
+
+                            renderAreaPolygons(areaNode);
+
+                            //更新选中节点的class
+                            //var $nodeEles = $('#area-tree').find('h2');
+
+                            //$nodeEles.removeClass('selected');
+
+                            //var $selectedNode = $nodeEles.filter('h2[data-adcode=' + areaNode.getAdcode() + ']').addClass('selected');
+
+                            //展开下层节点
+                            //$selectedNode.closest('li').removeClass('hide-sub');
+
+                            //折叠下层的子节点
+                            //$selectedNode.siblings('ul.sublist').children().addClass('hide-sub');
                         }
 
-                        //【函数定义】切换区域
+                        //切换区域
                         function switch2AreaNode(adcode, callback) {
-                            console.log("switch2AreaNode: ", adcode)
+
                             if (currentAreaNode && ('' + currentAreaNode.getAdcode() === '' + adcode)) {
                                 return;
                             }
+
                             loadAreaNode(adcode, function(error, areaNode) {
+
                                 if (error) {
+
                                     if (callback) {
                                         callback(error);
                                     }
+
                                     return;
                                 }
+
                                 currentAreaNode = window.currentAreaNode = areaNode;
+
                                 //设置当前使用的定位用节点
                                 districtExplorer.setAreaNodesForLocating([currentAreaNode]);
-                                //渲染地图,刷新地图
-                                refreshAreaNode(map, areaNode);
+
+                                refreshAreaNode(areaNode);
+
                                 if (callback) {
                                     callback(null, areaNode);
                                 }
                             });
                         }
 
-                        //【函数定义】加载区域地图
+                        //加载区域
                         function loadAreaNode(adcode, callback) {
-                            districtExplorer.loadAreaNode(adcode, function(error, areaNode) {                    
+
+                            districtExplorer.loadAreaNode(adcode, function(error, areaNode) {
+
                                 if (error) {
+
                                     if (callback) {
                                         callback(error);
                                     }
+
                                     console.error(error);
+
                                     return;
                                 }
+
+                                renderAreaPanel(areaNode);
 
                                 if (callback) {
                                     callback(null, areaNode);
                                 }
                             });
                         }
+
+                        /* $('#area-tree').on('mouseenter mouseleave', 'h2[data-adcode]', function(e) {
+
+                            if (e.type === 'mouseleave') {
+                                districtExplorer.setHoverFeature(null);
+                                return;
+                            }
+
+                            var adcode = $(this).attr('data-adcode');
+
+                            districtExplorer.setHoverFeature(currentAreaNode.getSubFeatureByAdcode(adcode));
+                        });
+
+
+                        $('#area-tree').on('click', 'h2', function() {
+                            var adcode = $(this).attr('data-adcode');
+                            switch2AreaNode(adcode);
+                        });
+
+                        $('#area-tree').on('click', '.showHideBtn', function() {
+
+                            var $li = $(this).closest('li');
+
+                            $li.toggleClass('hide-sub');
+
+                            if (!$li.hasClass('hide-sub')) {
+
+                                //子节点列表被展开
+                                var $subList = $li.children('ul.sublist');
+
+                                //尚未加载
+                                if (!$subList.attr('data-loaded')) {
+
+                                    $subList.attr('data-loaded', 'loading');
+
+                                    $li.addClass('loading');
+
+                                    //加载
+                                    loadAreaNode($li.children('h2').attr('data-adcode'), function() {
+
+                                        $li.removeClass('loading');
+                                    });
+                                }
+                            }
+                        }); */
+
+                        //全国
                         switch2AreaNode(100000);
-                })
-            }               
+                    })   
         }
+
 
         resetAMapInstance_default() {
             this._amap.setLayers([new AMap.TileLayer()])                
@@ -392,6 +577,62 @@ var getScriptPromisify = (src) => {
                 //this._updateData(changedProperties.myDataBinding)
             }
             console.log("changedProperties: ", changedProperties)     
+        }
+
+        _updateData(dataBinding) {
+            console.log('dataBinding:', dataBinding);
+            if (!dataBinding) {
+                console.error(this, 'dataBinding is undefined');
+            }
+            if (!dataBinding || !dataBinding.data) {
+                console.error(this, 'dataBinding.data is undefined');
+            }
+            
+            if (this._ready) {
+                // Check if dataBinding and dataBinding.data are defined
+                if (dataBinding && Array.isArray(dataBinding.data)) {
+                    // Transform the data into the correct format
+                    transformedData = dataBinding.data.map(row => {
+                        console.log('row:', row);
+                        // Check if dimensions_0 and measures_0 are defined before trying to access their properties
+                        if (row.dimensions_0 && row.measures_0) {
+                            return {
+                                dim_adcode: row.dimensions_0.label,
+                                dim_province: row.dimensions_1.label,
+                                dim_product: row.dimensions_2.label,
+                                dim_city: row.dimensions_3.label,
+                                kfg_sales_volumns: row.measures_0.raw,
+                                kfg_lat: row.measures_1.raw,
+                                kfg_log: row.measures_2.raw,
+                                kfg_revenue: row.measures_3.raw
+                            };
+                        }
+                    }).filter(Boolean);  // Filter out any undefined values
+                    console.log("transformedData has been filled: ", transformedData)
+                    for(var i = 0; i < transformedData.length; i += 1){
+                        var center = new Array(transformedData[i].kfg_log, transformedData[i].kfg_lat) 
+                        
+                        var circleMarker = new AMap.CircleMarker({
+                          center:center,
+                          radius:10 + transformedData[i].kfg_revenue/5000000,
+                          strokeColor:'white',
+                          strokeWeight:2,
+                          strokeOpacity:0.5,
+                          fillColor:'rgba(0,0,255,1)',
+                          fillOpacity:0.5,
+                          zIndex:10,
+                          bubble:true,
+                          cursor:'pointer',
+                          clickable: true
+                        })
+                        console.log("center: ", center)
+                        console.log("revenue: ", transformedData[i].kfg_revenue)
+                        circleMarker.setMap(this._amap)
+                      }
+                } else {
+                    console.error('Data is not an array:', dataBinding && dataBinding.data);
+                }
+            }
         }
     }
 
