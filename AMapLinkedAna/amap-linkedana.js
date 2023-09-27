@@ -13,7 +13,7 @@ var getScriptPromisify = (src) => {
 
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `   
-        
+        <link rel="stylesheet" type="text/css" href="https://a.amap.com/jsapi_demos/static/demo-center/css/prety-json.css">
         <link rel="stylesheet" type="text/css" href="https://webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">     
 		<style>
           /* Add any custom CSS styles here */
@@ -34,13 +34,14 @@ var getScriptPromisify = (src) => {
             margin-bottom: 1rem;
             border-radius: .25rem;
             position: fixed;
-            bottom: 10rem;
+            bottom: 1rem;
             background-color: white;
             width: auto;
             min-width: 22rem;
             border-width: 0;
             left: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+            font-size: 1rem
           }
         </style>
         <div class="box">
