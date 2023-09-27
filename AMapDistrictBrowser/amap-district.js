@@ -35,12 +35,12 @@ var getScriptPromisify = (src) => {
             margin-bottom: 1rem;
             border-radius: .25rem;
             position: fixed;
-            top: 1rem;
+            bottom: 1rem;
             background-color: white;
             width: auto;
-            min-width: 22rem;
+            min-width: 10rem;
             border-width: 0;
-            right: 1rem;
+            left: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
           }
         </style>
@@ -49,7 +49,7 @@ var getScriptPromisify = (src) => {
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
                 <h4>当前地图状态（Status）</h4>
-                <p><span id="map-status"></span></p>
+                <p><span id="map-status">OK</span></p>
             </div>
         </div>    
     `;
@@ -62,22 +62,14 @@ var getScriptPromisify = (src) => {
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
-            var lnglat = this._shadowRoot.getElementById("lnglat")
+            var map_status = this._shadowRoot.getElementById('map-status')
+            console.log(map_status.innerText)
 
             this._props = {}
-            this._amap = {}
-            this.utilsScriptLoad()                        
-            this.apikeyScriptLoad(lnglat, container)          
+            this._amap = {}                        
+            this.apikeyScriptLoad(container, map_status)          
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
-        async utilsScriptLoad() {
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
-     
-        }
         
         securityScriptLoad() {
 
@@ -97,7 +89,7 @@ var getScriptPromisify = (src) => {
             this._props = { ...this._props, ...changedProperties };
         }       
 
-        apikeyScriptLoad(lnglat, container) {
+        apikeyScriptLoad(container, map_status) {
             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
@@ -138,17 +130,6 @@ var getScriptPromisify = (src) => {
                 AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
                 //---------------------------------------------------------------------
                 var mapOpts = {}
-              
-                  //获取并展示地图状态信息
-                  function logMapOptions() {
-                    var node = new PrettyJSON.view.Node({
-                      el: container.parentNode.querySelector("#map-status"),
-                      data: mapOpts
-                    });
-                  }
-              
-                  logMapOptions();    
-
                 //---------------------------------------------------------------------
 
                     var districtExplorer = window.districtExplorer = new DistrictExplorer({
@@ -186,7 +167,11 @@ var getScriptPromisify = (src) => {
                         mapOpts.lat = position.lat
                         mapOpts.adcode = props.adcode
                         mapOpts.name = props.name
-                        logMapOptions(); 
+                        map_status.innerHTML = `<p><h5>`+mapOpts.name+`</h5></p>
+                                                <p><h5>`+mapOpts.adcode+`</h5></p>
+                                                <p><h5>`+mapOpts.lng+`</h5></p>
+                                                <p><h5>`+mapOpts.lat+`</h5></p>
+                                                `
                     }
 
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
@@ -202,7 +187,8 @@ var getScriptPromisify = (src) => {
                             e.originalEvent ? e.originalEvent.lnglat : null);
                         if(e.type === 'featureMouseout') {
                             mapOpts = {}
-                            logMapOptions(); 
+                            map_status.innerText = ''
+
                         }
                     });
 

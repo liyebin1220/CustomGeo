@@ -6,35 +6,14 @@ var getScriptPromisify = (src) => {
   };
 (function() {
 
-    var this_props = null
-
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
-    // parsing databinding object
-    const parseMetadata = metadata => {
-        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
-        const dimensions = []
-        for (const key in dimensionsMap) {
-          const dimension = dimensionsMap[key]
-          dimensions.push({ key, ...dimension })
-        }
-        const measures = []
-        for (const key in measuresMap) {
-          const measure = measuresMap[key]
-          measures.push({ key, ...measure })
-        }
-        console.log(metadata)
-        console.log(dimensions)
-        console.log(measures)
-        console.log(dimensionsMap)
-        console.log(measuresMap)
-        return { dimensions, measures, dimensionsMap, measuresMap }
-      }
-    // prepare the html format for widget
+
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `   
+        
         <link rel="stylesheet" type="text/css" href="https://a.amap.com/jsapi_demos/static/demo-center/css/prety-json.css">
         <link rel="stylesheet" type="text/css" href="https://webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">     
 		<style>
@@ -63,15 +42,14 @@ var getScriptPromisify = (src) => {
             border-width: 0;
             left: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
-            font-size: 1rem
           }
         </style>
         <div class="box">
             
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
-                <h5>当前地图状态（Status）</h5>
-                <p><span id="map-status"></span></p>
+                <h4>当前地图状态（Status）</h4>
+                <p><span id="map-status">OK</span></p>
             </div>
         </div>    
     `;
@@ -84,20 +62,14 @@ var getScriptPromisify = (src) => {
             this._shadowRoot = this.attachShadow({mode: "open"});
             this._shadowRoot.appendChild(tmpl.content.cloneNode(true)); 
             var container = this._shadowRoot.getElementById('map-container')
+            var map_status = this._shadowRoot.getElementById('map-status')
+            console.log(map_status.innerText)
 
             this._props = {}
-            this._amap = {}
-            this.utilsScriptLoad()                        
-            this.apikeyScriptLoad(container)          
+            this._amap = {}                        
+            this.apikeyScriptLoad(container, map_status)          
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
-        async utilsScriptLoad() {
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/jquery-1.11.1.min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/underscore-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/backbone-min.js");
-            await getScriptPromisify("https://a.amap.com/jsapi_demos/static/demo-center/js/prety-json.js");
-        }
         
         securityScriptLoad() {
 
@@ -115,10 +87,9 @@ var getScriptPromisify = (src) => {
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
-            this_props = this._props
         }       
 
-        apikeyScriptLoad(container) {
+        apikeyScriptLoad(container, map_status) {
             const apiScript = document.createElement('script');
 
             apiScript.src = 'https://webapi.amap.com/loader.js';
@@ -150,14 +121,6 @@ var getScriptPromisify = (src) => {
             this._ready = true
 
             function renderAMapDistrict(map) {
-
-                let { data, metadata } = this_props.myDataBinding
-                const { dimensions, measures } = parseMetadata(metadata)
-                console.log("dimensions: ", dimensions)
-                console.log("measures", measures)
-
-                const [dimension] = dimensions
-                const [measure] = measures
                 var colors = [
                     "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
                     "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
@@ -167,17 +130,6 @@ var getScriptPromisify = (src) => {
                 AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
                 //---------------------------------------------------------------------
                 var mapOpts = {}
-              
-                  //获取并展示地图状态信息
-                  function logMapOptions() {
-                    var node = new PrettyJSON.view.Node({
-                      el: container.parentNode.querySelector("#map-status"),
-                      data: mapOpts
-                    });
-                  }
-              
-                  logMapOptions();    
-
                 //---------------------------------------------------------------------
 
                     var districtExplorer = window.districtExplorer = new DistrictExplorer({
@@ -215,7 +167,11 @@ var getScriptPromisify = (src) => {
                         mapOpts.lat = position.lat
                         mapOpts.adcode = props.adcode
                         mapOpts.name = props.name
-                        logMapOptions(); 
+                        map_status.innerHTML = `<p><h5>`+mapOpts.name+`</h5></p>
+                                                <p><h5>`+mapOpts.adcode+`</h5></p>
+                                                <p><h5>`+mapOpts.lng+`</h5></p>
+                                                <p><h5>`+mapOpts.lat+`</h5></p>
+                                                `
                     }
 
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
@@ -231,7 +187,8 @@ var getScriptPromisify = (src) => {
                             e.originalEvent ? e.originalEvent.lnglat : null);
                         if(e.type === 'featureMouseout') {
                             mapOpts = {}
-                            logMapOptions(); 
+                            map_status.innerText = ''
+
                         }
                     });
 
