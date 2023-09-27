@@ -5,7 +5,8 @@
     });
   }; */
 (function() {
-
+    // Declare for databinding props.
+    var this_props = null
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
@@ -68,7 +69,7 @@
             
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
-                <h4>当前地图状态（Status）</h4>
+                <h5>当前地图状态（Status）</h5>
                 <p><span id="map-status">OK</span></p>
             </div>
         </div>    
@@ -107,6 +108,7 @@
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
+            this_props = this._props
         }       
 
         apikeyScriptLoad(container, map_status) {
@@ -141,6 +143,14 @@
             this._ready = true
 
             function renderAMapDistrict(map) {
+                let { data, metadata } = this_props.myDataBinding
+                const { dimensions, measures } = parseMetadata(metadata)
+                console.log("dimensions: ", dimensions)
+                console.log("measures", measures)
+    
+                const [dimension] = dimensions
+                const [measure] = measures
+
                 var colors = [
                     "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
                     "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
