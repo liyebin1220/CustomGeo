@@ -10,7 +10,27 @@ var getScriptPromisify = (src) => {
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
-
+    //parsing databinding start
+    const parseMetadata = metadata => {
+        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
+        const dimensions = []
+        for (const key in dimensionsMap) {
+          const dimension = dimensionsMap[key]
+          dimensions.push({ key, ...dimension })
+        }
+        const measures = []
+        for (const key in measuresMap) {
+          const measure = measuresMap[key]
+          measures.push({ key, ...measure })
+        }
+        console.log(metadata)
+        console.log(dimensions)
+        console.log(measures)
+        console.log(dimensionsMap)
+        console.log(measuresMap)
+        return { dimensions, measures, dimensionsMap, measuresMap }
+      }
+    //parsing databinding end
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `   
         
