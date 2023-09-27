@@ -6,11 +6,33 @@ var getScriptPromisify = (src) => {
   };
 (function() {
 
+    var this_props = null
+
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
     var securityCode = 'e016b7c8a8df4e14e4e7ec322210f934';
-
+    // parsing databinding object
+    const parseMetadata = metadata => {
+        const { dimensions: dimensionsMap, mainStructureMembers: measuresMap } = metadata
+        const dimensions = []
+        for (const key in dimensionsMap) {
+          const dimension = dimensionsMap[key]
+          dimensions.push({ key, ...dimension })
+        }
+        const measures = []
+        for (const key in measuresMap) {
+          const measure = measuresMap[key]
+          measures.push({ key, ...measure })
+        }
+        console.log(metadata)
+        console.log(dimensions)
+        console.log(measures)
+        console.log(dimensionsMap)
+        console.log(measuresMap)
+        return { dimensions, measures, dimensionsMap, measuresMap }
+      }
+    // prepare the html format for widget
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `   
         <link rel="stylesheet" type="text/css" href="https://a.amap.com/jsapi_demos/static/demo-center/css/prety-json.css">
@@ -37,7 +59,7 @@ var getScriptPromisify = (src) => {
             bottom: 1rem;
             background-color: white;
             width: auto;
-            min-width: 22rem;
+            min-width: 10rem;
             border-width: 0;
             left: 1rem;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
@@ -93,6 +115,7 @@ var getScriptPromisify = (src) => {
         onCustomWidgetBeforeUpdate(changedProperties)
         {
             this._props = { ...this._props, ...changedProperties };
+            this_props = this._props
         }       
 
         apikeyScriptLoad(container) {
@@ -127,6 +150,14 @@ var getScriptPromisify = (src) => {
             this._ready = true
 
             function renderAMapDistrict(map) {
+
+                let { data, metadata } = this_props.myDataBinding
+                const { dimensions, measures } = parseMetadata(metadata)
+                console.log("dimensions: ", dimensions)
+                console.log("measures", measures)
+
+                const [dimension] = dimensions
+                const [measure] = measures
                 var colors = [
                     "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
                     "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
