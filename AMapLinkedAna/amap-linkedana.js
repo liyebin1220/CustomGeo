@@ -7,6 +7,8 @@
 (function() {
     // Declare for databinding props.
     var this_props = null
+    // for context menu
+    var menu = null
     // Declare apiKey as a global variable
     var apiKey = '20acc0972699ca4133fbee84646f41b9';
     // Replace with your AMap API key and security code
@@ -32,47 +34,97 @@
         return { dimensions, measures, dimensionsMap, measuresMap }
       }
     //parsing databinding end
+    // contextMenu: right click menu
+    class ContextMenu {
+        constructor(map, e) {
+            this.content = []
+            this.fillContent()
+            //通过content自定义右键菜单内容
+            this.contextMenu = new AMap.ContextMenu({isCustom: true, content: this.content.join('')});
+        }
+
+        fillContent() {
+            this.content.push("<div class='context_menu'>");
+            this.content.push("  <p id='drilldown' onclick='menu.drillDown()'>下钻(Drill Down)</p>");
+            this.content.push("  <p id='drillup'onclick='menu.drillUp()'>上钻(Drill Up)</p>");              
+            this.content.push("</div>");
+        }
+
+        openContextMenu(map, lnglat) {
+            this.contextMenu.open(map, lnglat);
+        }  
+        drillDown() {
+            console.log("drillDown in Class.")
+        }
+
+        drillUp() {
+            console.log("drillUp in Class.")
+        }
+    }
+    //contextMenu: end
     let tmpl = document.createElement('template');
-    tmpl.innerHTML = `   
-        
-        <link rel="stylesheet" type="text/css" href="https://a.amap.com/jsapi_demos/static/demo-center/css/prety-json.css">
-        <link rel="stylesheet" type="text/css" href="https://webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css">     
-		<style>
-          /* Add any custom CSS styles here */
-          .map-container {
+    tmpl.innerHTML = `  
+        <link rel="stylesheet" type="text/css" href="https://webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/area.css"> 
+        <style>
+        /* Add any custom CSS styles here */
+        .map-container {
             background-color: #777799;
             border: 0cap;
             width: 1200px;
             height:900px
-          }       
-          .info hr {
+        }       
+        .info hr {
             margin-right: 0;
             margin-left: 0;
             border-top-color: grey;
-          }
-          
-          .info {
+        }
+        
+        .info {
             padding: .75rem 1.25rem;
             margin-bottom: 1rem;
             border-radius: .25rem;
             position: fixed;
-            bottom: 1rem;
+            bottom: 2rem;
             background-color: white;
             width: auto;
             min-width: 10rem;
             border-width: 0;
             left: 1rem;
+            font-size: 9px;
             box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
-          }
+        }
+        .context_menu {
+            position: fixed;
+            min-width: 12rem;
+            padding: 0;
+            margin-bottom: 1rem;
+            background-color: white;
+            border-radius: .25rem;
+            bottom: 2rem;
+            width: 10rem;
+            border-width: 0;
+            right: 1rem;
+            box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+        }
+        .context_menu p{
+            cursor: pointer;
+            padding: 0.25rem 1.25rem;
+            font-size: 9px;
+            }
+
+            .context_menu p:hover{
+            background: #ccc;
+            }
+
         </style>
         <div class="box">
             
             <div id="map-container" class="map-container" tabindex="0"></div>
             <div class="info">
-                <h5>当前地图状态（Status）</h5>
+                <h4> Status </h4>
                 <p><span id="map-status">OK</span></p>
             </div>
-        </div>    
+        </div>     
     `;
     // Drawing the base boxes.
 
@@ -88,7 +140,7 @@
 
             this._props = {}
             this._amap = {}                        
-            this.apikeyScriptLoad(container, map_status)          
+            this.apikeyScriptLoad(container, map_status)    
         }
         //以下定义的方法均为实例方法，默认写入ClassAMap 的显示原型中。只能通过创建好的对象来访问
         
@@ -119,7 +171,7 @@
             apiScript.addEventListener('load', () => {
             AMapLoader.load({
                 key: apiKey,
-                "plugins": [],
+                plugins:[],
                 "AMapUI": {                                 // 是否加载 AMapUI，缺省不加载
                   "version": '1.1',                         // AMapUI 版本
                 },
@@ -132,8 +184,8 @@
                     resizeEnable: true
                 });
                 this._amap = mapAMap
+
                 renderAMapDistrict(mapAMap) 
-                          
               }
               
             )
@@ -213,12 +265,12 @@
                 }
                     //监听feature的hover事件
                     districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
+
                         toggleHoverFeature(feature, e.type === 'featureMouseover',
                             e.originalEvent ? e.originalEvent.lnglat : null);
                         if(e.type === 'featureMouseout') {
                             mapOpts = {}
                             map_status.innerText = ''
-
                         }
                     });
 
@@ -235,10 +287,11 @@
                         //如果存在子节点
                          //if (props.childrenNum = 0) {
                             //切换聚焦区域
-                            switch2AreaNode(props.adcode);
+                            //switch2AreaNode(props.adcode);
                          //}
 
                          tipMarker.setPosition(e.originalEvent.lnglat);
+                         //linked analysis block
                          const key = dimension.key;
                         console.log("dimension.key: ", dimension.key)
                         
@@ -261,6 +314,51 @@
                         } else {
                           linkedAnalysis.removeFilters();
                         }
+                        //linked analysis block
+                        // right click context menu
+                        menu.openContextMenu(map,e.originalEvent.lnglat)
+
+                            if (props.childrenNum >= 0) {
+                                menu.drillDown = function() {                                
+                                    switch2AreaNode(props.adcode);                               
+                                    this.contextMenu.close();
+                                };
+                            } else {
+                                console.log("initial a blank Func.")
+                                menu.drillDown = function() {                                                            
+                                    this.contextMenu.close();
+                                }
+                            }
+                            var j = 1
+                            var _adcode = null
+                            districtExplorer.locatePosition(e.originalEvent.lnglat, function(error, routeFeatures) {
+                                if (routeFeatures && routeFeatures.length > 1) {
+                                    //切换
+                                    if(props.adcode === routeFeatures[0].properties.adcode) {
+                                        _adcode = routeFeatures[0].properties.adcode
+                                  
+                                    } else if(props.adcode === routeFeatures[1].properties.adcode) {
+                                        _adcode = routeFeatures[0].properties.adcode
+
+                                    } else if(props.adcode === routeFeatures[2].properties.adcode && currentAreaNode.adcode === routeFeatures[1].properties.adcode) {
+                                        _adcode = routeFeatures[0].properties.adcode
+
+                                    } else if(props.adcode === routeFeatures[3].properties.adcode && currentAreaNode.adcode === routeFeatures[2].properties.adcode) {
+                                        _adcode = routeFeatures[1].properties.adcode
+
+                                    } else if(props.adcode === routeFeatures[3].properties.adcode && currentAreaNode.adcode === routeFeatures[3].properties.adcode) {
+                                        _adcode = routeFeatures[2].properties.adcode
+
+                                    }                                     
+                                } 
+                            }, {
+                                levelLimit: 4
+                            });
+                            menu.drillUp = function() {                                
+                                switch2AreaNode(_adcode);
+                                this.contextMenu.close();
+                            }  
+                        //right click context menu - end
 
                     });
 
@@ -320,7 +418,6 @@
 
                         //【函数定义】切换区域
                         function switch2AreaNode(adcode, callback) {
-                            console.log("switch2AreaNode: ", adcode)
                             if (currentAreaNode && ('' + currentAreaNode.getAdcode() === '' + adcode)) {
                                 return;
                             }
