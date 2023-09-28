@@ -283,6 +283,11 @@
 
                     //feature被点击
                     districtExplorer.on('featureClick', function(e, feature) {
+                        if(menu) {
+                            menu.contextMenu.close()
+                            menu = null
+                        }
+                        window.menu = menu = new ContextMenu(map)
                         var props = feature.properties;
                         //如果存在子节点
                          //if (props.childrenNum = 0) {
