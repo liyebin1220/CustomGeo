@@ -442,6 +442,8 @@
                                     callback(null, areaNode);
                                 }
                             });
+
+                            map.setFitView(districtExplorer.getAllFeaturePolygons());
                         }
 
                         //【函数定义】加载区域地图
