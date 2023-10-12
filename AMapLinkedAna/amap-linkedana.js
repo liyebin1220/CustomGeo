@@ -230,7 +230,7 @@
                     var props = feature.properties;
                     
                     if (isHover) { 
-                        //linked analysis block
+                        // feching data
                         const key = dimension.key;
                         const raw = measure.key;
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
@@ -239,7 +239,7 @@
                         } else {
                           mapOpts.revenue = 0
                         }
-                        //linked analysis block
+                        // feching data
                         //更新提示内容
 
                         mapOpts.adcode = props.adcode
@@ -382,8 +382,20 @@
                             districtExplorer.clearFeaturePolygons();
                             //绘制子区域
                             districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
-                                var fillColor = colors[i % colors.length];
+                                // feching data
+                                const props = feature.properties;
+                                const key = dimension.key;
+                                const raw = measure.key;
+                                const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
+                                const revenue = 0
+                                if (selectedItem) {
+                                    revenue = selectedItem[raw].raw
+                                
+                                // feching data
+                                var fillColor = colors[0];
+                                var fillOpacity = revenue / 100000000
                                 var strokeColor = colors[colors.length - 1 - i % colors.length];
+                                
                                 return {
                                     cursor: 'default',
                                     bubble: true,
@@ -391,7 +403,7 @@
                                     strokeOpacity: 1, //线透明度
                                     strokeWeight: 0.1, //线宽
                                     fillColor: fillColor, //填充色
-                                    fillOpacity: 0.35, //填充透明度
+                                    fillOpacity: fillOpacity, //填充透明度
                                 };
                             });
 
