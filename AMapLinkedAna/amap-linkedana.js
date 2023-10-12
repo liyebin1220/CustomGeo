@@ -235,7 +235,7 @@
                         const raw = measure.key;
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         if (selectedItem) {
-                          mapOpts.revenue = selectedItem[raw].formatted
+                          mapOpts.revenue = Math.round(selectedItem[raw].raw)
                         } else {
                           mapOpts.revenue = 0
                         }
