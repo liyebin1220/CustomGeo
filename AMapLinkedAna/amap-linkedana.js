@@ -391,13 +391,15 @@
                                 const raw = measure.key;
                                 const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                                 let revenue = 0
+                                let fillOpacity = 0.2
                                 if (selectedItem) {
                                     revenue = selectedItem[raw].raw
-                                }
+                                    fillOpacity = revenue / 100000000
+                                } 
                                 
                                 // feching data
                                 var fillColor = colors[1];
-                                var fillOpacity = revenue / 100000000
+                                
                                 var strokeColor = colors[colors.length - 1 - i % colors.length];
                                 
                                 return {
