@@ -222,18 +222,8 @@
                     //当前聚焦的区域
                     var currentAreaNode = null;
 
-                    //鼠标hover提示内容
-                    var $tipMarkerContent = $('<div class="tipMarker top"></div>');
-
-                    var tipMarker = new AMap.Marker({
-                        content: $tipMarkerContent.get(0),
-                        offset: new AMap.Pixel(0, 0),
-                        bubble: true
-                    });
-
                     //根据Hover状态设置相关样式
                 function toggleHoverFeature(feature, isHover, position) {
-                    tipMarker.setMap(isHover ? map : null);
                     if (!feature) {
                         return;
                     }
@@ -242,9 +232,6 @@
                     
                     if (isHover) { 
                         //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name);
-                        //更新位置
-                        tipMarker.setPosition(position || props.center);
                         mapOpts.lng = position.lng
                         mapOpts.lat = position.lat
                         mapOpts.adcode = props.adcode
@@ -276,9 +263,7 @@
 
                     //监听鼠标在feature上滑动
                     districtExplorer.on('featureMousemove', function(e, feature) {
-                        //更新提示位置
-                        tipMarker.setPosition(e.originalEvent.lnglat);
-
+                        //目前没有滑动事件设置
                     });
 
                     //feature被点击
@@ -295,7 +280,6 @@
                             //switch2AreaNode(props.adcode);
                          //}
 
-                         tipMarker.setPosition(e.originalEvent.lnglat);
                          //linked analysis block
                          const key = dimension.key;
                         console.log("dimension.key: ", dimension.key)
