@@ -231,6 +231,15 @@
                     //console.log(props.center)
                     
                     if (isHover) { 
+                        //linked analysis block
+                        const key = dimension.key;
+                        const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
+                        if (selectedItem) {
+                          mapOpts.Rev = selectedItem[3].raw
+                        } else {
+                          mapOpts.Rev = 0
+                        }
+                        //linked analysis block
                         //更新提示内容
                         mapOpts.lng = position.lng
                         mapOpts.lat = position.lat
@@ -240,6 +249,7 @@
                                                 <p><h5>`+mapOpts.adcode+`</h5></p>
                                                 <p><h5>`+mapOpts.lng+`</h5></p>
                                                 <p><h5>`+mapOpts.lat+`</h5></p>
+                                                <p><h5>`+mapOpts.rev+`</h5></p>
                                                 `
                     }
 
