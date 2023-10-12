@@ -233,15 +233,11 @@
                         //linked analysis block
                         const key = dimension.key;
                         const raw = measure.key;
-                        console.log("dimension.key: ", dimension.key)
-                        console.log("measure.key: ", measure.key)
-                        console.log("dimension: ", dimension)
-                        console.log("measure: ", measure)
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         if (selectedItem) {
-                          mapOpts.volumn = selectedItem[raw].formatted
+                          mapOpts.revenue = selectedItem[raw].formatted
                         } else {
-                          mapOpts.volumn = 0
+                          mapOpts.revenue = 0
                         }
                         //linked analysis block
                         //更新提示内容
@@ -250,7 +246,7 @@
                         mapOpts.name = props.name
                         map_status.innerHTML = `<p><h5>地区：`+mapOpts.name+`</h5></p>
                                                 <p><h5>编码：`+mapOpts.adcode+`</h5></p>
-                                                <p><h5>销量：`+mapOpts.volumn+`</h5></p>
+                                                <p><h5>收入：`+mapOpts.revenue+`</h5></p>
                                                 `
                     }
 
