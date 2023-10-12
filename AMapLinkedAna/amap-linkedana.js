@@ -396,7 +396,7 @@
                                 }
                                 
                                 // feching data
-                                var fillColor = colors[Math.floor(Math.random()*10)];
+                                var fillColor = colors[1];
                                 var fillOpacity = revenue / 100000000
                                 var strokeColor = colors[colors.length - 1 - i % colors.length];
                                 
