@@ -244,6 +244,7 @@
                     }
 
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
+                    
                     for (var i = 0, len = polys.length; i < len; i++) {
                         polys[i].setOptions({
                             fillOpacity: isHover ? 0.5 : 0.2
@@ -381,7 +382,7 @@
                                     bubble: true,
                                     strokeColor: strokeColor, //线颜色
                                     strokeOpacity: 1, //线透明度
-                                    strokeWeight: 1, //线宽
+                                    strokeWeight: 0.1, //线宽
                                     fillColor: fillColor, //填充色
                                     fillOpacity: 0.35, //填充透明度
                                 };

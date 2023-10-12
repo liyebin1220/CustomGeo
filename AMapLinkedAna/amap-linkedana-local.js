@@ -194,18 +194,9 @@
                     //当前聚焦的区域
                     var currentAreaNode = null;
 
-                    //鼠标hover提示内容
-                    var $tipMarkerContent = $('<div class="tipMarker top"></div>');
-
-                    var tipMarker = new AMap.Marker({
-                        content: $tipMarkerContent.get(0),
-                        offset: new AMap.Pixel(0, 0),
-                        bubble: true
-                    });
-
                     //根据Hover状态设置相关样式
                 function toggleHoverFeature(feature, isHover, position) {
-                    tipMarker.setMap(isHover ? map : null);
+
                     if (!feature) {
                         return;
                     }
@@ -213,10 +204,6 @@
                     //console.log(props.center)
                     
                     if (isHover) { 
-                        //更新提示内容
-                        $tipMarkerContent.html(props.adcode + ': ' + props.name);
-                        //更新位置
-                        tipMarker.setPosition(position || props.center);
                         mapOpts.lng = position.lng
                         mapOpts.lat = position.lat
                         mapOpts.adcode = props.adcode
@@ -230,8 +217,8 @@
 
                     var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
                     for (var i = 0, len = polys.length; i < len; i++) {
-                        polys[i].setOptions({
-                            fillOpacity: isHover ? 0.5 : 0.2
+                         polys[i].setOptions({
+                            fillOpacity: isHover ? 0.5 : 0.2,
                         });
                     }
                 }
@@ -248,8 +235,6 @@
 
                     //监听鼠标在feature上滑动
                 districtExplorer.on('featureMousemove', function(e, feature) {
-                        //更新提示位置
-                        tipMarker.setPosition(e.originalEvent.lnglat);
 
                     });
 
@@ -334,16 +319,21 @@
                             //清除已有的绘制内容
                             districtExplorer.clearFeaturePolygons();
                             //绘制子区域
+                            
+
+
                             districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
                                 var fillColor = colors[i % colors.length];
                                 var strokeColor = colors[colors.length - 1 - i % colors.length];
+                                console.log(districtExplorer._areaNodesForLocating[0]._data.geoData.sub.features[i].properties.adcode)
+                                console.log(feature)
                                 return {
                                     cursor: 'default',
                                     bubble: true,
                                     strokeColor: strokeColor, //线颜色
                                     strokeOpacity: 1, //线透明度
-                                    strokeWeight: 1, //线宽
-                                    fillColor: fillColor, //填充色
+                                    strokeWeight: 0.1, //线宽
+                                    //fillColor: fillColor, //填充色
                                     fillOpacity: 0.35, //填充透明度
                                 };
                             });
@@ -354,7 +344,7 @@
                                 bubble: true,
                                 strokeColor: 'black', //线颜色
                                 strokeOpacity: 1, //线透明度
-                                strokeWeight: 1, //线宽
+                                strokeWeight: 0.1, //线宽
                                 fillColor: areaNode.getSubFeatures().length ? null : colors[0], //填充色
                                 fillOpacity: 0.35, //填充透明度
                             });
