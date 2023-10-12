@@ -249,12 +249,15 @@
                                                 <p><h5>收入：`+mapOpts.revenue+`</h5></p>
                                                 `
                     }
-
-                    var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
                     
+                    //更新相关多边形的样式
+                    var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
                     for (var i = 0, len = polys.length; i < len; i++) {
+
+                        let fillOpacity = polys[i].getOptions().fillOpacity                        
+
                         polys[i].setOptions({
-                            fillOpacity: isHover ? 0.5 : 0.2
+                            fillOpacity: isHover ? fillOpacity * 1.5 : fillOpacity / 1.5
                         });
                     }
                 }
@@ -393,7 +396,7 @@
                                 }
                                 
                                 // feching data
-                                var fillColor = colors[0];
+                                var fillColor = colors[Math.floor(Math.random()*10)];
                                 var fillOpacity = revenue / 100000000
                                 var strokeColor = colors[colors.length - 1 - i % colors.length];
                                 
