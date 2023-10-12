@@ -232,11 +232,11 @@
                     if (isHover) { 
                         //linked analysis block
                         const key = dimension.key;
-                        const raw = measure.raw;
-                        console.log(dimension.key)
-                        console.log(measure.key)
-                        console.log(measure.raw)
-                        console.log(raw)
+                        const raw = measure.key;
+                        console.log("dimension.key: ", dimension.key)
+                        console.log("measure.key: ", measure.key)
+                        console.log("dimension: ", dimension)
+                        console.log("measure: ", measure)
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         if (selectedItem) {
                             console.log(selectedItem)
