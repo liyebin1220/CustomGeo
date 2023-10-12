@@ -390,6 +390,7 @@
                                 const revenue = 0
                                 if (selectedItem) {
                                     revenue = selectedItem[raw].raw
+                                }
                                 
                                 // feching data
                                 var fillColor = colors[0];
