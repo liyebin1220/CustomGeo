@@ -235,7 +235,7 @@
                         const key = dimension.key;
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         if (selectedItem) {
-                          mapOpts.Rev = selectedItem[3].raw
+                          mapOpts.Rev = selectedItem[measures_3].raw
                         } else {
                           mapOpts.Rev = 0
                         }
