@@ -387,7 +387,7 @@
                                 const key = dimension.key;
                                 const raw = measure.key;
                                 const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
-                                const revenue = 0
+                                let revenue = 0
                                 if (selectedItem) {
                                     revenue = selectedItem[raw].raw
                                 }
