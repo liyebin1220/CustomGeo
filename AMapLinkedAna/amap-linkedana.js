@@ -239,13 +239,9 @@
                         console.log("measure: ", measure)
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         if (selectedItem) {
-                            console.log(selectedItem)
-                            console.log(selectedItem[raw])
-                            console.log(selectedItem[raw].raw)
-                            console.log(selectedItem[raw].formatted)
-                          mapOpts.Rev = selectedItem[raw].formatted
+                          mapOpts.volumn = selectedItem[raw].formatted
                         } else {
-                          mapOpts.Rev = 0
+                          mapOpts.volumn = 0
                         }
                         //linked analysis block
                         //更新提示内容
@@ -253,11 +249,11 @@
                         mapOpts.lat = position.lat
                         mapOpts.adcode = props.adcode
                         mapOpts.name = props.name
-                        map_status.innerHTML = `<p><h5>`+mapOpts.name+`</h5></p>
-                                                <p><h5>`+mapOpts.adcode+`</h5></p>
-                                                <p><h5>`+mapOpts.lng+`</h5></p>
-                                                <p><h5>`+mapOpts.lat+`</h5></p>
-                                                <p><h5>`+mapOpts.rev+`</h5></p>
+                        map_status.innerHTML = `<p><h5>地区：`+mapOpts.name+`</h5></p>
+                                                <p><h5>编码：`+mapOpts.adcode+`</h5></p>
+                                                <p><h5>经度：`+mapOpts.lng+`</h5></p>
+                                                <p><h5>纬度：`+mapOpts.lat+`</h5></p>
+                                                <p><h5>销量：`+mapOpts.volumn+`</h5></p>
                                                 `
                     }
 
