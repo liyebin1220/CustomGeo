@@ -233,10 +233,13 @@
                         //linked analysis block
                         const key = dimension.key;
                         const raw = measure.raw;
+                        console.log(dimension.key)
+                        console.log(measure.key)
                         console.log(measure.raw)
                         console.log(raw)
                         const selectedItem = this_props.myDataBinding.data.find(item => item[key].label === props.adcode.toString());
                         if (selectedItem) {
+                            console.log(selectedItem)
                           mapOpts.Rev = selectedItem[raw].raw
                         } else {
                           mapOpts.Rev = 0
