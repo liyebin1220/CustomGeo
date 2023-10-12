@@ -241,10 +241,9 @@
                         if (selectedItem) {
                             console.log(selectedItem)
                             console.log(selectedItem[raw])
-                            console.log(selectedItem[raw].key)
-                            console.log(selectedItem[raw].id)
+                            console.log(selectedItem[raw].raw)
                             console.log(selectedItem[raw].formatted)
-                          mapOpts.Rev = selectedItem[raw].raw
+                          mapOpts.Rev = selectedItem[raw].formatted
                         } else {
                           mapOpts.Rev = 0
                         }
