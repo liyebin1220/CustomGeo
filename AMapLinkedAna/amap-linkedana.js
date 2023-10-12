@@ -245,14 +245,11 @@
                         }
                         //linked analysis block
                         //更新提示内容
-                        mapOpts.lng = position.lng
-                        mapOpts.lat = position.lat
+
                         mapOpts.adcode = props.adcode
                         mapOpts.name = props.name
                         map_status.innerHTML = `<p><h5>地区：`+mapOpts.name+`</h5></p>
                                                 <p><h5>编码：`+mapOpts.adcode+`</h5></p>
-                                                <p><h5>经度：`+mapOpts.lng+`</h5></p>
-                                                <p><h5>纬度：`+mapOpts.lat+`</h5></p>
                                                 <p><h5>销量：`+mapOpts.volumn+`</h5></p>
                                                 `
                     }
