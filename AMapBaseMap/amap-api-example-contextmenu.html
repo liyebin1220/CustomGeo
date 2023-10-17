@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>自定义</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <style>
+        html, body, #container {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .context_menu{
+            position: relative;
+            min-width: 12rem;
+            padding: 0;
+        }
+
+        .context_menu p{
+            cursor: pointer;
+            padding: 0.25rem 1.25rem;
+        }
+
+        .context_menu p:hover{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<div id="tip" class="info">地图上右击鼠标，弹出右键菜单</div>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=20acc0972699ca4133fbee84646f41b9&plugin=AMap.MouseTool"></script>
+<script type="text/javascript">
+    var lnglat = new AMap.LngLat(116.397, 39.918);
+
+    var map = new AMap.Map("container", {
+        center: lnglat,
+        zoom: 14,
+        resizeEnable: true
+    });
+
+    //创建右键菜单
+    var menu = new ContextMenu(map);
+    console.log(menu)
+
+    //自定义菜单类
+    function ContextMenu(map) {
+        var me = this;
+
+        //地图中添加鼠标工具MouseTool插件
+        this.mouseTool = new AMap.MouseTool(map);
+
+        this.contextMenuPositon = null;
+
+        var content = [];
+
+        content.push("<div class='info context_menu'>");
+        content.push("  <p onclick='menu.zoomMenu(0)'>缩小</p>");
+        content.push("  <p class='split_line' onclick='menu.zoomMenu(1)'>放大</p>");
+        content.push("  <p class='split_line' onclick='menu.distanceMeasureMenu()'>距离量测</p>");
+        content.push("  <p onclick='menu.addMarkerMenu()'>添加标记</p>");
+        content.push("</div>");
+        
+        //通过content自定义右键菜单内容
+        this.contextMenu = new AMap.ContextMenu({isCustom: true, content: content.join('')});
+
+        //地图绑定鼠标右击事件——弹出右键菜单
+        map.on('rightclick', function (e) {
+            me.contextMenu.open(map, e.lnglat);
+            me.contextMenuPositon = e.lnglat; //右键菜单位置
+        });
+    }
+
+    ContextMenu.prototype.zoomMenu = function zoomMenu(tag) {//右键菜单缩放地图
+        if (tag === 0) {
+            map.zoomOut();
+        }
+        if (tag === 1) {
+            map.zoomIn();
+        }
+        this.contextMenu.close();
+    };
+
+    ContextMenu.prototype.distanceMeasureMenu = function () {  //右键菜单距离量测
+        this.mouseTool.rule();
+        this.contextMenu.close();
+    };
+
+    ContextMenu.prototype.addMarkerMenu = function () {  //右键菜单添加Marker标记
+        this.mouseTool.close();
+        var marker = new AMap.Marker({
+            map: map,
+            position: this.contextMenuPositon //基点位置
+        });
+        this.contextMenu.close();
+    };
+
+    menu.contextMenu.open(map, lnglat);
+</script>
+</body>
+</html>
